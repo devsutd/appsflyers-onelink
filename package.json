@@ -16,7 +16,7 @@
   "keywords": [
     "journey",
     "builder",
-    "salesforce marketing cloud",
+    "salesforce marketing cloud", 
     "heroku"
   ],
   "author": "Devs United",
@@ -63,7 +63,8 @@
     "uuid": "^3.3.3",
     "webpack": "^4.41.5",
     "xml2js": "^0.4.22",
-    "xss-escape": "0.0.6"
+    "xss-escape": "0.0.6",
+    "snyk": "^1.346.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
