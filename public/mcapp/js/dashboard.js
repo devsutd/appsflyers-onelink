@@ -175,7 +175,7 @@ function loadDashboards(urlParams, from, page) {
         async: false,
         data: urlParams,
         success: (data) => {
-            var links = data.data;
+            let links = data.data;
             $('#rt').val(data.refresh_token);
             $('#eid').val(data.enterpriseId);
             replaceUrlTOkens($('#rt').val())
