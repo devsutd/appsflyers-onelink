@@ -7,7 +7,9 @@
   },
   "scripts": {
     "start": "node app.js",
-    "build": "webpack"
+    "build": "webpack",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -63,12 +65,14 @@
     "uuid": "^3.3.3",
     "webpack": "^4.41.5",
     "xml2js": "^0.4.22",
-    "xss-escape": "0.0.6"
+    "xss-escape": "0.0.6",
+    "snyk": "^1.347.1"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.20.1",
     "webpack-cli": "^3.3.10"
-  }
+  },
+  "snyk": true
 }
