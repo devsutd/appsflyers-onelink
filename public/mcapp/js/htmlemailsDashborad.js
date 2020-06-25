@@ -213,8 +213,9 @@ function buildDashboard(emails, from, page) {
         }
       }
       table += '<tr>';
-
-      table += `<td role="gridcell" colspan="2"><div class="slds-truncate" ><a href="#" onclick="openAssignLinks();" id="email${index}">${element.name}</a> </div></td>`;
+      table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.id}</div></td>`;
+      table += `<td role="gridcell" colspan="2"><div class="slds-truncate" id="email${index}">${element.name}</div></td>`;
+      //table += `<td role="gridcell" colspan="2"><div class="slds-truncate" ><a href="#" onclick="openAssignLinks();" id="email${index}">${element.name}</a> </div></td>`;
       table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${campaign.name}</div></td>`;
       table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.views.subjectline.content}</div></td>`;
       table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.views.preheader.content}</div></td>`;
