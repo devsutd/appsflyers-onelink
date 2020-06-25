@@ -180,7 +180,7 @@ function buildDashboard(emails, from, page) {
   table += '<table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered slds-table_fixed-layout" role="grid" >';
 
   table += '<tr>';
-
+  table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>Email ID</b></td>';
   table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>Email Name</b></td>';
   table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>Campaign</b></td>';
   table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>Subject</b></td>';
@@ -213,7 +213,7 @@ function buildDashboard(emails, from, page) {
         }
       }
       table += '<tr>';
-      table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.id}</div></td>`;
+      table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.data.email.legacy.legacyId}</div></td>`;
       table += `<td role="gridcell" colspan="2"><div class="slds-truncate" id="email${index}">${element.name}</div></td>`;
       //table += `<td role="gridcell" colspan="2"><div class="slds-truncate" ><a href="#" onclick="openAssignLinks();" id="email${index}">${element.name}</a> </div></td>`;
       table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${campaign.name}</div></td>`;
