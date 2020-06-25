@@ -312,7 +312,7 @@ function getHtmlOnlyFilter() {
     }
 }
 exports.GetContentBuilderEmails = (req, resp) => {
-    //sfmcHelper.refreshToken(req.body.accessToken).then((refreshTokenbody) => {
+    sfmcHelper.refreshToken(req.body.accessToken).then((refreshTokenbody) => {
         const filter = getHtmlOnlyFilter();
         console.clear();
         console.log(refreshTokenbody);
@@ -322,7 +322,7 @@ exports.GetContentBuilderEmails = (req, resp) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${req.body.accessToken}`,
+                Authorization: `Bearer ${refreshTokenbody.access_token}`,
             },
             body: JSON.stringify(filter)
         }, (err, _response, body) => {
@@ -337,7 +337,7 @@ exports.GetContentBuilderEmails = (req, resp) => {
             // eslint-disable-next-line prefer-const
             return resp.status(200).send(response);
         });
-    //})
+    })
 };
 
 exports.UpdateEmail = (req, resp) => {
