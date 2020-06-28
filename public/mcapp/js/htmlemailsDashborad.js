@@ -195,6 +195,7 @@ function buildDashboard(emails, from, page) {
       const element = emails[index];
        if (element.data !== undefined) {
         emailCampaign = element.data.campaigns;
+        var campaign;
         if (emailCampaign.campaigns[0] != undefined) {
                     $.ajax({
                       "url": "/sfmc/GetCampaignID",
