@@ -27,7 +27,7 @@ function getCampaignById(id) {
   var c;
   for (let index = 0; index < campaigns.length; index++) {
     const element = campaigns[index];
-    if (element.id = id) {
+    if (element.id == id) {
       c = element;
       break;
     }
