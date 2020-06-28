@@ -22,14 +22,6 @@ $(document).ready(() => {
   }).done(function (response) {
     campaigns = response.body.items;
   });
-
-  $('#btn-assign').on('click', (e) => {
-    e.preventDefault();
-    console.log($('#eid').val());
-    let redirectUrl = `/dashboard/create/?rt=${$('#rt').val()}`;
-    redirectUrl += `&eid=${$('#eid').val()}`;
-    window.location.href = redirectUrl;
-});
   
 function getCampaignById(id) {
   var c;
