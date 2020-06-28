@@ -195,8 +195,9 @@ function buildDashboard(emails, from, page) {
       const element = emails[index];
        if (element.data !== undefined) {
         emailCampaign = element.data.campaigns;
-        var campaign;
         if (emailCampaign.campaigns[0] != undefined) {
+          var campaign = getCampaignById(emailCampaign.campaigns[0].campaignId);
+          /*
                     $.ajax({
                       "url": "/sfmc/GetCampaignID",
                       "method": "POST",
@@ -207,7 +208,7 @@ function buildDashboard(emails, from, page) {
                       "data": postData,
                     }).done(function (response) {
                       campaign = response.body;
-                    });
+                    });*/
         }
       }
       table += '<tr>';
