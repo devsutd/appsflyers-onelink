@@ -322,7 +322,7 @@ function listLinks(data) {
   for (let index = 0; index < array.length; index++) {
       const element = array[index];
 
-      html += ` <li role="presentation"  id="link${index}" class="slds-listbox__item">`;
+      html += `<li role="presentation"  id="link${index}" class="slds-listbox__item">`;
       html += '<div  id="left" class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">';
       html += '<span class="slds-media__figure slds-listbox__option-icon"></span>';
       html += '<span class="slds-media__body">';
@@ -347,6 +347,14 @@ function getLinks() {
           }
       },
   });
+}
+
+function loadEmailinModal(emails){
+  console.log(emails);
+}
+
+function loadLinksbyEmail(){
+
 }
 
   loadHtmlEmails(urlParams, "init", 1);
