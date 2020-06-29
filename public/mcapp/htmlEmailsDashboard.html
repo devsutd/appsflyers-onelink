@@ -214,23 +214,34 @@
         }
 
         function openAssignLinks(){ 
+          let emails = [];
+          $("input:checkbox[name=emailstoassign]:checked").each(function(){
+            emails.push($(this).val());
+          });
+
+          if(emails.length > 0){
             $("#section-assignLinks").addClass("slds-fade-in-open");
             $("#background-modals").addClass("slds-backdrop_open");
+          }
+          else {
+            alert("You have to select one email at least.");
+          }
+
         }
         function confirmationAlert(){
-            $("#section-assignLinks").removeClass("slds-fade-in-open");
-            $("#section-confirmationAlert").addClass("slds-fade-in-open");
+          $("#section-assignLinks").removeClass("slds-fade-in-open");
+          $("#section-confirmationAlert").addClass("slds-fade-in-open");
         }
     
         function confirmLinkUpdates() {
-            $("#section-confirmationAlert").removeClass("slds-fade-in-open");
-            $("#background-modals").removeClass("slds-backdrop_open");
+          $("#section-confirmationAlert").removeClass("slds-fade-in-open");
+          $("#background-modals").removeClass("slds-backdrop_open");
         }
     
         function cancelUpdates(){
-            $("#section-assignLinks").removeClass("slds-fade-in-open");
-            $("#section-confirmationAlert").removeClass("slds-fade-in-open");
-            $("#background-modals").removeClass("slds-backdrop_open");
+          $("#section-assignLinks").removeClass("slds-fade-in-open");
+          $("#section-confirmationAlert").removeClass("slds-fade-in-open");
+          $("#background-modals").removeClass("slds-backdrop_open");
         }
     </script>
 </body>

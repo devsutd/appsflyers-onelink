@@ -178,7 +178,7 @@ function buildDashboard(emails, from, page) {
   table += '<table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered slds-table_fixed-layout" role="grid" >';
 
   table += '<tr>';
-  table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="1"><div class="slds-checkbox"><input type="checkbox" name="options" id="checkbox-unique-id-297" value="checkbox-unique-id-297" tabindex="-1" aria-labelledby="check-select-all-label column-group-header" /><label class="slds-checkbox__label" for="checkbox-unique-id-297" id="check-select-all-label"><span class="slds-checkbox_faux"></span><span class="slds-form-element__label slds-assistive-text">Select All</span></label></div></td>';
+  table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="1"></td>';
   table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>Email ID</b></td>';
   table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>Email Name</b></td>';
   table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>Campaign</b></td>';
@@ -212,7 +212,7 @@ function buildDashboard(emails, from, page) {
         }
       }
       table += '<tr>';
-      table += `<td role="gridcell" colspan="1"><div class="slds-truncate" ><div class="slds-checkbox"><input type="checkbox" name="options" id="checkbox-01" value="checkbox-01" tabindex="0" aria-labelledby="check-button-label-01 column-group-header" /><label class="slds-checkbox__label" for="checkbox-01" id="check-button-label-01"><span class="slds-checkbox_faux"></span><span class="slds-form-element__label slds-assistive-text">Select item 1</span></label></div></div></td>`;
+      table += `<td role="gridcell" colspan="1"><div class="slds-truncate" ><div class="slds-checkbox"><input type="checkbox" name="emailstoassign" id="checkbox-${element.data.email.legacy.legacyId}" value="${element.data.email.legacy.legacyId}" tabindex="0" aria-labelledby="check-button-label-01 column-group-header" /><label class="slds-checkbox__label" for="checkbox-01" id="check-button-label-01"><span class="slds-checkbox_faux"></span><span class="slds-form-element__label slds-assistive-text">Select item 1</span></label></div></div></td>`;
       table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.data.email.legacy.legacyId}</div></td>`;
       table += `<td role="gridcell" colspan="2"><div class="slds-truncate" id="email${index}">${element.name}</div></td>`;
       //table += `<td role="gridcell" colspan="2"><div class="slds-truncate" ><a href="#" onclick="openAssignLinks();" id="email${index}">${element.name}</a> </div></td>`;
