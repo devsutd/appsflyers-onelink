@@ -309,7 +309,7 @@ function listLinks(data) {
 
   for (let index = 0; index < array.length; index++) {
       const element = array[index];
-      html += `<option id="link${index}" class="slds-listbox__item">`${element.LinkName} + `</option>`;
+      html += `<option id="link${index}" class="slds-listbox__item">${element.LinkName}</option>`;
   }
 
   $('#selectonelink').html(html); 
