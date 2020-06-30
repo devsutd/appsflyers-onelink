@@ -1,14 +1,3 @@
-
-$(document).ready(() => {
-  const urlParams = getUrlParameters();
-  $('#rt').val(urlParams.refresh_token);
-  $('#eid').val(urlParams.enterpriseId);
-
-  replaceUrlTOkens($('#rt').val());
-
-  loadHtmlEmails(urlParams, "init", 1);
-});
-
 function getCampaignById(id) {
   var campaigns;
   var postData = JSON.stringify({
@@ -33,9 +22,9 @@ function getCampaignById(id) {
         break;
       }
     }
-    
     return c;
   });
+
 }
 
 function GetHtmlEmails(accessToken) {
@@ -359,3 +348,13 @@ function loadEmailinModal(emails){
 function loadLinksbyEmail(){
 
 }
+
+$(document).ready(() => {
+  const urlParams = getUrlParameters();
+  $('#rt').val(urlParams.refresh_token);
+  $('#eid').val(urlParams.enterpriseId);
+
+  replaceUrlTOkens($('#rt').val());
+  
+  loadHtmlEmails(urlParams, "init", 1);
+});
