@@ -22,7 +22,10 @@ $(document).ready(() => {
   }).done(function (response) {
     campaigns = response.body.items;
   });
-  
+
+  loadHtmlEmails(urlParams, "init", 1);
+});
+
 function getCampaignById(id) {
   var c;
   for (let index = 0; index < campaigns.length; index++) {
@@ -356,6 +359,3 @@ function loadEmailinModal(emails){
 function loadLinksbyEmail(){
 
 }
-
-  loadHtmlEmails(urlParams, "init", 1);
-});
