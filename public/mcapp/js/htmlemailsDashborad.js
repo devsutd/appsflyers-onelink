@@ -6,6 +6,10 @@ $(document).ready(() => {
 
   replaceUrlTOkens($('#rt').val());
 
+  loadHtmlEmails(urlParams, "init", 1);
+});
+
+function getCampaignById(id) {
   var campaigns;
   var postData = JSON.stringify({
     "accessToken": $("#rt").val()
@@ -21,21 +25,17 @@ $(document).ready(() => {
     "data": postData,
   }).done(function (response) {
     campaigns = response.body.items;
-  });
-
-  loadHtmlEmails(urlParams, "init", 1);
-});
-
-function getCampaignById(id) {
-  var c;
-  for (let index = 0; index < campaigns.length; index++) {
-    const element = campaigns[index];
-    if (element.id == id) {
-      c = element;
-      break;
+    var c;
+    for (let index = 0; index < campaigns.length; index++) {
+      const element = campaigns[index];
+      if (element.id == id) {
+        c = element;
+        break;
+      }
     }
-  }
-  return c;
+    
+    return c;
+  });
 }
 
 function GetHtmlEmails(accessToken) {
