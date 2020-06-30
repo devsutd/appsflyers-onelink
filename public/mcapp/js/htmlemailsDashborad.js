@@ -1,5 +1,6 @@
 function getCampaignById(id) {
   var campaigns;
+  var campaign;
   var postData = JSON.stringify({
     "accessToken": $("#rt").val()
   });
@@ -14,17 +15,15 @@ function getCampaignById(id) {
     "data": postData,
   }).done(function (response) {
     campaigns = response.body.items;
-    var c;
     for (let index = 0; index < campaigns.length; index++) {
       const element = campaigns[index];
       if (element.id == id) {
-        c = element;
+        campaign = element;
         break;
       }
     }
-    return c;
   });
-
+  return campaign;
 }
 
 function GetHtmlEmails(accessToken) {
