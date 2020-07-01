@@ -64,7 +64,7 @@ function updateEmail(accessToken, emailId, EmailObject) {
   });
 }
 
-function GetHtmlEmailByID(emailId) {
+function GetHtmlEmailByID(emailId, count) {
   var postData = JSON.stringify({
     "accessToken": $('#rt').val(),
     "id": emailId
@@ -81,7 +81,7 @@ function GetHtmlEmailByID(emailId) {
     console.log("get email by id");
     console.log(data);
     $('#rt').val(data.refresh_token);
-    return data.body;
+    buildEmailSlot(data.body, emailId, count);
   },
   error(jqXHR, error, errorThrown) {
     console.log(error);
@@ -230,18 +230,6 @@ function buildDashboard(emails, from, page) {
 
   $('#dashboard-table').empty();
   $('#dashboard-table').html(table);
-
-  for (let index = 0; index < emails.length; index++) {
-    const element = emails[index];
-    document.getElementById(`email${index}`).addEventListener("click", function (e) {
-      e.preventDefault();
-      var rawHTML = element.views.html.content;
-      var links = getLinks(element.id, rawHTML);
-
-      console.log(links);
-      console.log(replaceLinks(element.views.html.content, links, "www.onelink.com"));
-    });
-  }
 }
 
 function buildPaginator(allEmails) {
@@ -339,34 +327,83 @@ function getLinks() {
 }
 
 function loadEmailinModal(emails){
-  let modalContainer = $('#modalcontainer').html();
-  let emailModalSlot;
+
 
   for (let i = 0; i < emails.length; i++) {
     let email = emails[i];
-    let emailHTML = GetHtmlEmailByID(email);
-    console.log(emailHTML);
+    if(i == emails.length - 1)
+      GetHtmlEmailByID(email, true);
+    else 
+      GetHtmlEmailByID(email, false);
+  }
+}
 
-    emailModalSlot += `<div id="emailslot${i}">`;
-    emailModalSlot += '<header class="slds-modal__header" style="background-color: #f3f2f2; text-align:left">';
-    emailModalSlot += `<span><b>Email name: </b></span>${emailHTML.name}<br>`;
-    emailModalSlot += `<span><b>Subjectline: </b>${emailHTML.views.subjectline.content}</span><br>`;
-    emailModalSlot += `<span><b>Preheader: </b>${emailHTML.views.preheader.content}</span>`;
-    emailModalSlot += '</header>';
-    emailModalSlot += `<div id="emailcontent${i}">`;
-    emailModalSlot += '<label class="slds-form-element__label" for="select-01" style="padding-left: 1rem;padding-top: 1rem;">Select Links from the Email</label>';
+function buildEmailSlot(emailHTML, emailId, last){
+  let modalContainer = $('#modalcontainer').html();
+  let emailModalSlot;
+
+  emailModalSlot += `<div id="emailslot${i}">`;
+  emailModalSlot += '<header class="slds-modal__header" style="background-color: #f3f2f2; text-align:left">';
+  emailModalSlot += `<span><b>Email name: </b></span>${emailHTML.name}<br>`;
+  emailModalSlot += `<span><b>Subjectline: </b>${emailHTML.views.subjectline.content}</span><br>`;
+  emailModalSlot += `<span><b>Preheader: </b>${emailHTML.views.preheader.content}</span>`;
+  emailModalSlot += '</header>';
+  emailModalSlot += `<div id="emailcontent${i}">`;
+  emailModalSlot += '<label class="slds-form-element__label" for="select-01" style="padding-left: 1rem;padding-top: 1rem;">Select Links from the Email</label>';
+  
+  let emailLinks = getLinks(emailId, emailHTML);
+
+  for (let i = 0; i < emailLinks.length; i++) {
+    const link = emailLinks[i];
+
     emailModalSlot += '<article>';
     emailModalSlot += '<div class="slds-card__header slds-grid">';
     emailModalSlot += '<header class="slds-media slds-media_center slds-has-flexi-truncate">';
     emailModalSlot += '<div class="slds-media__body">';
-    emailModalSlot += '<h2 class="slds-card__header-title">';
-
-    let links = getLinks(email, emailHTML);
+    emailModalSlot += '<h2 class="slds-card__header-title">';  
+    emailModalSlot += `<span><b>${link.name}</b></span><br></br>`;
+    emailModalSlot += `<span style="font-size: 12px;font-weight: normal;">${link.url}</span><br>`;
+    emailModalSlot += '</h2>';
+    emailModalSlot += '</div>';
+    emailModalSlot += '<div class="slds-no-flex">';
+    emailModalSlot += '<div class="slds-checkbox">';
+    emailModalSlot += `<input type="checkbox" name="options" id="${link.id}" value="${emailHTML.id}|${link.id}" checked="" />`;
+    emailModalSlot += `<label class="slds-checkbox__label" for="${link.id}">`;
+    emailModalSlot += '<span class="slds-checkbox_faux"></span>';
+    emailModalSlot += '</label>';
+    emailModalSlot += '</div>';
+    emailModalSlot += '</header>';
+    emailModalSlot += '</div>';
+    emailModalSlot += '<div class="slds-card__body"></div>';
+    emailModalSlot += '<footer class="slds-card__footer"></footer>';
+    emailModalSlot += '</article>';    
+    emailModalSlot += '<div style="border-top:2px solid lightgray;margin: 0px 40px 0px 40px;"></div>';
   }
-}
 
-function loadLinksbyEmail(){
-
+  if(last == true) {
+    emailModalSlot += '<div id="sidebar">';
+    emailModalSlot += '<label class="slds-form-element__label" for="select-01" style="padding-top: 1rem;">Select OneLink Link</label>';
+    emailModalSlot += '<article>';
+    emailModalSlot += '<div class="slds-card__header slds-grid" style="width: 100%; padding-left:0px !important;">';
+    emailModalSlot += '<header class="slds-media slds-media_center" style="width: 100%;">';
+    emailModalSlot += '<div class="slds-select_container" style="width: 100%;">';
+    emailModalSlot += '<select class="slds-select" id="selectonelink">';
+    emailModalSlot += '<option value="">Please select</option>';
+    emailModalSlot += '</select>';
+    emailModalSlot += '</div>';
+    emailModalSlot += '</header>';
+    emailModalSlot += '</div>';
+    emailModalSlot += '<div class="slds-card__body"></div>';
+    emailModalSlot += '<footer class="slds-card__footer"></footer>';
+    emailModalSlot += '</article>';
+    emailModalSlot += '</div>';
+    emailModalSlot += '<div id="cleared"></div>';
+    emailModalSlot += '</div>';
+    emailModalSlot += '<footer class="slds-modal__footer">';
+    emailModalSlot += '<button class="slds-button slds-button_neutral" onclick="cancelUpdates()">Cancel</button>';
+    emailModalSlot += '<button class="slds-button slds-button_brand" onclick="confirmationAlert()">Save</button>';
+    emailModalSlot += '</footer>';
+  }
 }
 
 $(document).ready(() => {
