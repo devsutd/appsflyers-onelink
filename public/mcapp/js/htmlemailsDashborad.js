@@ -79,9 +79,9 @@ function GetHtmlEmailByID(emailId) {
     "data": postData,
     success: (data) => {
     console.log("get email by id");
-    console.log(response);
-    $('#rt').val(response.refresh_token);
-    return response.body;
+    console.log(data);
+    $('#rt').val(data.refresh_token);
+    return data.body;
   },
   error(jqXHR, error, errorThrown) {
     console.log(error);
