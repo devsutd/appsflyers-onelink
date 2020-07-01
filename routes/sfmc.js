@@ -368,15 +368,13 @@ exports.UpdateEmail = (req, resp) => {
 exports.GetEmailByID = (req, resp) => {
 
     sfmcHelper.refreshToken(req.body.accessToken).then((refreshTokenbody) => {
-        const filter = getHtmlOnlyFilter();
         request({
             url: `${process.env.restEndpoint}asset/v1/content/assets/${req.body.id}`,
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${refreshTokenbody.access_token}`,
-            },
-            body: JSON.stringify(filter)
+            }
         }, (err, _response, body) => {
             if (err) { return resp.status(401).send(err); }
             console.log(JSON.parse(body));
