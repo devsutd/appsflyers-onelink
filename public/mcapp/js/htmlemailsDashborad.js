@@ -79,7 +79,10 @@ function GetHtmlEmailByID(accessToken, emailId) {
     },
     "data": postData,
   }).done(function (response) {
+    console.log("get email by id");
     console.log(response);
+    $('#rt').val(refresh_token);
+    return response.body;
   });
 }
 
@@ -230,7 +233,6 @@ function buildDashboard(emails, from, page) {
       var rawHTML = element.views.html.content;
       var links = getLinks(element.id, rawHTML);
 
-
       console.log(links);
       console.log(replaceLinks(element.views.html.content, links, "www.onelink.com"));
     });
@@ -308,7 +310,7 @@ function listLinks(data) {
   }
 
   var html;
-  
+
   for (let index = 0; index < array.length; index++) {
       const element = array[index];
       html += `<option id="link${index}" class="slds-listbox__item">${element.LinkName}</option>`;
@@ -332,7 +334,11 @@ function getLinks() {
 }
 
 function loadEmailinModal(emails){
-  console.log(emails);
+  for (let i = 0; i < emails.length; i++) {
+    let email = emails[i];
+    let accessToken = $('#rt').val();
+    console.log(GetHtmlEmailByID(accessToken, emailId));
+  }
 }
 
 function loadLinksbyEmail(){
