@@ -64,9 +64,9 @@ function updateEmail(accessToken, emailId, EmailObject) {
   });
 }
 
-function GetHtmlEmailByID(accessToken, emailId) {
+function GetHtmlEmailByID(emailId) {
   var postData = JSON.stringify({
-    "accessToken": accessToken,
+    "accessToken": $('#rt').val(),
     "id": emailId
   })
 
