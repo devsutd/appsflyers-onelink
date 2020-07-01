@@ -342,13 +342,13 @@ function buildEmailSlot(emailHTML, emailId, last){
   let modalContainer = $('#modalcontainer').html();
   let emailModalSlot;
 
-  emailModalSlot += `<div id="emailslot${i}">`;
+  emailModalSlot += `<div id="emailslot${emailId}">`;
   emailModalSlot += '<header class="slds-modal__header" style="background-color: #f3f2f2; text-align:left">';
   emailModalSlot += `<span><b>Email name: </b></span>${emailHTML.name}<br>`;
   emailModalSlot += `<span><b>Subjectline: </b>${emailHTML.views.subjectline.content}</span><br>`;
   emailModalSlot += `<span><b>Preheader: </b>${emailHTML.views.preheader.content}</span>`;
   emailModalSlot += '</header>';
-  emailModalSlot += `<div id="emailcontent${i}">`;
+  emailModalSlot += `<div id="emailcontent${emailId}">`;
   emailModalSlot += '<label class="slds-form-element__label" for="select-01" style="padding-left: 1rem;padding-top: 1rem;">Select Links from the Email</label>';
   
   let emailLinks = getLinks(emailId, emailHTML);
