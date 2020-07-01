@@ -1,3 +1,5 @@
+const { GetLinks } = require("../../../routes/sfmc");
+
 function getCampaignById(id) {
   var campaigns;
   var campaign;
@@ -339,10 +341,29 @@ function getLinks() {
 }
 
 function loadEmailinModal(emails){
+  let modalContainer = $('#modalcontainer').html();
+  let emailModalSlot;
+
   for (let i = 0; i < emails.length; i++) {
     let email = emails[i];
-    console.log("get html emails by id");
-    console.log(GetHtmlEmailByID(email));
+    let emailHTML = GetHtmlEmailByID(email);
+    console.log(emailHTML);
+
+    emailModalSlot += `<div id="emailslot${index}">`;
+    emailModalSlot += '<header class="slds-modal__header" style="background-color: #f3f2f2; text-align:left">';
+    emailModalSlot += `<span><b>Email name: </b></span>${element.name}<br>`;
+    emailModalSlot += `<span><b>Subjectline: </b>${element.views.subjectline.content}</span><br>`;
+    emailModalSlot += `<span><b>Preheader: </b>${element.views.preheader.content}</span>`;
+    emailModalSlot += '</header>';
+    emailModalSlot += `<div id="emailcontent${index}">`;
+    emailModalSlot += '<label class="slds-form-element__label" for="select-01" style="padding-left: 1rem;padding-top: 1rem;">Select Links from the Email</label>';
+    emailModalSlot += '<article>';
+    emailModalSlot += '<div class="slds-card__header slds-grid">';
+    emailModalSlot += '<header class="slds-media slds-media_center slds-has-flexi-truncate">';
+    emailModalSlot += '<div class="slds-media__body">';
+    emailModalSlot += '<h2 class="slds-card__header-title">';
+
+    let links = GetLinks(email, emailHTML);
   }
 }
 
