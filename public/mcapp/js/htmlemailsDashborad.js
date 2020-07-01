@@ -211,7 +211,7 @@ function buildDashboard(emails, from, page) {
         }
       }
       table += '<tr>';
-      table += `<td role="gridcell" colspan="1"><div class="slds-truncate" ><div class="slds-checkbox"><input type="checkbox" name="emailstoassign" id="checkbox-${element.data.email.legacy.legacyId}" value="${element.data.email.legacy.legacyId}" tabindex="0" aria-labelledby="check-button-label-01 column-group-header" /><label class="slds-checkbox__label" for="checkbox-${element.data.email.legacy.legacyId}" id="label-${element.data.email.legacy.legacyId}"><span class="slds-checkbox_faux"></span><span class="slds-form-element__label slds-assistive-text">Select item 1</span></label></div></div></td>`;
+      table += `<td role="gridcell" colspan="1"><div class="slds-truncate" ><div class="slds-checkbox"><input type="checkbox" name="emailstoassign" id="checkbox-${element.data.email.legacy.legacyId}" value="${element.id}" tabindex="0" aria-labelledby="check-button-label-01 column-group-header" /><label class="slds-checkbox__label" for="checkbox-${element.data.email.legacy.legacyId}" id="label-${element.data.email.legacy.legacyId}"><span class="slds-checkbox_faux"></span><span class="slds-form-element__label slds-assistive-text">Select item 1</span></label></div></div></td>`;
       table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.data.email.legacy.legacyId}</div></td>`;
       table += `<td role="gridcell" colspan="2"><div class="slds-truncate" id="email${index}">${element.name}</div></td>`;
       //table += `<td role="gridcell" colspan="2"><div class="slds-truncate" ><a href="#" onclick="openAssignLinks();" id="email${index}">${element.name}</a> </div></td>`;
