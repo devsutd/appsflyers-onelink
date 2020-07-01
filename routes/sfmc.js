@@ -377,7 +377,6 @@ exports.GetEmailByID = (req, resp) => {
             }
         }, (err, _response, body) => {
             if (err) { return resp.status(401).send(err); }
-            console.log(JSON.parse(body));
             var response = {
                 refresh_token: refreshTokenbody.refresh_token,
                 body: body
