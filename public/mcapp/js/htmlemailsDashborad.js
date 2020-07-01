@@ -337,7 +337,7 @@ function loadEmailinModal(emails){
   for (let i = 0; i < emails.length; i++) {
     let email = emails[i];
     let accessToken = $('#rt').val();
-    console.log(GetHtmlEmailByID(accessToken, emailId));
+    console.log(GetHtmlEmailByID(accessToken, email));
   }
 }
 
