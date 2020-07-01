@@ -1,5 +1,3 @@
-const { GetLinks } = require("../../../routes/sfmc");
-
 function getCampaignById(id) {
   var campaigns;
   var campaign;
@@ -363,7 +361,7 @@ function loadEmailinModal(emails){
     emailModalSlot += '<div class="slds-media__body">';
     emailModalSlot += '<h2 class="slds-card__header-title">';
 
-    let links = GetLinks(email, emailHTML);
+    let links = getLinks(email, emailHTML);
   }
 }
 
