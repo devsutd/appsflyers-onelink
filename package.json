@@ -42,6 +42,7 @@
     "gulp-htmlmin": "^4.0.0",
     "gulp-javascript-obfuscator": "^1.1.4",
     "gulp-json-modify": "^1.0.2",
+    "helmet": "^3.23.1",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
     "moment": "^2.22.0",
