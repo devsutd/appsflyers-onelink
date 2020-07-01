@@ -73,17 +73,22 @@ function GetHtmlEmailByID(emailId) {
   $.ajax({
     "url": "/sfmc/GetEmailByID",
     "method": "POST",
-    "timeout": 0,
     "headers": {
       "Content-Type": "application/json"
     },
     "data": postData,
-  }).done(function (response) {
+    success: (data) => {
     console.log("get email by id");
     console.log(response);
-    $('#rt').val(refresh_token);
+    $('#rt').val(response.refresh_token);
     return response.body;
-  });
+  },
+  error(jqXHR, error, errorThrown) {
+    console.log(error);
+    console.log(errorThrown);
+    console.log(jqXHR);
+  },
+})
 }
 
 function GetAllContentBuilderAssets(accessToken) {
@@ -336,7 +341,7 @@ function getLinks() {
 function loadEmailinModal(emails){
   for (let i = 0; i < emails.length; i++) {
     let email = emails[i];
-    let accessToken = $('#rt').val();
+    console.log("get html emails by id");
     console.log(GetHtmlEmailByID(email));
   }
 }
