@@ -347,13 +347,13 @@ function loadEmailinModal(emails){
     let emailHTML = GetHtmlEmailByID(email);
     console.log(emailHTML);
 
-    emailModalSlot += `<div id="emailslot${index}">`;
+    emailModalSlot += `<div id="emailslot${i}">`;
     emailModalSlot += '<header class="slds-modal__header" style="background-color: #f3f2f2; text-align:left">';
     emailModalSlot += `<span><b>Email name: </b></span>${element.name}<br>`;
     emailModalSlot += `<span><b>Subjectline: </b>${element.views.subjectline.content}</span><br>`;
     emailModalSlot += `<span><b>Preheader: </b>${element.views.preheader.content}</span>`;
     emailModalSlot += '</header>';
-    emailModalSlot += `<div id="emailcontent${index}">`;
+    emailModalSlot += `<div id="emailcontent${i}">`;
     emailModalSlot += '<label class="slds-form-element__label" for="select-01" style="padding-left: 1rem;padding-top: 1rem;">Select Links from the Email</label>';
     emailModalSlot += '<article>';
     emailModalSlot += '<div class="slds-card__header slds-grid">';
