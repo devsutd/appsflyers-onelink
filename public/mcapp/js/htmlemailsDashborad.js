@@ -381,7 +381,11 @@ function buildEmailSlot(emailHTML, emailId, first, last){
     emailModalSlot += '<div class="slds-card__body"></div>';
     emailModalSlot += '<footer class="slds-card__footer"></footer>';
     emailModalSlot += '</article>';    
-    emailModalSlot += '<div style="border-top:2px solid lightgray;margin: 0px 40px 0px 40px;"></div>';
+
+    if(i < emailLinks.Links.length - 1)
+      emailModalSlot += '<div style="border-top:2px solid lightgray;margin: 0px 40px 0px 40px;"></div>';
+    else 
+      emailModalSlot += '</div>';
   }
 
   if(first == true) {
