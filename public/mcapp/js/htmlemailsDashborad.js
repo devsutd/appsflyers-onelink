@@ -371,7 +371,7 @@ function buildEmailSlot(emailHTML, emailId, first, last){
     emailModalSlot += '</div>';
     emailModalSlot += '<div class="slds-no-flex">';
     emailModalSlot += '<div class="slds-checkbox">';
-    emailModalSlot += `<input type="checkbox" name="options" id="Link${i}" value="${emailHTML.id}|Link${i}"/>`;
+    emailModalSlot += `<input type="checkbox" name="linksfromemail" id="Link${i}" value="${emailHTML.id}|Link${i}"/>`;
     emailModalSlot += `<label class="slds-checkbox__label" for="Link${i}">`;
     emailModalSlot += '<span class="slds-checkbox_faux"></span>';
     emailModalSlot += '</label>';

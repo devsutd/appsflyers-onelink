@@ -92,7 +92,6 @@
           <h2 id="confirmationAlert-heading" class="slds-modal__title slds-hyphenate">Confirm</h2>
         </header>
         <div class="slds-modal__content slds-p-around_medium" id="confirmationAlert">
-          <p>You are about to update 2 links. Are you sure? </p>
         </div>
         <footer class="slds-modal__footer">
           <button class="slds-button slds-button_neutral" onclick="cancelUpdates()">Cancel</button>
@@ -102,47 +101,63 @@
     </section>
     <input type="hidden" id="rt" name="rt" value="">
     <input type="hidden" id="eid" name="eid" value="">
+    <input type="hidden" id="linkstoupdate" name="linkstoupdate" value="">
     <input type="hidden" id="currentDashboard" name="currentDashboard" value="">
     <script>
-        function filter() {
-            inp = $('#lookup').val();
-            if(inp == '') {
-                loadHtmlEmails(false, 'filtered', 1);
-            }
+      function filter() {
+          inp = $('#lookup').val();
+          if(inp == '') {
+              loadHtmlEmails(false, 'filtered', 1);
+          }
+      }
+
+      function openAssignLinks(){ 
+        let emails = [];
+        $("input:checkbox[name=emailstoassign]:checked").each(function(){
+          emails.push($(this).val());
+        });
+
+        if(emails.length > 0){
+          $("#section-assignLinks").addClass("slds-fade-in-open");
+          $("#background-modals").addClass("slds-backdrop_open");
+          loadEmailinModal(emails);
+          getLinks();
+        }
+        else {
+          alert("You have to select one email at least.");
         }
 
-        function openAssignLinks(){ 
-          let emails = [];
-          $("input:checkbox[name=emailstoassign]:checked").each(function(){
-            emails.push($(this).val());
-          });
+      }
+      function confirmationAlert(){
+        let links = [];
+        $("input:checkbox[name=linksfromemail]:checked").each(function(){
+          links.push($(this).val());
+        });
 
-          if(emails.length > 0){
-            $("#section-assignLinks").addClass("slds-fade-in-open");
-            $("#background-modals").addClass("slds-backdrop_open");
-            loadEmailinModal(emails);
-            getLinks();
-          }
-          else {
-            alert("You have to select one email at least.");
-          }
-
-        }
-        function confirmationAlert(){
+        if(links.length > 0) {
           $("#section-assignLinks").removeClass("slds-fade-in-open");
+          if(links.length == 1)
+            $("#confirmationAlert").html("<p>You are about to update 1 link. Are you sure? </p>")
+          else
+            $("#confirmationAlert").html("<p>You are about to update" + links.length + "links. Are you sure? </p>")
+          
           $("#section-confirmationAlert").addClass("slds-fade-in-open");
         }
-    
-        function confirmLinkUpdates() {
-          $("#section-confirmationAlert").removeClass("slds-fade-in-open");
-          $("#background-modals").removeClass("slds-backdrop_open");
+        else {
+          alert("You have to select one link at least.");
         }
-    
-        function cancelUpdates(){
-          $("#section-assignLinks").removeClass("slds-fade-in-open");
-          $("#section-confirmationAlert").removeClass("slds-fade-in-open");
-          $("#background-modals").removeClass("slds-backdrop_open");
-        }
+      }
+  
+      function confirmLinkUpdates() {
+        $("#section-confirmationAlert").removeClass("slds-fade-in-open");
+        $("#background-modals").removeClass("slds-backdrop_open");
+      }
+  
+      function cancelUpdates(){
+        $("#section-assignLinks").removeClass("slds-fade-in-open");
+        $("#section-confirmationAlert").removeClass("slds-fade-in-open");
+        $("#background-modals").removeClass("slds-backdrop_open");
+      }
     </script>
 </body>
 </html>
