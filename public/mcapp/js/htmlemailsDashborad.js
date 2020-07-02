@@ -14,6 +14,7 @@ function getCampaignById(id) {
     },
     "data": postData,
   }).done(function (response) {
+    replaceUrlTOkens(response.refresh_token);
     $('#rt').val(response.refresh_token);
     campaigns = response.body.items;
     for (let index = 0; index < campaigns.length; index++) {
@@ -38,6 +39,7 @@ function GetHtmlEmails(accessToken) {
     },
     "data": postData,
   }).done(function (response) {
+    replaceUrlTOkens(response.refresh_token);
     $('#rt').val(response.refresh_token);
     // para acceder al codigo html tenes que hacer object.views.html.content         
     console.log(response);
@@ -62,9 +64,8 @@ function updateEmail(emailId, EmailObject) {
     },
     "data": postData
   }).done(function (response) {
+    replaceUrlTOkens(response.refresh_token);
     $('#rt').val(response.refresh_token);
-    console.log(response);
-    console.log("email updateado");
   });
 }
 
@@ -82,6 +83,7 @@ function GetHtmlEmailByID(emailId, first, last, buildSlot) {
     },
     "data": postData
   }).done(function (response) {
+    replaceUrlTOkens(response.refresh_token);
     $('#rt').val(response.refresh_token);
     if(buildSlot == true)
       buildEmailSlot(response.body, emailId, first, last);
@@ -105,7 +107,7 @@ function GetAllContentBuilderAssets(accessToken) {
     },
     "data": postData,
   }).done(function (response) {
-    console.log(response);
+    replaceUrlTOkens(response.refresh_token);
   });
 }
 
@@ -281,8 +283,8 @@ function loadHtmlEmails(urlParams, from, page) {
     data: postData,
     success: (data) => {
       var emails = data.body;
+      replaceUrlTOkens(data.refresh_token);
       $('#rt').val(data.refresh_token);
-      replaceUrlTOkens($('#rt').val());
       if (inp != undefined) {
         emails = emails.items.filter(x => x.name.toLowerCase().includes(inp));
 
@@ -323,7 +325,9 @@ function listLinks(data) {
 }
 
 function getLinks() {
-  const endpoint = `/sfmc/GetLinks?rt=${$('#rt').val()}&eid=${$('#eid').val()}`;
+  let rt = $('#rt').val();
+  let eid = $('#eid').val();
+  const endpoint = '/sfmc/GetLinks?rt=' + rt + '&eid=' + eid;
   $.ajax({
       url: endpoint,
       method: 'GET',
