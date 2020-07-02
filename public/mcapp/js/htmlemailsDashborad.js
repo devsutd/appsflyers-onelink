@@ -78,25 +78,18 @@ function GetHtmlEmailByID(emailId, first, last, buildSlot) {
     "headers": {
       "Content-Type": "application/json"
     },
-    "data": postData,
-    success: (data) => {
-    $('#rt').val(data.refresh_token);
+    "data": postData
+  }).done(function (response) {
+    $('#rt').val(response.refresh_token);
     if(buildSlot == true)
-      buildEmailSlot(data.body, emailId, first, last);
+      buildEmailSlot(response.body, emailId, first, last);
     else {
       let toReplace = true;
-      currentEmail = data.body;
-      getEmailLinks(emailId, data.body.views.html.content, toReplace);
+      currentEmail = response.body;
+      getEmailLinks(emailId, response.body.views.html.content, toReplace);
     }
-      
-  },
-  error(jqXHR, error, errorThrown) {
-    console.log(error);
-    console.log(errorThrown);
-    console.log(jqXHR);
-  },
-})
-}
+  });
+});
 
 function GetAllContentBuilderAssets(accessToken) {
   var postData = JSON.stringify({ "accessToken": accessToken })

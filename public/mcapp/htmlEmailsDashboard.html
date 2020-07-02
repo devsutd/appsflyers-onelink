@@ -100,7 +100,7 @@
       </div>
     </section>
     <div class="demo-only" style="height:4rem">
-      <div id="toastContainer" class="slds-notify_container slds-is-relative" style="position: absolute;">
+      <div id="toastContainer" class="slds-notify_container slds-is-relative" style="position: absolute;display:none">
         <div class="slds-notify slds-notify_toast slds-theme_success" role="status">
           <span class="slds-assistive-text"></span>
           <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
@@ -133,10 +133,10 @@
         });
 
         if(emails.length > 0){
+          getLinks();
           $("#section-assignLinks").addClass("slds-fade-in-open");
           $("#background-modals").addClass("slds-backdrop_open");
           loadEmailinModal(emails);
-          getLinks();
         }
         else {
           alert("You have to select one email at least.");
