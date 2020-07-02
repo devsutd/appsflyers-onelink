@@ -339,7 +339,6 @@ function loadEmailinModal(emails){
 }
 
 function buildEmailSlot(emailHTML, emailId, last){
-  let modalContainer = $('#modalcontainer').html();
   let emailModalSlot;
 
   emailModalSlot += `<div id="emailslot${emailId}">`;
@@ -405,7 +404,7 @@ function buildEmailSlot(emailHTML, emailId, last){
     emailModalSlot += '</footer>';
   }
 
-  modalContainer.append(emailModalSlot);
+  $('#modalcontainer').append(emailModalSlot);
 }
 
 $(document).ready(() => {
