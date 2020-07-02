@@ -14,6 +14,7 @@ function getCampaignById(id) {
     },
     "data": postData,
   }).done(function (response) {
+    $('#rt').val(response.refresh_token);
     campaigns = response.body.items;
     for (let index = 0; index < campaigns.length; index++) {
       const element = campaigns[index];
@@ -37,6 +38,7 @@ function GetHtmlEmails(accessToken) {
     },
     "data": postData,
   }).done(function (response) {
+    $('#rt').val(response.refresh_token);
     // para acceder al codigo html tenes que hacer object.views.html.content         
     console.log(response);
   });
