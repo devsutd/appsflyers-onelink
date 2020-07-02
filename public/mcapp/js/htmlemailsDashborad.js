@@ -342,13 +342,13 @@ function buildEmailSlot(emailHTML, emailId, last){
   $('#modalcontainer').empty();
   let emailModalSlot;
 
-  emailModalSlot += `<div id="emailslot${emailId}">`;
+  emailModalSlot += `<div id="emailslot${emailId}" stlye="background-color: white;">`;
   emailModalSlot += '<header class="slds-modal__header" style="background-color: #f3f2f2; text-align:left">';
   emailModalSlot += `<span><b>Email name: </b></span>${emailHTML.name}<br>`;
   emailModalSlot += `<span><b>Subjectline: </b>${emailHTML.views.subjectline.content}</span><br>`;
   emailModalSlot += `<span><b>Preheader: </b>${emailHTML.views.preheader.content}</span>`;
   emailModalSlot += '</header>';
-  emailModalSlot += `<div id="emailcontent${emailId}">`;
+  emailModalSlot += `<div id="emailcontent${emailId}" style="float: left;width: 320px;background-color: white;">`;
   emailModalSlot += '<label class="slds-form-element__label" for="select-01" style="padding-left: 1rem;padding-top: 1rem;">Select Links from the Email</label>';
   
   let emailLinks = getEmailLinks(emailId, emailHTML.views.html.content);
@@ -384,7 +384,7 @@ function buildEmailSlot(emailHTML, emailId, last){
   }
 
   if(last == true) {
-    emailModalSlot += '<div id="sidebar">';
+    emailModalSlot += '<div id="sidebar" style="float: right;width: 320px;background-color: white;">';
     emailModalSlot += '<label class="slds-form-element__label" for="select-01" style="padding-top: 1rem;">Select OneLink Link</label>';
     emailModalSlot += '<article>';
     emailModalSlot += '<div class="slds-card__header slds-grid" style="width: 100%; padding-left:0px !important;">';
@@ -400,7 +400,7 @@ function buildEmailSlot(emailHTML, emailId, last){
     emailModalSlot += '<footer class="slds-card__footer"></footer>';
     emailModalSlot += '</article>';
     emailModalSlot += '</div>';
-    emailModalSlot += '<div id="cleared"></div>';
+    emailModalSlot += '<div id="cleared" stlye="clear: both;"></div>';
     emailModalSlot += '</div>';
     emailModalSlot += '<footer class="slds-modal__footer">';
     emailModalSlot += '<button class="slds-button slds-button_neutral" onclick="cancelUpdates()">Cancel</button>';
