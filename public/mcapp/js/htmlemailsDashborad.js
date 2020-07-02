@@ -85,7 +85,7 @@ function GetHtmlEmailByID(emailId, first, last, buildSlot) {
       buildEmailSlot(data.body, emailId, first, last);
     else {
       let toReplace = true;
-      let currentEmail = data.body;
+      currentEmail = data.body;
       getEmailLinks(emailId, data.body.views.html.content, toReplace);
     }
       
