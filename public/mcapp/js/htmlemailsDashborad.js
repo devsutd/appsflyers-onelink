@@ -327,7 +327,7 @@ function getLinks() {
 }
 
 function loadEmailinModal(emails){
-
+  $('#modalcontainer').empty();
 
   for (let i = 0; i < emails.length; i++) {
     let email = emails[i];
@@ -339,7 +339,6 @@ function loadEmailinModal(emails){
 }
 
 function buildEmailSlot(emailHTML, emailId, last){
-  $('#modalcontainer').empty();
   let emailModalSlot;
 
   emailModalSlot += `<div id="emailslot${emailId}" stlye="background-color: white;">`;
