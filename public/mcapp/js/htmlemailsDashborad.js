@@ -430,6 +430,7 @@ function buildEmailSlot(emailHTML, emailId, first, last){
   }
 
   $('#modalcontainer').append(emailModalSlot);
+  getLinks();
 }
 
 $(document).ready(() => {
