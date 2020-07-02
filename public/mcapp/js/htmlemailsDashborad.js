@@ -351,7 +351,7 @@ function buildEmailSlot(emailHTML, emailId, last){
   emailModalSlot += `<div id="emailcontent${emailId}">`;
   emailModalSlot += '<label class="slds-form-element__label" for="select-01" style="padding-left: 1rem;padding-top: 1rem;">Select Links from the Email</label>';
   
-  let emailLinks = getEmailLinks(emailId, emailHTML);
+  let emailLinks = getEmailLinks(emailId, emailHTML.views.html.content);
 
   for (let i = 0; i < emailLinks.length; i++) {
     const link = emailLinks[i];
