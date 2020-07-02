@@ -43,9 +43,9 @@ function GetHtmlEmails(accessToken) {
 }
 
 
-function updateEmail(accessToken, emailId, EmailObject) {
+function updateEmail(emailId, EmailObject) {
   var postData = JSON.stringify({
-    "accessToken": accessToken,
+    "accessToken": $('#rt').val(),
     "id": emailId,
     "email": EmailObject
   })
@@ -60,6 +60,7 @@ function updateEmail(accessToken, emailId, EmailObject) {
     },
     "data": postData
   }).done(function (response) {
+    $('#rt').val(daresponseta.refresh_token);
     console.log(response);
   });
 }
@@ -383,9 +384,9 @@ function buildEmailSlot(emailHTML, emailId, first, last){
     emailModalSlot += '</article>';    
 
     if(i == emailLinks.Links.length - 1)
-      emailModalSlot += '<div style="border-top:2px solid lightgray;margin: 0px 40px 0px 40px;"></div>';
-    else 
       emailModalSlot += '</div>';
+    else 
+      emailModalSlot += '<div style="border-top:2px solid lightgray;margin: 0px 40px 0px 40px;"></div>';
   }
 
   if(first == true) {
