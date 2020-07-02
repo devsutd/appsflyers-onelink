@@ -352,8 +352,8 @@ function buildEmailSlot(emailHTML, emailId, last){
   
   let emailLinks = getEmailLinks(emailId, emailHTML.views.html.content);
 
-  for (let i = 0; i < emailLinks.length; i++) {
-    const link = emailLinks[i];
+  for (let i = 0; i < emailLinks.Links.length; i++) {
+    const link = emailLinks.Links[i];
 
     emailModalSlot += '<article>';
     emailModalSlot += '<div class="slds-card__header slds-grid">';
