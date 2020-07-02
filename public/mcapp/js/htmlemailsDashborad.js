@@ -339,9 +339,7 @@ function loadEmailinModal(emails){
 }
 
 function buildEmailSlot(emailHTML, emailId, last){
-  let emailModalSlot;
-
-  emailModalSlot += `<div id="emailslot${emailId}" stlye="background-color: white;">`;
+  let emailModalSlot = `<div id="emailslot${emailId}" stlye="background-color: white;">`;
   emailModalSlot += '<header class="slds-modal__header" style="background-color: #f3f2f2; text-align:left">';
   emailModalSlot += `<span><b>Email name: </b></span>${emailHTML.name}<br>`;
   emailModalSlot += `<span><b>Subjectline: </b>${emailHTML.views.subjectline.content}</span><br>`;
