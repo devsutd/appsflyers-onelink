@@ -355,6 +355,9 @@ function buildEmailSlot(emailHTML, emailId, last){
   for (let i = 0; i < emailLinks.Links.length; i++) {
     const link = emailLinks.Links[i];
 
+    if(link.LinkText == "Link of Image")
+      continue;
+
     emailModalSlot += '<article>';
     emailModalSlot += '<div class="slds-card__header slds-grid">';
     emailModalSlot += '<header class="slds-media slds-media_center slds-has-flexi-truncate">';
