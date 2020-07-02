@@ -339,6 +339,7 @@ function loadEmailinModal(emails){
 }
 
 function buildEmailSlot(emailHTML, emailId, last){
+  $('#modalcontainer').empty();
   let emailModalSlot;
 
   emailModalSlot += `<div id="emailslot${emailId}">`;
