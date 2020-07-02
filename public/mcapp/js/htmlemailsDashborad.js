@@ -122,7 +122,7 @@ function getEmailLinks(id, rawHTML) {
     var LinkHtml = links[i].outerHTML;
     var HtmlLinkText = LinkHtml.split('>')[1].split('<')[0].trim();
     if (LinkHtml.indexOf('<img') > 0) {
-      HtmlLinkText = 'Link of Image'
+      HtmlLinkText = 'Link of Image';
     }
     var href = links[i].getAttribute("href");
 
@@ -147,7 +147,6 @@ function replaceUrlTOkens(token) {
 }
 
 function replaceLinks(rawHTML, object, OneLink) {
-
   var htmlEmail = rawHTML;
   for (var i = 0; i < object.Links.length; i++) {
     var oldString = object.Links[i].htmlLink;
@@ -421,6 +420,8 @@ function buildEmailSlot(emailHTML, emailId, first, last){
 }
 
 $(document).ready(() => {
+  let linkstoupdate = [];
+
   const urlParams = getUrlParameters();
   $('#rt').val(urlParams.refresh_token);
   $('#eid').val(urlParams.enterpriseId);
