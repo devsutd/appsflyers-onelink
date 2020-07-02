@@ -331,14 +331,14 @@ function loadEmailinModal(emails){
 
   for (let i = 0; i < emails.length; i++) {
     let email = emails[i];
-    if(i == emails.length - 1)
+    if(i == 0)
       GetHtmlEmailByID(email, true);
     else 
       GetHtmlEmailByID(email, false);
   }
 }
 
-function buildEmailSlot(emailHTML, emailId, last){
+function buildEmailSlot(emailHTML, emailId, first){
   let emailModalSlot = `<div id="emailslot${emailId}" stlye="background-color: white;">`;
   emailModalSlot += '<header class="slds-modal__header" style="background-color: #f3f2f2; text-align:left">';
   emailModalSlot += `<span><b>Email name: </b></span>${emailHTML.name}<br>`;
@@ -380,7 +380,7 @@ function buildEmailSlot(emailHTML, emailId, last){
     emailModalSlot += '<div style="border-top:2px solid lightgray;margin: 0px 40px 0px 40px;"></div>';
   }
 
-  if(last == true) {
+  if(first == true) {
     emailModalSlot += '<div id="sidebar" style="float: right;width: 320px;background-color: white;">';
     emailModalSlot += '<label class="slds-form-element__label" for="select-01" style="padding-top: 1rem;">Select OneLink Link</label>';
     emailModalSlot += '<article>';
