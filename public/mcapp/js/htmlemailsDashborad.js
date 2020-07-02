@@ -108,7 +108,7 @@ function GetAllContentBuilderAssets(accessToken) {
 }
 
 
-function getLinks(id, rawHTML) {
+function getEmailLinks(id, rawHTML) {
   var doc = document.createElement("html");
   doc.innerHTML = rawHTML;
   var links = doc.getElementsByTagName("a")
@@ -351,7 +351,7 @@ function buildEmailSlot(emailHTML, emailId, last){
   emailModalSlot += `<div id="emailcontent${emailId}">`;
   emailModalSlot += '<label class="slds-form-element__label" for="select-01" style="padding-left: 1rem;padding-top: 1rem;">Select Links from the Email</label>';
   
-  let emailLinks = getLinks(emailId, emailHTML);
+  let emailLinks = getEmailLinks(emailId, emailHTML);
 
   for (let i = 0; i < emailLinks.length; i++) {
     const link = emailLinks[i];
