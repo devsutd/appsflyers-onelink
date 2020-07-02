@@ -88,7 +88,8 @@ function GetHtmlEmailByID(emailId, first, last, buildSlot) {
       currentEmail = response.body;
       getEmailLinks(emailId, response.body.views.html.content, toReplace);
     }
-  });
+  }); 
+}
 
 function GetAllContentBuilderAssets(accessToken) {
   var postData = JSON.stringify({ "accessToken": accessToken })
