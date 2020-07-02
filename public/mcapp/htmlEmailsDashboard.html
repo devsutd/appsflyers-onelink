@@ -153,9 +153,14 @@
       function confirmLinkUpdates() {
         $("#section-confirmationAlert").removeClass("slds-fade-in-open");
         $("#background-modals").removeClass("slds-backdrop_open");
+        oneLink = $("#selectonelink").val();
 
-        console.log(linkstoupdate);
-        console.log("linkstoupdate");
+        for (let i = 0; i < linkstoupdate.length; i++) {
+          let diccionarioLink = linkstoupdate[i].split("|");
+          let emailID = diccionarioLink[0];
+          currentLink = diccionarioLink[1];
+          GetHtmlEmailByID(emailID, true, true, false);
+        }
       }
   
       function cancelUpdates(){
