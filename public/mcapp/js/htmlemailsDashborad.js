@@ -361,14 +361,14 @@ function buildEmailSlot(emailHTML, emailId, last){
     emailModalSlot += '<header class="slds-media slds-media_center slds-has-flexi-truncate">';
     emailModalSlot += '<div class="slds-media__body">';
     emailModalSlot += '<h2 class="slds-card__header-title">';  
-    emailModalSlot += `<span><b>${link.name}</b></span><br></br>`;
-    emailModalSlot += `<span style="font-size: 12px;font-weight: normal;">${link.url}</span><br>`;
+    emailModalSlot += `<span><b>${link.LinkText}</b></span><br></br>`;
+    emailModalSlot += `<span style="font-size: 12px;font-weight: normal;">${link.href}</span><br>`;
     emailModalSlot += '</h2>';
     emailModalSlot += '</div>';
     emailModalSlot += '<div class="slds-no-flex">';
     emailModalSlot += '<div class="slds-checkbox">';
-    emailModalSlot += `<input type="checkbox" name="options" id="${link.id}" value="${emailHTML.id}|${link.id}" checked="" />`;
-    emailModalSlot += `<label class="slds-checkbox__label" for="${link.id}">`;
+    emailModalSlot += `<input type="checkbox" name="options" id="Link${i}" value="${emailHTML.id}|Link${i}"/>`;
+    emailModalSlot += `<label class="slds-checkbox__label" for="Link${i}">`;
     emailModalSlot += '<span class="slds-checkbox_faux"></span>';
     emailModalSlot += '</label>';
     emailModalSlot += '</div>';
