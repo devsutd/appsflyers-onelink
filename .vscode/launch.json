@@ -12,7 +12,7 @@
             "env":{
                 "authEndpoint":"https://mc8nghvf-gp9-nfl9jcsjjs7r214.auth.marketingcloudapis.com/v2/token",
                 "baseAuth": "https://mc8nghvf-gp9-nfl9jcsjjs7r214.auth.marketingcloudapis.com/",
-                "redirectURI":"https://appsflyers-onelink-dev.herokuapp.com/login",
+                "redirectURI":"https://127.0.0.1:5000/login",
                 "sfmcClientId":"gjd09pom4qh7x9j4xvefbmco",
                 "sfmcClientSecret":"gTHFSgCl4rk6UUI68hKfhwM2",
                 "userInfo":"https://mc8nghvf-gp9-nfl9jcsjjs7r214.auth.marketingcloudapis.com/v2/userinfo",
