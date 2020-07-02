@@ -64,7 +64,7 @@ function updateEmail(accessToken, emailId, EmailObject) {
   });
 }
 
-function GetHtmlEmailByID(emailId, count) {
+function GetHtmlEmailByID(emailId, first, last) {
   var postData = JSON.stringify({
     "accessToken": $('#rt').val(),
     "id": emailId
@@ -81,7 +81,7 @@ function GetHtmlEmailByID(emailId, count) {
     console.log("get email by id");
     console.log(data);
     $('#rt').val(data.refresh_token);
-    buildEmailSlot(data.body, emailId, count);
+    buildEmailSlot(data.body, emailId, first, last);
   },
   error(jqXHR, error, errorThrown) {
     console.log(error);
