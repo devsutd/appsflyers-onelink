@@ -382,7 +382,7 @@ function buildEmailSlot(emailHTML, emailId, first, last){
     emailModalSlot += '<footer class="slds-card__footer"></footer>';
     emailModalSlot += '</article>';    
 
-    if(i < emailLinks.Links.length - 1)
+    if(i == emailLinks.Links.length - 1)
       emailModalSlot += '<div style="border-top:2px solid lightgray;margin: 0px 40px 0px 40px;"></div>';
     else 
       emailModalSlot += '</div>';
