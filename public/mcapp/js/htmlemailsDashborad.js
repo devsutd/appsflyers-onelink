@@ -332,13 +332,15 @@ function loadEmailinModal(emails){
   for (let i = 0; i < emails.length; i++) {
     let email = emails[i];
     if(i == 0)
-      GetHtmlEmailByID(email, true);
-    else 
-      GetHtmlEmailByID(email, false);
+      GetHtmlEmailByID(email, true, false);
+    else if(i == emails.length - 1)
+      GetHtmlEmailByID(email, false, true);
+    else
+      GetHtmlEmailByID(email, false, false);
   }
 }
 
-function buildEmailSlot(emailHTML, emailId, first){
+function buildEmailSlot(emailHTML, emailId, first, last){
   let emailModalSlot = `<div id="emailslot${emailId}" stlye="background-color: white;">`;
   emailModalSlot += '<header class="slds-modal__header" style="background-color: #f3f2f2; text-align:left">';
   emailModalSlot += `<span><b>Email name: </b></span>${emailHTML.name}<br>`;
@@ -399,6 +401,9 @@ function buildEmailSlot(emailHTML, emailId, first){
     emailModalSlot += '</div>';
     emailModalSlot += '<div id="cleared" stlye="clear: both;"></div>';
     emailModalSlot += '</div>';
+  }
+
+  if(last == true){
     emailModalSlot += '<footer class="slds-modal__footer">';
     emailModalSlot += '<button class="slds-button slds-button_neutral" onclick="cancelUpdates()">Cancel</button>';
     emailModalSlot += '<button class="slds-button slds-button_brand" onclick="confirmationAlert()">Save</button>';
