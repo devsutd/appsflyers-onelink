@@ -331,9 +331,11 @@ function loadEmailinModal(emails){
 
   for (let i = 0; i < emails.length; i++) {
     let email = emails[i];
-    if(i == 0)
+    if(i == 0 && i != emails.length - 1)
       GetHtmlEmailByID(email, true, false);
-    else if(i == emails.length - 1)
+    else if(i == 0 && i == emails.length - 1)
+      GetHtmlEmailByID(email, true, true);
+    else if(i != 0 && i == emails.length - 1)
       GetHtmlEmailByID(email, false, true);
     else
       GetHtmlEmailByID(email, false, false);
