@@ -404,6 +404,8 @@ function buildEmailSlot(emailHTML, emailId, last){
     emailModalSlot += '<button class="slds-button slds-button_brand" onclick="confirmationAlert()">Save</button>';
     emailModalSlot += '</footer>';
   }
+
+  modalContainer.append(emailModalSlot);
 }
 
 $(document).ready(() => {
