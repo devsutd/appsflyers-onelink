@@ -60,7 +60,7 @@ function updateEmail(emailId, EmailObject) {
     },
     "data": postData
   }).done(function (response) {
-    $('#rt').val(daresponseta.refresh_token);
+    $('#rt').val(response.refresh_token);
     console.log(response);
     console.log("email updateado");
   });
