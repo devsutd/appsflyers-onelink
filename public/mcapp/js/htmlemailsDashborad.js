@@ -410,6 +410,7 @@ function buildEmailSlot(emailHTML, emailId, first, last){
     emailModalSlot += '<header class="slds-media slds-media_center" style="width: 100%;">';
     emailModalSlot += '<div class="slds-select_container" style="width: 100%;">';
     emailModalSlot += '<select class="slds-select" id="selectonelink">';
+    emailModalSlot += '<option value="">Please select</option>';
     emailModalSlot += '</select>';
     emailModalSlot += '</div>';
     emailModalSlot += '</header>';
