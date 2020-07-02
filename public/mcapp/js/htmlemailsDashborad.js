@@ -314,14 +314,13 @@ function listLinks(data) {
       array.sort((a, b) => ((new Date(a.Modified) < new Date(b.Modified)) ? 1 : ((new Date(b.Modified) < new Date(a.Modified)) ? -1 : 0)));
   }
 
-  var html;
-
   for (let index = 0; index < array.length; index++) {
       const element = array[index];
-      html += `<option id="link${index}" class="slds-listbox__item" value=${element.FullURL}>${element.LinkName}</option>`;
+      let option = `<option id="link${index}" class="slds-listbox__item" value=${element.FullURL}>${element.LinkName}</option>`;
+      $('#selectonelink').append(option); 
+
   }
 
-  $('#selectonelink').html(html); 
 }
 
 function getLinks() {
