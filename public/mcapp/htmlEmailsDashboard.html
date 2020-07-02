@@ -99,6 +99,29 @@
         </footer>
       </div>
     </section>
+    <div class="demo-only" style="height:4rem">
+      <div class="slds-notify_container slds-is-relative">
+        <div class="slds-notify slds-notify_toast slds-theme_success" role="status">
+          <span class="slds-assistive-text"></span>
+          <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
+            <svg class="slds-icon slds-icon_small" aria-hidden="true">
+              <use xlink:href="/mcapp/images/symbols.svg#success"></use>
+            </svg>
+          </span>
+          <div class="slds-notify__content">
+            <h2 id="confirmationToast" class="slds-text-heading_small "></h2>
+          </div>
+          <div class="slds-notify__close">
+            <button class="slds-button slds-button_icon slds-button_icon-inverse" title="Close">
+              <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                <use xlink:href="/mcapp/images/symbols.svg#close"></use>
+              </svg>
+              <span class="slds-assistive-text">Close</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <input type="hidden" id="rt" name="rt" value="">
     <input type="hidden" id="eid" name="eid" value="">
     <input type="hidden" id="currentDashboard" name="currentDashboard" value="">
@@ -161,6 +184,11 @@
           currentLink = diccionarioLink[1];
           GetHtmlEmailByID(emailID, true, true, false);
         }
+
+        if(linkstoupdate.length == 1)
+          $("#confirmationToast").html("<h2> There was 1 link updated successfully!</h2>");
+        else
+          $("#confirmationToast").html("<h2> There were " + linkstoupdate.length + " links updated successfully!</h2>");   
       }
   
       function cancelUpdates(){
