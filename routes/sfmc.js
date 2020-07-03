@@ -346,29 +346,61 @@ exports.UpsertLink = (req, resp) => {
 };
 
 function getEmailsFilter(id, type) {
- return {
-  page: {
-   page: 1,
-   pageSize: 50,
-  },
-  query: {
-   leftOperand: {
-    property: "assetType.id",
-    simpleOperator: "equal",
-    value: id,
+ let filter = {};
+ if (type === "htmlemail") {
+  filter = {
+   page: {
+    page: 1,
+    pageSize: 250,
    },
-   logicalOperator: "AND",
-   rightOperand: {
-    property: "assetType.name",
-    simpleOperator: "equal",
-    value: type,
+   query: {
+    leftOperand: {
+     property: "assetType.id",
+     simpleOperator: "equal",
+     value: id,
+    },
+    logicalOperator: "AND",
+    rightOperand: {
+     property: "assetType.name",
+     simpleOperator: "equal",
+     value: type,
+    },
    },
-  },
-  sort: [{
-   property: "id",
-   direction: "ASC",
-  }, ],
- };
+   sort: [{
+    property: "id",
+    direction: "ASC",
+   }, ],
+  };
+ } else {
+  filter = {
+   "page": {
+    "page": 1,
+    "pageSize": 250
+   },
+   "query": {
+    "leftOperand": {
+     "property": "assetType.id",
+     "simpleOperator": "equal",
+     "value": 207
+    },
+    "logicalOperator": "AND",
+    "rightOperand": {
+     "property": "views.html.slots",
+     "simpleOperator": "isNotNull"
+    }
+   },
+   "fields": [
+    "id",
+    "customerKey",
+    "objectID",
+    "name",
+    "views",
+    "content",
+    "data"
+   ]
+  }
+ }
+ return filter;
 }
 
 function contentAssetsQuery(filter, access_token) {
@@ -394,32 +426,36 @@ function contentAssetsQuery(filter, access_token) {
  });
 }
 
-exports.GetContentBuilderTemplateBasedEmails = (req, resp) => {
- sfmcHelper.refreshToken(req.body.refreshToken)
-  .then((refreshTokenbody) => {
-   const filter = getEmailsFilter(207, "templatebasedemail");
-   var response = {
-    refresh_token: refreshTokenbody.refresh_token,
-   };
-   contentAssetsQuery(filter, refreshTokenbody.access_token)
-    .then((emails) => {
-     filter.page.pageSize = emails.count;
-     if (emails.count > 50) {
-      contentAssetsQuery(filter, refreshTokenbody.access_token).then(
-       (allEmails) => {
-        response.body = JSON.parse(allEmails);
-        return resp.status(200).send(response);
-       }
-      );
-     } else {
-      response.body = JSON.parse(emails);
-      return resp.status(200).send(response);
-     }
-    })
-    .catch((err) => {
-     return resp.status(500).send(err);
-    });
-  });
+exports.GetContentBuilderTemplateBasedEmails = (req) => {
+ return new Promise((resolve, reject) => {
+  sfmcHelper.refreshToken(req.body.refresh_token)
+   .then((refreshTokenbody) => {
+    const filter = getEmailsFilter(207, "templatebasedemail");
+    console.log(filter);
+    var response = {
+     refresh_token: refreshTokenbody.refresh_token,
+    };
+    contentAssetsQuery(filter, refreshTokenbody.access_token)
+     .then((emails) => {
+      filter.page.pageSize = emails.count;
+      if (emails.count > 250) {
+       contentAssetsQuery(filter, refreshTokenbody.access_token).then(
+        (allEmails) => {
+
+         response.body = JSON.parse(allEmails);
+         return resolved(response);
+        }
+       );
+      } else {
+       response.body = JSON.parse(emails);
+       return resolve(response);
+      }
+     })
+     .catch((err) => {
+      return reject(err);
+     });
+   });
+ });
 };
 
 exports.GetContentBuilderEmails = (req, resp) => {

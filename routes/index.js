@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 const sfmcHelper = require('./sfmcHelper');
+const sfmc = require('./sfmc');
 const installAppExchange = require('./InstallAppExchange');
-
 
 // eslint-disable-next-line consistent-return
 exports.login = (req, res) => {
@@ -39,30 +39,40 @@ exports.login = (req, res) => {
        refresh_token: r.refreshToken,
        eid: r.bussinessUnitInfo.enterprise_id,
       },
-
      };
      // eslint-disable-next-line consistent-return
      sfmcHelper.getTokenRows(Request2, (error, response) => {
       if (!error) {
        // console.log(response.OverallStatus.indexOf("Error: Data extension does not exist"))
+
+
        if (response.OverallStatus !== 'OK') {
-        installAppExchange.createDataExtensions(Request2)
+        installAppExchange
+         .createDataExtensions(Request2)
          .then((resp) => {
           console.log(resp);
           const view = `/mcapp/home?eid=${resp.eid}&rt=${resp.refresh_token}`;
           return res.redirect(view);
          })
-         .catch((err) => { console.log(err); });
+         .catch((err) => {
+          console.log(err);
+         });
        } else {
         // si ok y hay datos redirecciono al dashboard
-        let view = '';
-        if (response.length > 0) {
-         view = `/dashboard/home?eid=${r.bussinessUnitInfo.enterprise_id}&rt=${r.refreshToken}`;
-        } else {
-         // si no  hay datos redirecciono al home
-         view = `/mcapp/home?eid=${r.bussinessUnitInfo.enterprise_id}&rt=${r.refreshToken}`;
-        }
-        return res.redirect(view);
+        Request2.body.refresh_token = response.refresh_token;
+        sfmc
+         .GetContentBuilderTemplateBasedEmails(Request2)
+         .then((emails) => {
+          console.log(emails);
+          let view = '';
+          if (response.length > 0) {
+           view = `/dashboard/home?eid=${r.bussinessUnitInfo.enterprise_id}&rt=${r.refreshToken}`;
+          } else {
+           // si no  hay datos redirecciono al home
+           view = `/mcapp/home?eid=${r.bussinessUnitInfo.enterprise_id}&rt=${r.refreshToken}`;
+          }
+          return res.redirect(view);
+         });
        }
       }
      });
@@ -73,7 +83,6 @@ exports.login = (req, res) => {
    if (state === 'image' || state === 'button') {
     let returnView = '';
     console.log(state);
-
 
     sfmcHelper.authorize(request, (e, r) => {
      if (e) {
@@ -97,7 +106,6 @@ exports.login = (req, res) => {
   return res.status(200).send(err);
  }
 };
-
 
 exports.logout = (req) => {
  req.session.token = '';
