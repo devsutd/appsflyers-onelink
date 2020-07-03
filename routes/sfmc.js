@@ -169,6 +169,7 @@ exports.GetLinks = (req, resp) => {
    .catch((err) => resp.status(500).send(err));
  });
 };
+
 exports.UpsertImageRow = (req, resp) => {
  console.log("upsert row console log");
  sfmcHelper.createSoapClient(req.body.refresh_token, (e, response) => {
@@ -375,7 +376,7 @@ function getEmailsFilter(id, type) {
   filter = {
    "page": {
     "page": 1,
-    "pageSize": 250
+    "pageSize": 5
    },
    "query": {
     "leftOperand": {
@@ -419,7 +420,6 @@ function contentAssetsQuery(filter, access_token) {
      console.log(err);
      reject(err);
     }
-    console.log(body);
     return resolve(body);
    }
   );
@@ -431,7 +431,6 @@ exports.GetContentBuilderTemplateBasedEmails = (req) => {
   sfmcHelper.refreshToken(req.body.refresh_token)
    .then((refreshTokenbody) => {
     const filter = getEmailsFilter(207, "templatebasedemail");
-    console.log(filter);
     var response = {
      refresh_token: refreshTokenbody.refresh_token,
     };
@@ -593,5 +592,32 @@ exports.GetAllContentBuilderAssets = (req, resp) => {
     return resp.status(200).send(response);
    }
   );
+ });
+};
+
+
+
+
+exports.UpsertEmailsWithOneLinks = (req, resp) => {
+ console.log("upsert row console log");
+ sfmcHelper.createSoapClient(req.body.refresh_token, (e, response) => {
+  if (e) {
+   return resp.status(500).end(e);
+  }
+
+  sfmcHelper
+   .upsertDataextensionRow(response.client, req.body.UpdateRequest)
+   .then((body) => {
+    if (body.StatusCode !== undefined) {
+     const r1 = {
+      refresh_token: response.refresh_token,
+      Status: body.StatusCode[0],
+     };
+     return resp.send(200, r1);
+    }
+
+    return resp.send(200, body);
+   })
+   .catch((err) => resp.send(400, err));
  });
 };

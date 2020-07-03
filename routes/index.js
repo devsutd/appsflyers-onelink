@@ -3,6 +3,105 @@ const sfmcHelper = require('./sfmcHelper');
 const sfmc = require('./sfmc');
 const installAppExchange = require('./InstallAppExchange');
 
+function countDuplicados(links) {
+ const data = [];
+ for (let index = 0; index < links.length; index++) {
+  const element = links[index];
+  element.Links.forEach((linkid) => {
+   data.push({
+    EmailID: element.EmailID,
+    EmailName: element.EmailName,
+    LinkID: linkid,
+    count: element.Links.filter((i) => i === linkid).length,
+   });
+  });
+ }
+
+ return data;
+}
+
+function emailsUsingCustomBlocks(emails) {
+ const dataforUpsert = [];
+ for (let index = 0; index < emails.length; index++) {
+  const element = emails[index];
+  const data = {
+   EmailID: element.id,
+   EmailName: element.name,
+   Links: [],
+   countByLink: [],
+  };
+  const { slots } = element.views.html;
+  if (slots.main !== undefined) {
+   const { blocks } = slots.main;
+   if (blocks !== undefined) {
+    const blocksKeys = Object.keys(blocks);
+    for (let j = 0; j < blocksKeys.length; j++) {
+     const contentblock = blocks[blocksKeys[j]];
+     if (contentblock.assetType.name === 'customblock') {
+      const { customBlockData } = contentblock.meta.options;
+      data.Links.push(customBlockData.linkID);
+     }
+    }
+
+    dataforUpsert.push(data);
+   }
+  }
+ }
+
+ return countDuplicados(dataforUpsert);
+}
+
+function UpdateRequestObjectMulipleRows(upsertData) {
+ const keys = [];
+ const properties = [];
+ for (let index = 0; index < upsertData.length; index++) {
+  const element = upsertData[index];
+  keys.push({
+   Key: [{
+     Name: 'LinkID',
+     Value: element.LinkID,
+    },
+    {
+     Name: 'EmailID',
+     Value: element.EmailID,
+    },
+   ],
+  });
+  properties.push({
+   Property: [{
+     Name: 'EmailName',
+     Value: element.EmailName,
+    },
+    {
+     Name: 'Count',
+     Value: element.Count,
+    },
+   ],
+  });
+ }
+
+
+ const UpdateRequest = {
+  Options: {
+   SaveOptions: {
+    SaveOption: {
+     PropertyName: 'DataExtensionObject',
+     SaveAction: 'UpdateAdd',
+    },
+   },
+  },
+  Objects: [{
+   attributes: {
+    'xsi:type': 'DataExtensionObject',
+   },
+   CustomerKey: process.env.EmailsWithOneLinks,
+   Keys: keys,
+   Properties: properties,
+  }],
+ };
+
+ return UpdateRequest;
+}
 // eslint-disable-next-line consistent-return
 exports.login = (req, res) => {
  try {
@@ -45,7 +144,6 @@ exports.login = (req, res) => {
       if (!error) {
        // console.log(response.OverallStatus.indexOf("Error: Data extension does not exist"))
 
-
        if (response.OverallStatus !== 'OK') {
         installAppExchange
          .createDataExtensions(Request2)
@@ -63,7 +161,18 @@ exports.login = (req, res) => {
         sfmc
          .GetContentBuilderTemplateBasedEmails(Request2)
          .then((emails) => {
-          console.log(emails);
+          const upsertData = emailsUsingCustomBlocks(emails.body.items);
+
+          const upsertRequest = {
+           body: {
+            refresh_token: emails.refresh_token,
+            UpdateRequest: UpdateRequestObjectMulipleRows(upsertData),
+           },
+          };
+          sfmc.UpsertEmailsWithOneLinks(upsertRequest, (e, r) => {
+           console.log(e);
+           console.log(r);
+          });
           let view = '';
           if (response.length > 0) {
            view = `/dashboard/home?eid=${r.bussinessUnitInfo.enterprise_id}&rt=${r.refreshToken}`;
