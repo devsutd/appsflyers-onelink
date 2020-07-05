@@ -168,12 +168,25 @@
         $("#section-confirmationAlert").removeClass("slds-fade-in-open");
         $("#background-modals").removeClass("slds-backdrop_open");
         oneLink = $("#selectonelink").val();
-
+        let currentEmailID;
+        let newEmail;
+        let emailLinks = [];
         for (let i = 0; i < linkstoupdate.length; i++) {
           let diccionarioLink = linkstoupdate[i].split("|");
-          let emailID = diccionarioLink[0];
-          currentLink = diccionarioLink[1];
-          GetHtmlEmailByID(emailID, true, true, false);
+          newEmail = diccionarioLink[0];
+          if(currentEmailID != "")
+          currentEmailID = diccionarioLink[0];
+          
+          if(currentEmailID == newEmail){
+            emailLinks.push(diccionarioLink[1]);
+          }
+          else {
+            currentLinks = emailLinks;
+            GetHtmlEmailByID(currentEmailID, true, true, false);
+            currentEmailID = diccionarioLink[0];
+            emailLinks = [];
+            emailLinks.push(diccionarioLink[1]);
+          }
         }
 
         if(linkstoupdate.length == 1)

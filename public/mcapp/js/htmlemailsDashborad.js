@@ -144,7 +144,9 @@ function getEmailLinks(id, rawHTML, toReplace) {
   if(toReplace) {
     let objectLink = {};
     objectLink.Links = [];
-    objectLink.Links.push(urls.Links[currentLink]);
+    for (let i = 0; i < currentLinks.length; i++) {
+      objectLink.Links.push(urls.Links[currentLinks]);
+    }
     let htmlreplaced = replaceLinks(rawHTML, objectLink, oneLink);
     currentEmail.views.html.content = htmlreplaced;
     updateEmail(id, currentEmail);
@@ -435,7 +437,7 @@ function buildEmailSlot(emailHTML, emailId, first, last){
 
 $(document).ready(() => {
   let linkstoupdate = [];
-  let currentLink;
+  let currentLinks = [];
   let currentEmail; 
   let oneLink;
 
