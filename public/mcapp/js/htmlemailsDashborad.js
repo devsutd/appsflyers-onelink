@@ -145,7 +145,7 @@ function getEmailLinks(id, rawHTML, toReplace) {
     let objectLink = {};
     objectLink.Links = [];
     for (let i = 0; i < currentLinks.length; i++) {
-      objectLink.Links.push(urls.Links[currentLinks]);
+      objectLink.Links.push(urls.Links[currentLinks[i]]);
     }
     let htmlreplaced = replaceLinks(rawHTML, objectLink, oneLink);
     currentEmail.views.html.content = htmlreplaced;
