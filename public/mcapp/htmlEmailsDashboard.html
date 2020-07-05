@@ -174,11 +174,16 @@
         for (let i = 0; i < linkstoupdate.length; i++) {
           let diccionarioLink = linkstoupdate[i].split("|");
           newEmail = diccionarioLink[0];
-          if(currentEmailID != "")
-          currentEmailID = diccionarioLink[0];
+          if(currentEmailID == "" || currentEmailID == undefined){
+            currentEmailID = diccionarioLink[0];
+          }
           
           if(currentEmailID == newEmail){
             emailLinks.push(diccionarioLink[1]);
+            if(linkstoupdate.length -1 == i) {
+              currentLinks = emailLinks;
+              GetHtmlEmailByID(currentEmailID, true, true, false);
+            }
           }
           else {
             currentLinks = emailLinks;
