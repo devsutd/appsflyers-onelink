@@ -375,7 +375,7 @@ function getEmailsFilter(id, type) {
   filter = {
    "page": {
     "page": 1,
-    "pageSize": 250
+    "pageSize": 50
    },
    "query": {
     "leftOperand": {

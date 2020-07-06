@@ -41,9 +41,13 @@ function emailsUsingCustomBlocks(emails) {
       if (contentblock.meta !== undefined) {
        const { options } = contentblock.meta;
        if (options !== undefined) {
+        if (options.customBlockData !== undefined) {
+         const { linkID } = options.customBlockData;
+         data.Links.push(linkID);
 
-        data.Links.push(options.linkID);
+        }
        }
+
       }
      }
     }
