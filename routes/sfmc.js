@@ -653,10 +653,24 @@ exports.UpsertLogHTMLEmailLinks = (req, resp) => {
    const UpdateRequest = sfmcHelper.UpdateRequestObject(
     process.env.LogEmailLinksDataExtension, [{
      Name: "LogEmailLinks_dev",
-     Value: req.body.EmailID === undefined ?
-      uuidv1() : req.body.EmailID,
+     Value: req.body.EmailID === undefined ? uuidv1() : req.body.EmailID,
     }, ],
     Properties
-   );
-});
-}
+    );
+  
+    console.log(UpdateRequest);
+    sfmcHelper
+     .upsertDataextensionRow(response.client, UpdateRequest)
+     .then((body) => {
+      if (body.StatusCode !== undefined) {
+       const r1 = {
+        refresh_token: response.refresh_token,
+        Status: body.StatusCode[0],
+       };
+       return resp.send(200, r1);
+      }
+  
+      return resp.send(200, body);
+     })
+     .catch((err) => resp.send(400, err));
+   });
