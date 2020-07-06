@@ -673,4 +673,5 @@ exports.UpsertLogHTMLEmailLinks = (req, resp) => {
       return resp.send(200, body);
      })
      .catch((err) => resp.send(400, err));
-   });
+   }); 
+};
