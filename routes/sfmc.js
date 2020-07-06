@@ -375,7 +375,7 @@ function getEmailsFilter(id, type) {
   filter = {
    "page": {
     "page": 1,
-    "pageSize": 5
+    "pageSize": 250
    },
    "query": {
     "leftOperand": {
@@ -419,7 +419,8 @@ function contentAssetsQuery(filter, access_token) {
      console.log(err);
      reject(err);
     }
-    return resolve(body);
+
+    return resolve(JSON.parse(body));
    }
   );
  });
@@ -440,12 +441,12 @@ exports.GetContentBuilderTemplateBasedEmails = (req) => {
        contentAssetsQuery(filter, refreshTokenbody.access_token).then(
         (allEmails) => {
 
-         response.body = JSON.parse(allEmails);
+         response.body = allEmails;
          return resolved(response);
         }
        );
       } else {
-       response.body = JSON.parse(emails);
+       response.body = emails;
        return resolve(response);
       }
      })
@@ -595,84 +596,89 @@ exports.GetAllContentBuilderAssets = (req, resp) => {
 };
 
 exports.UpsertEmailsWithOneLinks = (req, resp) => {
-  console.log("upsert row console log");
+ return new Promise((resolve, reject) => {
   sfmcHelper.createSoapClient(req.body.refresh_token, (e, response) => {
    if (e) {
-    return resp.status(500).end(e);
+    return reject(e);
    }
- 
+
    sfmcHelper
     .upsertDataextensionRow(response.client, req.body.UpdateRequest)
     .then((body) => {
-     if (body.StatusCode !== undefined) {
+     if (body.OverallStatus !== undefined) {
       const r1 = {
        refresh_token: response.refresh_token,
-       Status: body.StatusCode[0],
+       Status: body.OverallStatus,
       };
-      return resp.send(200, r1);
+      return resolve(r1);
      }
- 
-     return resp.send(200, body);
+
+     return resolve(body);
     })
-    .catch((err) => resp.send(400, err));
+    .catch((err) => {
+     return reject(err)
+    });
   });
- }
+ })
+}
+
+
 
 exports.UpsertLogHTMLEmailLinks = (req, resp) => {
-  console.log("upsert row console log");
-  sfmcHelper.createSoapClient(req.body.refresh_token, (e, response) => {
-   if (e) {
-    return resp.status(500).end(e);
+ console.log("upsert row console log");
+ sfmcHelper.createSoapClient(req.body.refresh_token, (e, response) => {
+  if (e) {
+   return resp.status(500).end(e);
+  }
+
+  const Properties = [{
+    Name: "EmailID",
+    Value: req.body.EmailID,
+   },
+   {
+    Name: "LinkText",
+    Value: req.body.LinkText,
+   },
+   {
+    Name: "LinkReplaced",
+    Value: req.body.LinkReplaced,
+   },
+   {
+    Name: "OneLinkID",
+    Value: req.body.OneLinkID,
+   },
+   {
+    Name: "OneLinkURL",
+    Value: req.body.OneLinkURL,
+   },
+   {
+    Name: "Modified",
+    Value: req.body.Modified,
    }
- 
-   const Properties = [{
-     Name: "EmailID",
-     Value: req.body.EmailID,
-    },
-    {
-     Name: "LinkText",
-     Value: req.body.LinkText,
-    },
-    {
-     Name: "LinkReplaced",
-     Value: req.body.LinkReplaced,
-    },
-    {
-     Name: "OneLinkID",
-     Value: req.body.OneLinkID,
-    },
-    {
-     Name: "OneLinkURL",
-     Value: req.body.OneLinkURL,
-    },
-    {
-      Name: "Modified",
-      Value: req.body.Modified,
-     }
-   ];
-   const UpdateRequest = sfmcHelper.UpdateRequestObject(
-    process.env.LogEmailLinks, [{
-     Name: "LogID",
-     Value: req.body.LogID === undefined ? uuidv1() : req.body.LogID,
-    }, ],
-    Properties
-    );
-  
-    console.log(UpdateRequest);
-    sfmcHelper
-     .upsertDataextensionRow(response.client, UpdateRequest)
-     .then((body) => {
-      if (body.StatusCode !== undefined) {
-       const r1 = {
-        refresh_token: response.refresh_token,
-        Status: body.StatusCode[0],
-        Body: body,
-       };
-       return resp.send(200, r1);
-      }
-  
-      return resp.send(200, body);
-     })
-     .catch((err) => resp.send(400, err));
-   }); 
+  ];
+  const UpdateRequest = sfmcHelper.UpdateRequestObject(
+   process.env.LogEmailLinks, [{
+    Name: "LogID",
+    Value: req.body.LogID === undefined ? uuidv1() : req.body.LogID,
+   }, ],
+   Properties
+  );
+
+  console.log(UpdateRequest);
+  sfmcHelper
+   .upsertDataextensionRow(response.client, UpdateRequest)
+   .then((body) => {
+    if (body.StatusCode !== undefined) {
+     const r1 = {
+      refresh_token: response.refresh_token,
+      Status: body.StatusCode[0],
+      Body: body,
+     };
+     return resp.send(200, r1);
+    }
+
+    return resp.send(200, body);
+   })
+   .catch((err) => resp.send(400, err));
+ });
 };

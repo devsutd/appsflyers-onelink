@@ -324,12 +324,12 @@ exports.upsertDataextensionRow = (client, UpdateRequest) =>
    return reject("UpdateRequest is required");
   }
 
-  client.Update(UpdateRequest, (err, res, rawResponse) => {
+  client.Update(UpdateRequest, (err, res, rawResponse, body, rawrequest) => {
    if (err) {
     console.error("ERROR DETAILS: ", err);
     return reject(err);
    }
-   resolve(parseUpsertResponse(rawResponse));
+   return resolve(res);
   });
  });
 
