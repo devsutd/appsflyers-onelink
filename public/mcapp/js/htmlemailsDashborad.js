@@ -146,6 +146,7 @@ function getEmailLinks(id, rawHTML, toReplace) {
     objectLink.Links = [];
     for (let i = 0; i < currentLinks.length; i++) {
       objectLink.Links.push(urls.Links[currentLinks[i]]);
+      LogHTMLEmailLinksUpdates(id, urls.Links[currentLinks[i]].LinkText, urls.Links[currentLinks[i]].href, oneLinkId, oneLink);
     }
     let htmlreplaced = replaceLinks(rawHTML, objectLink, oneLink);
     currentEmail.views.html.content = htmlreplaced;
@@ -435,11 +436,38 @@ function buildEmailSlot(emailHTML, emailId, first, last){
   getLinks();
 }
 
+function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, onelinkurl) {
+
+  var date = new Date().toISOString();
+
+  const data = {
+      refresh_token: $('#rt').val(),
+      EmailID: emailId,
+      LinkText: linktext,
+      LinkReplaced: linkreplaced,
+      OneLinkID: onelinkid,
+      OneLinkURL: onelinkurl,
+      Modified: date
+  };
+ 
+  $.ajax({
+      url: '/sfmc/UpsertLogHTMLEmailLinks',
+      method: 'POST',
+      async: false,
+      data: data,
+      success(upsertHTMLLogData) {
+          $("#rt").val(upsertHTMLLogData.refresh_token);
+          console.log(upsertHTMLLogData);
+      },
+  });
+}
+
 $(document).ready(() => {
   let linkstoupdate = [];
   let currentLinks = [];
   let currentEmail; 
   let oneLink;
+  let oneLinkId;
 
   const urlParams = getUrlParameters();
   $('#rt').val(urlParams.refresh_token);

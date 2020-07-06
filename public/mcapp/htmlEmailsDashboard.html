@@ -167,7 +167,9 @@
       function confirmLinkUpdates() {
         $("#section-confirmationAlert").removeClass("slds-fade-in-open");
         $("#background-modals").removeClass("slds-backdrop_open");
-        oneLink = $("#selectonelink").val();
+        let oneLinkDictionary = $("#selectonelink").val().split("|");
+        oneLinkId = oneLinkDictionary[0];
+        oneLink = oneLinkDictionary[1];
         let currentEmailID;
         let newEmail;
         let emailLinks = [];

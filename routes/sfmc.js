@@ -169,7 +169,6 @@ exports.GetLinks = (req, resp) => {
    .catch((err) => resp.status(500).send(err));
  });
 };
-
 exports.UpsertImageRow = (req, resp) => {
  console.log("upsert row console log");
  sfmcHelper.createSoapClient(req.body.refresh_token, (e, response) => {
@@ -376,7 +375,7 @@ function getEmailsFilter(id, type) {
   filter = {
    "page": {
     "page": 1,
-    "pageSize": 5
+    "pageSize": 250
    },
    "query": {
     "leftOperand": {
@@ -420,6 +419,7 @@ function contentAssetsQuery(filter, access_token) {
      console.log(err);
      reject(err);
     }
+    console.log(body);
     return resolve(body);
    }
   );
@@ -431,6 +431,7 @@ exports.GetContentBuilderTemplateBasedEmails = (req) => {
   sfmcHelper.refreshToken(req.body.refresh_token)
    .then((refreshTokenbody) => {
     const filter = getEmailsFilter(207, "templatebasedemail");
+    console.log(filter);
     var response = {
      refresh_token: refreshTokenbody.refresh_token,
     };
@@ -595,29 +596,45 @@ exports.GetAllContentBuilderAssets = (req, resp) => {
  });
 };
 
-
-
-
-exports.UpsertEmailsWithOneLinks = (req, resp) => {
- console.log("upsert row console log");
- sfmcHelper.createSoapClient(req.body.refresh_token, (e, response) => {
-  if (e) {
-   return resp.status(500).end(e);
-  }
-
-  sfmcHelper
-   .upsertDataextensionRow(response.client, req.body.UpdateRequest)
-   .then((body) => {
-    if (body.StatusCode !== undefined) {
-     const r1 = {
-      refresh_token: response.refresh_token,
-      Status: body.StatusCode[0],
-     };
-     return resp.send(200, r1);
-    }
-
-    return resp.send(200, body);
-   })
-   .catch((err) => resp.send(400, err));
- });
-};
+exports.UpsertLogHTMLEmailLinks = (req, resp) => {
+  console.log("upsert row console log");
+  sfmcHelper.createSoapClient(req.body.refresh_token, (e, response) => {
+   if (e) {
+    return resp.status(500).end(e);
+   }
+ 
+   const Properties = [{
+     Name: "EmailID",
+     Value: req.body.EmailID,
+    },
+    {
+     Name: "LinkText",
+     Value: req.body.LinkText,
+    },
+    {
+     Name: "LinkReplaced",
+     Value: req.body.LinkReplaced,
+    },
+    {
+     Name: "OneLinkID",
+     Value: req.body.OneLinkID,
+    },
+    {
+     Name: "OneLinkURL",
+     Value: req.body.OneLinkURL,
+    },
+    {
+      Name: "Modified",
+      Value: req.body.Modified,
+     }
+   ];
+   const UpdateRequest = sfmcHelper.UpdateRequestObject(
+    process.env.LogEmailLinksDataExtension, [{
+     Name: "LogEmailLinks_dev",
+     Value: req.body.EmailID === undefined ?
+      uuidv1() : req.body.EmailID,
+    }, ],
+    Properties
+   );
+});
+}
