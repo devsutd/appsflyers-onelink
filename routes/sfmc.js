@@ -652,7 +652,7 @@ exports.UpsertLogHTMLEmailLinks = (req, resp) => {
    ];
    const UpdateRequest = sfmcHelper.UpdateRequestObject(
     process.env.LogEmailLinksDataExtension, [{
-     Name: "LogEmailLinks_dev",
+     Name: "LogID",
      Value: req.body.LogID === undefined ? uuidv1() : req.body.LogID,
     }, ],
     Properties
