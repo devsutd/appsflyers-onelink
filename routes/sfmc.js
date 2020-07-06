@@ -666,6 +666,7 @@ exports.UpsertLogHTMLEmailLinks = (req, resp) => {
        const r1 = {
         refresh_token: response.refresh_token,
         Status: body.StatusCode[0],
+        Body: body,
        };
        return resp.send(200, r1);
       }
