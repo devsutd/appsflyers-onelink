@@ -375,7 +375,7 @@ function getEmailsFilter(id, type) {
   filter = {
    "page": {
     "page": 1,
-    "pageSize": 250
+    "pageSize": 5
    },
    "query": {
     "leftOperand": {
@@ -419,7 +419,6 @@ function contentAssetsQuery(filter, access_token) {
      console.log(err);
      reject(err);
     }
-    console.log(body);
     return resolve(body);
    }
   );
@@ -431,7 +430,6 @@ exports.GetContentBuilderTemplateBasedEmails = (req) => {
   sfmcHelper.refreshToken(req.body.refresh_token)
    .then((refreshTokenbody) => {
     const filter = getEmailsFilter(207, "templatebasedemail");
-    console.log(filter);
     var response = {
      refresh_token: refreshTokenbody.refresh_token,
     };
