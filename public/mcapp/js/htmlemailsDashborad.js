@@ -69,30 +69,86 @@ function updateEmail(emailId, EmailObject) {
   });
 }
 
-function GetHtmlEmailByID(emailId, first, last, buildSlot) {
-  var postData = JSON.stringify({
-    "accessToken": $('#rt').val(),
-    "id": emailId
-  })
-
-  $.ajax({
-    "url": "/sfmc/GetEmailByID",
-    "method": "POST",
-    "headers": {
-      "Content-Type": "application/json"
-    },
-    "data": postData
-  }).done(function (response) {
-    replaceUrlTOkens(response.refresh_token);
-    $('#rt').val(response.refresh_token);
-    if(buildSlot == true)
-      buildEmailSlot(response.body, emailId, first, last);
-    else {
-      let toReplace = true;
-      currentEmail = response.body;
-      getEmailLinks(emailId, response.body.views.html.content, toReplace);
+function GetHtmlEmailByID(linkschecked) {
+  let links = [];
+  let currentEmailID;
+  let newEmail;
+  for (let i = 0; i < linkschecked.length; i++) {
+    let diccionarioLink = linkschecked[i].split("|");
+    newEmail = diccionarioLink[0];
+    if(currentEmailID == "" || currentEmailID == undefined){
+      currentEmailID = diccionarioLink[0];
     }
-  }); 
+
+    if(currentEmailID == newEmail){
+      links.push(diccionarioLink[1]);
+      if(linkschecked.length - 1 == i) {
+        var postData = JSON.stringify({
+          "accessToken": $('#rt').val(),
+          "id": currentEmailID
+        })
+
+        $.ajax({
+          "url": "/sfmc/GetEmailByID",
+          "method": "POST",
+          "headers": {
+            "Content-Type": "application/json"
+          },
+          "data": postData
+        }).done(function (response) {
+          replaceUrlTOkens(response.refresh_token);
+          $('#rt').val(response.refresh_token);
+          currentEmail = response.body;
+          getEmailLinks(currentEmailID, response.body.views.html.content, links, true);
+        }); 
+      }
+    }
+    else {
+      var postData = JSON.stringify({
+        "accessToken": $('#rt').val(),
+        "id": currentEmailID
+      })
+
+      $.ajax({
+        "url": "/sfmc/GetEmailByID",
+        "method": "POST",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "data": postData
+      }).done(function (response) {
+        replaceUrlTOkens(response.refresh_token);
+        $('#rt').val(response.refresh_token);
+        currentEmail = response.body;
+        getEmailLinks(currentEmailID, response.body.views.html.content, links, true);
+
+        currentEmailID = diccionarioLink[0];
+        links = [];
+        links.push(diccionarioLink[1]);
+
+        if(linkschecked.length - 1 == i) {
+          var postData = JSON.stringify({
+            "accessToken": $('#rt').val(),
+            "id": currentEmailID
+          })
+
+          $.ajax({
+            "url": "/sfmc/GetEmailByID",
+            "method": "POST",
+            "headers": {
+              "Content-Type": "application/json"
+            },
+            "data": postData
+          }).done(function (response) {
+            replaceUrlTOkens(response.refresh_token);
+            $('#rt').val(response.refresh_token);
+            currentEmail = response.body;
+            getEmailLinks(currentEmailID, response.body.views.html.content, links, true);
+          }); 
+        }
+      }); 
+    } 
+  }
 }
 
 function GetAllContentBuilderAssets(accessToken) {
@@ -112,7 +168,7 @@ function GetAllContentBuilderAssets(accessToken) {
 }
 
 
-function getEmailLinks(id, rawHTML, toReplace) {
+function getEmailLinks(id, rawHTML, linkstoreplace, toReplace) {
   var doc = document.createElement("html");
   doc.innerHTML = rawHTML;
   var links = doc.getElementsByTagName("a")
@@ -144,9 +200,9 @@ function getEmailLinks(id, rawHTML, toReplace) {
   if(toReplace) {
     let objectLink = {};
     objectLink.Links = [];
-    for (let i = 0; i < currentLinks.length; i++) {
-      objectLink.Links.push(urls.Links[currentLinks[i]]);
-      LogHTMLEmailLinksUpdates(id, urls.Links[currentLinks[i]].LinkText, urls.Links[currentLinks[i]].href, oneLinkId, oneLink);
+    for (let i = 0; i < linkstoreplace.length; i++) {
+      objectLink.Links.push(urls.Links[linkstoreplace[i]]);
+      LogHTMLEmailLinksUpdates(id, urls.Links[linkstoreplace[i]].LinkText, urls.Links[linkstoreplace[i]].href, oneLinkId, oneLink);
     }
     let htmlreplaced = replaceLinks(rawHTML, objectLink, oneLink);
     currentEmail.views.html.content = htmlreplaced;
@@ -225,6 +281,13 @@ function buildDashboard(emails, from, page) {
                     });*/
         }
       }
+      let createdDate = new Date(element.createdDate);
+      let dateformatted = [createdDate.getMonth()+1,
+        createdDate.getDate(),
+        createdDate.getFullYear()].join('/')+' '+
+       [createdDate.getHours(),
+        createdDate.getMinutes(),
+        createdDate.getSeconds()].join(':');
       table += '<tr>';
       table += `<td role="gridcell" colspan="1"><div class="slds-truncate" ><div class="slds-checkbox"><input type="checkbox" name="emailstoassign" id="checkbox-${element.data.email.legacy.legacyId}" value="${element.id}" tabindex="0" aria-labelledby="check-button-label-01 column-group-header" /><label class="slds-checkbox__label" for="checkbox-${element.data.email.legacy.legacyId}" id="label-${element.data.email.legacy.legacyId}"><span class="slds-checkbox_faux"></span><span class="slds-form-element__label slds-assistive-text">Select item 1</span></label></div></div></td>`;
       table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.data.email.legacy.legacyId}</div></td>`;
@@ -236,7 +299,7 @@ function buildDashboard(emails, from, page) {
       table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.assetType.displayName}</div></td>`;
       table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.owner.name}</div></td>`;
       table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.status.name}</div></td>`;
-      table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.createdDate}</div></td>`;
+      table += '<td role="gridcell" colspan="2"><div class="slds-truncate" >' + dateformatted + '</div></td>';
       table += '</tr>';
     }
   }
@@ -342,98 +405,129 @@ function getLinks() {
   });
 }
 
-function loadEmailinModal(emails){
+function getEmailSlot(emails){
   $('#modalcontainer').empty();
+  let emailforslot = [];
 
   for (let i = 0; i < emails.length; i++) {
-    let email = emails[i];
-    if(i == 0 && i != emails.length - 1)
-      GetHtmlEmailByID(email, true, false, true);
-    else if(i == 0 && i == emails.length - 1)
-      GetHtmlEmailByID(email, true, true, true);
-    else if(i != 0 && i == emails.length - 1)
-      GetHtmlEmailByID(email, false, true, true);
-    else
-      GetHtmlEmailByID(email, false, false, true);
+    let emailId = emails[i];
+    var postData = JSON.stringify({
+      "accessToken": $('#rt').val(),
+      "id": emailId
+    })
+
+    $.ajax({
+      "url": "/sfmc/GetEmailByID",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "data": postData
+    }).done(function (response) {
+      let emailObject = {
+        emailId: emailId,
+        emailBody: response.body
+      }
+
+      emailforslot.push(emailObject); 
+      buildEmailSlot(emailforslot, emails.length);
+
+    });
   }
 }
 
-function buildEmailSlot(emailHTML, emailId, first, last){
-  let emailModalSlot = `<div id="emailslot${emailId}" style="background-color: white;">`;
-  emailModalSlot += '<header class="slds-modal__header" style="background-color: #f3f2f2; text-align:left">';
-  emailModalSlot += `<span><b>Email name: </b></span>${emailHTML.name}<br>`;
-  emailModalSlot += `<span><b>Subjectline: </b>${emailHTML.views.subjectline.content}</span><br>`;
-  emailModalSlot += `<span><b>Preheader: </b>${emailHTML.views.preheader.content}</span>`;
-  emailModalSlot += '</header>';
-  emailModalSlot += `<div id="emailcontent${emailId}" style="float: left;width: 320px;background-color: white;">`;
-  emailModalSlot += '<label class="slds-form-element__label" for="select-01" style="padding-left: 1rem;padding-top: 1rem;">Select Links from the Email</label>';
-  
-  let emailLinks = getEmailLinks(emailId, emailHTML.views.html.content, false);
-
-  for (let i = 0; i < emailLinks.Links.length; i++) {
-    const link = emailLinks.Links[i];
-
-    if(link.LinkText == "Link of Image")
-      continue;
-
-    emailModalSlot += '<article>';
-    emailModalSlot += '<div class="slds-card__header slds-grid">';
-    emailModalSlot += '<header class="slds-media slds-media_center slds-has-flexi-truncate">';
-    emailModalSlot += '<div class="slds-media__body">';
-    emailModalSlot += '<h2 class="slds-card__header-title">';  
-    emailModalSlot += `<span><b>${link.LinkText}</b></span><br></br>`;
-    emailModalSlot += `<span style="font-size: 12px;font-weight: normal;">${link.href}</span><br>`;
-    emailModalSlot += '</h2>';
-    emailModalSlot += '</div>';
-    emailModalSlot += '<div class="slds-no-flex">';
-    emailModalSlot += '<div class="slds-checkbox">';
-    emailModalSlot += `<input type="checkbox" name="linksfromemail" id="Link${i}" value="${emailHTML.id}|${i}"/>`;
-    emailModalSlot += `<label class="slds-checkbox__label" for="Link${i}">`;
-    emailModalSlot += '<span class="slds-checkbox_faux"></span>';
-    emailModalSlot += '</label>';
-    emailModalSlot += '</div>';
-    emailModalSlot += '</header>';
-    emailModalSlot += '</div>';
-    emailModalSlot += '<div class="slds-card__body"></div>';
-    emailModalSlot += '<footer class="slds-card__footer"></footer>';
-    emailModalSlot += '</article>';    
-
-    if(i == emailLinks.Links.length - 1)
-      emailModalSlot += '</div>';
-    else 
-      emailModalSlot += '<div style="border-top:2px solid lightgray;margin: 0px 40px 0px 40px;"></div>';
+function buildEmailSlot(emailforslot, length) {
+  if(emailforslot.length == length) {
+    for (let j = 0; j < emailforslot.length; j++) {
+      let emailModalSlot = `<div id="emailslot${emailforslot[j].emailId}" style="background-color: white;">`;
+      emailModalSlot += '<header class="slds-modal__header" style="background-color: #f3f2f2; text-align:left">';
+      emailModalSlot += `<span><b>Email name: </b></span>${emailforslot[j].emailBody.name}<br>`;
+      emailModalSlot += `<span><b>Subjectline: </b>${emailforslot[j].emailBody.views.subjectline.content}</span><br>`;
+      emailModalSlot += `<span><b>Preheader: </b>${emailforslot[j].emailBody.views.preheader.content}</span><br>`;
+      let emailCampaign = emailforslot[j].emailBody.data.campaigns;
+      if (emailCampaign.campaigns[0] != undefined) {
+        var campaign = getCampaignById(emailCampaign.campaigns[0].campaignId);
+        emailModalSlot += `<span><b>Campaign: </b>${campaign.name}</span>`;
+      }
+      emailModalSlot += '</header>';
+      emailModalSlot += `<div id="emailcontent${emailforslot[j].emailId}" style="float: left;width: 320px;background-color: white;">`;
+      emailModalSlot += '<label class="slds-form-element__label" for="select-01" style="padding-left: 1rem;padding-top: 1rem;">Select Links from the Email</label>';
+      
+      let emailLinks = getEmailLinks(emailforslot[j].emailId, emailforslot[j].emailBody.views.html.content, false, false);
+    
+      for (let i = 0; i < emailLinks.Links.length; i++) {
+        const link = emailLinks.Links[i];
+    
+        if(link.LinkText == "Link of Image")
+          continue;
+    
+        emailModalSlot += '<article>';
+        emailModalSlot += '<div class="slds-card__header slds-grid">';
+        emailModalSlot += '<header class="slds-media slds-media_center slds-has-flexi-truncate">';
+        emailModalSlot += '<div class="slds-media__body">';
+        emailModalSlot += '<h2 class="slds-card__header-title">';  
+        emailModalSlot += `<span><b>${link.LinkText}</b></span><br></br>`;
+        emailModalSlot += `<span style="font-size: 12px;font-weight: normal;">${link.href}</span><br>`;
+        emailModalSlot += '</h2>';
+        emailModalSlot += '</div>';
+        emailModalSlot += '<div class="slds-no-flex">';
+        emailModalSlot += '<div class="slds-checkbox">';
+        emailModalSlot += `<input type="checkbox" name="linksfromemail" id="${emailforslot[j].emailId}|Link${i}" value="${emailforslot[j].emailBody.id}|${i}"/>`;
+        emailModalSlot += `<label class="slds-checkbox__label" for="${emailforslot[j].emailId}|Link${i}">`;
+        emailModalSlot += '<span class="slds-checkbox_faux"></span>';
+        emailModalSlot += '</label>';
+        emailModalSlot += '</div>';
+        emailModalSlot += '</header>';
+        emailModalSlot += '</div>';
+        emailModalSlot += '<div class="slds-card__body"></div>';
+        emailModalSlot += '<footer class="slds-card__footer"></footer>';
+        emailModalSlot += '</article>';    
+    
+        if(i == emailLinks.Links.length - 1) {
+          emailModalSlot += '</div>';
+        }
+        else 
+          emailModalSlot += '<div style="border-top:2px solid lightgray;margin: 0px 40px 0px 40px;"></div>';
+      }
+    
+      if(j == 0) {
+        emailModalSlot += '<div id="sidebar" style="float: right;width: 320px;background-color: white;">';
+        emailModalSlot += '<label class="slds-form-element__label" for="select-01" style="padding-top: 1rem;">Select OneLink Link</label>';
+        emailModalSlot += '<article>';
+        emailModalSlot += '<div class="slds-card__header slds-grid" style="width: 100%; padding-left:0px !important;">';
+        emailModalSlot += '<header class="slds-media slds-media_center" style="width: 100%;">';
+        emailModalSlot += '<div class="slds-select_container" style="width: 100%;">';
+        emailModalSlot += '<select class="slds-select" id="selectonelink">';
+        emailModalSlot += '<option value="">Please select</option>';
+        emailModalSlot += '</select>';
+        emailModalSlot += '</div>';
+        emailModalSlot += '</header>';
+        emailModalSlot += '</div>';
+        emailModalSlot += '<div class="slds-card__body"></div>';
+        emailModalSlot += '<footer class="slds-card__footer"></footer>';
+        emailModalSlot += '</article>';
+        emailModalSlot += '</div>';
+        emailModalSlot += '<div id="cleared" stlye="clear: both;"></div>';
+        emailModalSlot += '</div>';
+      }
+      else {
+        emailModalSlot += '<div id="cleared" stlye="clear: both;"></div>';
+        emailModalSlot += '</div>';
+      }
+    
+      if(j == emailforslot.length - 1){
+        emailModalSlot += '<footer class="slds-modal__footer">';
+        emailModalSlot += '<button class="slds-button slds-button_neutral" onclick="cancelUpdates()">Cancel</button>';
+        emailModalSlot += '<button class="slds-button slds-button_brand" onclick="confirmationAlert()">Save</button>';
+        emailModalSlot += '</footer>';
+      }
+    
+      $('#modalcontainer').append(emailModalSlot);
+      if(j == 0) {
+        getLinks();
+      }
+    }
   }
-
-  if(first == true) {
-    emailModalSlot += '<div id="sidebar" style="float: right;width: 320px;background-color: white;">';
-    emailModalSlot += '<label class="slds-form-element__label" for="select-01" style="padding-top: 1rem;">Select OneLink Link</label>';
-    emailModalSlot += '<article>';
-    emailModalSlot += '<div class="slds-card__header slds-grid" style="width: 100%; padding-left:0px !important;">';
-    emailModalSlot += '<header class="slds-media slds-media_center" style="width: 100%;">';
-    emailModalSlot += '<div class="slds-select_container" style="width: 100%;">';
-    emailModalSlot += '<select class="slds-select" id="selectonelink">';
-    emailModalSlot += '<option value="">Please select</option>';
-    emailModalSlot += '</select>';
-    emailModalSlot += '</div>';
-    emailModalSlot += '</header>';
-    emailModalSlot += '</div>';
-    emailModalSlot += '<div class="slds-card__body"></div>';
-    emailModalSlot += '<footer class="slds-card__footer"></footer>';
-    emailModalSlot += '</article>';
-    emailModalSlot += '</div>';
-    emailModalSlot += '<div id="cleared" stlye="clear: both;"></div>';
-    emailModalSlot += '</div>';
-  }
-
-  if(last == true){
-    emailModalSlot += '<footer class="slds-modal__footer">';
-    emailModalSlot += '<button class="slds-button slds-button_neutral" onclick="cancelUpdates()">Cancel</button>';
-    emailModalSlot += '<button class="slds-button slds-button_brand" onclick="confirmationAlert()">Save</button>';
-    emailModalSlot += '</footer>';
-  }
-
-  $('#modalcontainer').append(emailModalSlot);
-  getLinks();
 }
 
 function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, onelinkurl) {

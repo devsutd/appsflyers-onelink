@@ -81,8 +81,8 @@
             </article>
         </div>
     </div>
-    <section id="section-assignLinks"  role="dialog" tabindex="-1" aria-labelledby="assignLinks" aria-modal="true" aria-describedby="assignLinks" class="slds-modal">
-        <div id="modalcontainer" class="slds-modal__container" style="overflow-y: auto; width:60% !important;">
+    <section id="section-assignLinks"  role="dialog" tabindex="-1" aria-labelledby="assignLinks" aria-modal="true" aria-describedby="assignLinks" class="slds-modal" style="margin: 4%;">
+        <div id="modalcontainer" class="slds-modal__container" style="overflow-y: auto; width: 70%;max-width: 70%;padding: 0px;justify-content: unset;">
         </div>
      </section>
      <div id="background-modals" class="slds-backdrop"></div>
@@ -135,7 +135,7 @@
         if(emails.length > 0){
           $("#section-assignLinks").addClass("slds-fade-in-open");
           $("#background-modals").addClass("slds-backdrop_open");
-          loadEmailinModal(emails);
+          getEmailSlot(emails);
         }
         else {
           alert("You have to select one email at least.");
@@ -173,7 +173,9 @@
         let currentEmailID;
         let newEmail;
         let emailLinks = [];
-        for (let i = 0; i < linkstoupdate.length; i++) {
+        let linkschecked = linkstoupdate;
+        GetHtmlEmailByID(linkschecked);
+        /*for (let i = 0; i < linkstoupdate.length; i++) {
           let diccionarioLink = linkstoupdate[i].split("|");
           newEmail = diccionarioLink[0];
           if(currentEmailID == "" || currentEmailID == undefined){
@@ -184,17 +186,17 @@
             emailLinks.push(diccionarioLink[1]);
             if(linkstoupdate.length -1 == i) {
               currentLinks = emailLinks;
-              GetHtmlEmailByID(currentEmailID, true, true, false);
+              GetHtmlEmailByID(currentEmailID);
             }
           }
           else {
             currentLinks = emailLinks;
-            GetHtmlEmailByID(currentEmailID, true, true, false);
+            GetHtmlEmailByID(currentEmailID);
             currentEmailID = diccionarioLink[0];
             emailLinks = [];
             emailLinks.push(diccionarioLink[1]);
           }
-        }
+        }*/
 
         if(linkstoupdate.length == 1)
           $("#confirmationToast").html("<h2> 1 link was successfully updated.</h2>");
