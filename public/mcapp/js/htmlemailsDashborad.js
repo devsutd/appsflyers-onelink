@@ -319,7 +319,7 @@ function listLinks(data) {
 
   for (let index = 0; index < array.length; index++) {
       const element = array[index];
-      let option = `<option id="link${index}" class="slds-listbox__item" value=${element.FullURL}>${element.LinkName}</option>`;
+      let option = `<option id="link${index}" class="slds-listbox__item" value="${element.FullURL}|${element.FullURL}">${element.LinkName}</option>`;
       $('#selectonelink').append(option); 
 
   }
