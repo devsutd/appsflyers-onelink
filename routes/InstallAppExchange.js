@@ -524,12 +524,20 @@ exports.createDataExtensions = async(req) =>
        r1.categoryID,
        false, {
         Field: [{
+          Name: "LogID",
+          Description: "LogID",
+          IsPrimaryKey: true,
+          MaxLength: 254,
+          FieldType: "Text",
+          IsRequired: true,
+         },
+         {
           Name: "EmailID",
           Description: "EmailID",
           IsPrimaryKey: false,
           MaxLength: 254,
           FieldType: "Text",
-          IsRequired: true,
+          IsRequired: false,
          },
          {
           Name: "LinkText",
@@ -545,7 +553,7 @@ exports.createDataExtensions = async(req) =>
           IsPrimaryKey: false,
           MaxLength: 4000,
           FieldType: "Text",
-          IsRequired: true,
+          IsRequired: false,
          },
          {
           Name: "OneLinkID",
@@ -553,7 +561,7 @@ exports.createDataExtensions = async(req) =>
           IsPrimaryKey: false,
           MaxLength: 254,
           FieldType: "Text",
-          IsRequired: true,
+          IsRequired: false,
          },
          {
           Name: "OneLinkURL",
@@ -561,14 +569,14 @@ exports.createDataExtensions = async(req) =>
           IsPrimaryKey: false,
           MaxLength: 4000,
           FieldType: "Text",
-          IsRequired: true,
+          IsRequired: false,
          },
          {
           Name: "Modified",
           Description: "LinModifiedkReplaced",
           IsPrimaryKey: false,
           FieldType: "Date",
-          IsRequired: true,
+          IsRequired: false,
          },
         ],
        }
