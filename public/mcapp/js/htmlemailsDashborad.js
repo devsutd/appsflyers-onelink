@@ -442,6 +442,7 @@ function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, on
 
   const data = {
       refresh_token: $('#rt').val(),
+      LogID: undefined,
       EmailID: emailId,
       LinkText: linktext,
       LinkReplaced: linkreplaced,
