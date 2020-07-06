@@ -26,6 +26,7 @@
                 "restEndpoint":"https://mc8nghvf-gp9-nfl9jcsjjs7r214.rest.marketingcloudapis.com/",
                 "LogEmailLinks":"LogEmailLinks_dev",
                 "EmailsWithOneLinks":"EmailsWithOneLinks_dev",
+                "LogEmailLinksDataExtension":"LogEmailLinks_dev",
             }
         }
     ]
