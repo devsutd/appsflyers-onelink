@@ -156,11 +156,14 @@ exports.refreshToken = (refresh_token) =>
    },
    (err, response, body) => {
     if (err) {
-     return reject(JSON.stringify(err));
+      console.log("refresh token error");
+      return reject(JSON.stringify(err));
     }
 
     if (body.error) {
-     return reject(JSON.stringify(body.error));
+      console.log("refresh token body error");
+      console.log(body.error);
+      return reject(JSON.stringify(body.error));
     }
 
     return resolve(body);

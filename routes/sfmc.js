@@ -504,7 +504,10 @@ console.log("on update email");
    },
    (err, _response, body) => {
     if (err) {
-     return resp.status(401).send(err);
+      console.log(err);
+      console.log(_response);
+      console.log(body);
+      return resp.status(401).send(err);
     }
     console.log(JSON.parse(body));
     var response = {
