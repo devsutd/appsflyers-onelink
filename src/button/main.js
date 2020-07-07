@@ -8,18 +8,18 @@
 /* eslint-disable no-undef */
 const SDK = require('blocksdk');
 
-const sdk = new SDK({ blockEditorWidth: 300, tabs: ['htmlblock'] });
-this.sdk = new BlockSDK({
- blockEditorWidth: 300,
- tabs: [
-  'htmlblock'
- ]
-});
+const sdk = new SDK();
+
 // eslint-disable-next-line no-use-before-define
 const ContentBlockID = uuidv4();
 let selectedBackgroundColor = '';
 let contentsCount = 0;
-
+sdk.getContent(function(content) {
+ content += '.';
+ sdk.setContent(content, function(setContent) {
+  // block content is now its original content + '.'
+ });
+});
 
 function getLinkByName(name) {
  if ($('#links').val() !== undefined && $('#links').val() !== '') {
