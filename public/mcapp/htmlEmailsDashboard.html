@@ -17,24 +17,6 @@
     <script type="text/javascript" src="/mcapp/js/jquery-3.5.1.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
     <script type="text/javascript" src="/mcapp/js/htmlemailsDashborad.js"></script>
-    <style>
-        #assignLinks {
-            background-color: white;
-        }
-        #content {
-            float: left;
-            width: 320px;
-            background-color: white;
-        }
-        #sidebar {
-            float: right;
-            width: 320px;
-            background-color: white;
-        }
-        #cleared {
-            clear: both;
-        }
-    </style>
 </head>
 
 <body>
@@ -84,7 +66,10 @@
                         </div>
                         <div class="slds-media__body">
 
-                        </div>                       
+                        </div>   
+                        <div class="slds-no-flex">
+                          <button id="btn-assign" class="slds-button slds-button_brand" onclick="openAssignLinks()">Assign OneLink link</button>
+                      </div>                    
                     </header>
                 </div>
                 <div class="slds-card__body">
@@ -96,92 +81,8 @@
             </article>
         </div>
     </div>
-    <section id="section-assignLinks"  role="dialog" tabindex="-1" aria-labelledby="assignLinks" aria-modal="true" aria-describedby="assignLinks" class="slds-modal">
-        <div class="slds-modal__container">
-           <div id="assignLinks">
-              <header class="slds-modal__header" style="background-color: #f3f2f2; text-align:left">
-                <span><b>Email name: </b></span>TestEmail-OneLink<br>
-                <span><b>Subjectline: </b>Testing OneLink</span><br>
-                <span><b>Preheader: </b>preheader</span>
-            </header>
-            <div id="content">
-              <label class="slds-form-element__label" for="select-01" style="padding-left: 1rem;padding-top: 1rem;">Select Links from the Email</label>
-              <article>
-                <div class="slds-card__header slds-grid">
-                  <header class="slds-media slds-media_center slds-has-flexi-truncate">
-                    <div class="slds-media__body">
-                      <h2 class="slds-card__header-title">
-                        <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Card Header">
-                          <span><b>Unsubscribe</b></span><br>
-                          <span style="font-size: 12px;font-weight: normal;">www.preferencecentre.com</span><br>
-                        </a>
-                      </h2>
-                    </div>
-                    <div class="slds-no-flex">
-                      <div class="slds-checkbox">
-                        <input type="checkbox" name="options" id="checkbox-unique-id-499" value="checkbox-unique-id-499" checked="" />
-                        <label class="slds-checkbox__label" for="checkbox-unique-id-499">
-                          <span class="slds-checkbox_faux"></span>
-                        </label>
-                      </div>
-                    </div>
-                  </header>
-                </div>
-                <div class="slds-card__body"></div>
-                <footer class="slds-card__footer"></footer>
-              </article>
-              <div style="border-top:2px solid lightgray;margin: 0px 40px 0px 40px;">
-              </div>
-              <article>
-                <div class="slds-card__header slds-grid">
-                  <header class="slds-media slds-media_center slds-has-flexi-truncate">
-                    <div class="slds-media__body">
-                      <h2 class="slds-card__header-title">
-                        <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Card Header">
-                          <span><b>Facebook</b></span><br>
-                          <span style="font-size: 12px;font-weight: normal;">www.facebook.com</span><br>
-                        </a>
-                      </h2>
-                    </div>
-                    <div class="slds-no-flex">
-                      <div class="slds-checkbox">
-                        <input type="checkbox" name="options" id="checkbox-unique-id-499" value="checkbox-unique-id-499" checked="" />
-                        <label class="slds-checkbox__label" for="checkbox-unique-id-499">
-                          <span class="slds-checkbox_faux"></span>
-                        </label>
-                      </div>
-                    </div>
-                  </header>
-                </div>
-                <div class="slds-card__body"></div>
-                <footer class="slds-card__footer"></footer>
-              </article>
-            </div>
-            <div id="sidebar">
-              <label class="slds-form-element__label" for="select-01" style="padding-top: 1rem;">Select OneLink Link</label>
-              <article>
-                <div class="slds-card__header slds-grid" style="width: 100%; padding-left:0px !important;">
-                  <header class="slds-media slds-media_center" style="width: 100%;">
-                    <div class="slds-select_container" style="width: 100%;">
-                      <select class="slds-select" id="select-01">
-                        <option value="">Please select</option>
-                        <option>Option One</option>
-                        <option>Option Two</option>
-                        <option>Option Three</option>
-                      </select>
-                    </div>
-                  </header>
-                </div>
-                <div class="slds-card__body"></div>
-                <footer class="slds-card__footer"></footer>
-              </article>
-            </div>
-            <div id="cleared"></div>
-          </div>
-           <footer class="slds-modal__footer">
-              <button class="slds-button slds-button_neutral" onclick="cancelUpdates()">Cancel</button>
-              <button class="slds-button slds-button_brand" onclick="confirmationAlert()">Save</button>
-           </footer>
+    <section id="section-assignLinks"  role="dialog" tabindex="-1" aria-labelledby="assignLinks" aria-modal="true" aria-describedby="assignLinks" class="slds-modal" style="margin: 4%;">
+        <div id="modalcontainer" class="slds-modal__container" style="overflow-y: auto; width: 70%;max-width: 70%;padding: 0px;justify-content: unset;">
         </div>
      </section>
      <div id="background-modals" class="slds-backdrop"></div>
@@ -191,7 +92,6 @@
           <h2 id="confirmationAlert-heading" class="slds-modal__title slds-hyphenate">Confirm</h2>
         </header>
         <div class="slds-modal__content slds-p-around_medium" id="confirmationAlert">
-          <p>You are about to update 2 links. Are you sure? </p>
         </div>
         <footer class="slds-modal__footer">
           <button class="slds-button slds-button_neutral" onclick="cancelUpdates()">Cancel</button>
@@ -199,36 +99,121 @@
         </footer>
       </div>
     </section>
+    <div class="demo-only" style="height:4rem">
+      <div id="toastContainer" class="slds-notify_container slds-is-relative" style="position: absolute;display:none">
+        <div class="slds-notify slds-notify_toast slds-theme_success" role="status">
+          <span class="slds-assistive-text"></span>
+          <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
+            <svg class="slds-icon slds-icon_small" aria-hidden="true">
+              <use xlink:href="/mcapp/images/symbols.svg#success"></use>
+            </svg>
+          </span>
+          <div class="slds-notify__content">
+            <h2 id="confirmationToast" class="slds-text-heading_small "></h2>
+          </div>
+        </div>
+      </div>
+    </div>
     <input type="hidden" id="rt" name="rt" value="">
     <input type="hidden" id="eid" name="eid" value="">
     <input type="hidden" id="currentDashboard" name="currentDashboard" value="">
     <script>
-        function filter() {
-            inp = $('#lookup').val();
-            if(inp == '') {
-                loadHtmlEmails(false, 'filtered', 1);
-            }
+      
+      function filter() {
+          inp = $('#lookup').val();
+          if(inp == '') {
+              loadHtmlEmails(false, 'filtered', 1);
+          }
+      }
+
+      function openAssignLinks(){ 
+        let emails = [];
+        $("input:checkbox[name=emailstoassign]:checked").each(function(){
+          emails.push($(this).val());
+        });
+
+        if(emails.length > 0){
+          $("#section-assignLinks").addClass("slds-fade-in-open");
+          $("#background-modals").addClass("slds-backdrop_open");
+          getEmailSlot(emails);
+        }
+        else {
+          alert("You have to select one email at least.");
         }
 
-        function openAssignLinks(){ 
-            $("#section-assignLinks").addClass("slds-fade-in-open");
-            $("#background-modals").addClass("slds-backdrop_open");
+      }
+      function confirmationAlert(){
+        let links = [];
+        $("input:checkbox[name=linksfromemail]:checked").each(function(){
+          links.push($(this).val());
+        });
+
+        linkstoupdate = links;
+
+        if(links.length > 0) {
+          $("#section-assignLinks").removeClass("slds-fade-in-open");
+          if(links.length == 1)
+            $("#confirmationAlert").html("<p>You are about to update 1 link. Are you sure? </p>")
+          else
+            $("#confirmationAlert").html("<p>You are about to update " + links.length + " links. Are you sure? </p>")
+          
+          $("#section-confirmationAlert").addClass("slds-fade-in-open");
         }
-        function confirmationAlert(){
-            $("#section-assignLinks").removeClass("slds-fade-in-open");
-            $("#section-confirmationAlert").addClass("slds-fade-in-open");
+        else {
+          alert("You have to select one link at least.");
         }
-    
-        function confirmLinkUpdates() {
-            $("#section-confirmationAlert").removeClass("slds-fade-in-open");
-            $("#background-modals").removeClass("slds-backdrop_open");
-        }
-    
-        function cancelUpdates(){
-            $("#section-assignLinks").removeClass("slds-fade-in-open");
-            $("#section-confirmationAlert").removeClass("slds-fade-in-open");
-            $("#background-modals").removeClass("slds-backdrop_open");
-        }
+      }
+  
+      function confirmLinkUpdates() {
+        $("#section-confirmationAlert").removeClass("slds-fade-in-open");
+        $("#background-modals").removeClass("slds-backdrop_open");
+        let oneLinkDictionary = $("#selectonelink").val().split("|");
+        oneLinkId = oneLinkDictionary[0];
+        oneLink = oneLinkDictionary[1];
+        let currentEmailID;
+        let newEmail;
+        let emailLinks = [];
+        let linkschecked = linkstoupdate;
+        GetHtmlEmailByID(linkschecked);
+        /*for (let i = 0; i < linkstoupdate.length; i++) {
+          let diccionarioLink = linkstoupdate[i].split("|");
+          newEmail = diccionarioLink[0];
+          if(currentEmailID == "" || currentEmailID == undefined){
+            currentEmailID = diccionarioLink[0];
+          }
+          
+          if(currentEmailID == newEmail){
+            emailLinks.push(diccionarioLink[1]);
+            if(linkstoupdate.length -1 == i) {
+              currentLinks = emailLinks;
+              GetHtmlEmailByID(currentEmailID);
+            }
+          }
+          else {
+            currentLinks = emailLinks;
+            GetHtmlEmailByID(currentEmailID);
+            currentEmailID = diccionarioLink[0];
+            emailLinks = [];
+            emailLinks.push(diccionarioLink[1]);
+          }
+        }*/
+
+        if(linkstoupdate.length == 1)
+          $("#confirmationToast").html("<h2> 1 link was successfully updated.</h2>");
+        else
+          $("#confirmationToast").html("<h2>" + linkstoupdate.length + " links were successfully updated.</h2>"); 
+          
+        $("#toastContainer").show();
+        setTimeout(function(){
+          $("#toastContainer").hide();
+      }, 4000);
+      }
+  
+      function cancelUpdates(){
+        $("#section-assignLinks").removeClass("slds-fade-in-open");
+        $("#section-confirmationAlert").removeClass("slds-fade-in-open");
+        $("#background-modals").removeClass("slds-backdrop_open");
+      }
     </script>
 </body>
 </html>

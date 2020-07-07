@@ -2,128 +2,119 @@
 <html>
 
 <head>
-  <title>AppsFlyer - Image Content Block</title>
-  <link rel="stylesheet"
-  href="/image/css/salesforce-lightning-design-system/assets/styles/salesforce-lightning-design-system.min.css">
-
-  <script src="/image/js/jquery-3.5.1.min.js"></script>
-  <script src="/image/js/script.js"></script>
+    <title>AppsFlyer - Image Content Block</title>
+    <link rel="stylesheet" href="./css/salesforce-lightning-design-system/assets/styles/salesforce-lightning-design-system.css">
+    <script src="./js/jquery-3.5.1.min.js"></script>
+    <script src="./js/script.js"></script>
 </head>
 
 <body>
 
-  <!-- spinner: display this div and hide main grid div while loading data -->
-  <div class="spinner" style="display: none;">
-    <div class="demo-only" style="height: 6rem;">
-      <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
-        <span class="slds-assistive-text">Loading</span>
-        <div class="slds-spinner__dot-a"></div>
-        <div class="slds-spinner__dot-b"></div>
-      </div>
+    <!-- spinner: display this div and hide main grid div while loading data -->
+    <div class="spinner" style="display: none;">
+        <div class="demo-only" style="height: 6rem;">
+            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
     </div>
-  </div>
-  <!--/ spinner -->
-  <article class="slds-card" id="step1">
-    <div class="slds-card__header slds-grid">
-      <header class="slds-media slds-media_center slds-has-flexi-truncate">
-        <div class="slds-media__figure">
-          <span class="slds-icon_container">
+    <!--/ spinner -->
+    <article class="slds-card" id="step1">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container">
             <img src="./login/icon.png" width="40px">
           </span>
+                </div>
+                <div class="slds-media__body">
+                    <h2>
+                        <a href="javascript:void(0);" class="slds-card__header-link slds-truncate">
+                            <span class="slds-text-heading_small">AppsFlyer OneLink Image</span>
+                        </a>
+                    </h2>
+                </div>
+            </header>
         </div>
-        <div class="slds-media__body">
-          <h2>
-            <a href="javascript:void(0);" class="slds-card__header-link slds-truncate">
-              <span class="slds-text-heading_small">AppsFlyer OneLink Image</span>
-            </a>
-          </h2>
-        </div>
-      </header>
-    </div>
-    <div class="slds-card__body slds-card__body_inner">
-      <div id="workspace">
-        <div class="slds-form-element">
-          <span class="slds-form-element__label" id="file-selector-primary-label">Attachment</span>
-          <div class="slds-form-element__control">
-            <div class="slds-file-selector slds-file-selector_files">
-              <div class="slds-file-selector__dropzone">
-                <input type="hidden" id="filename" />
-                <input type="hidden" id="urlImage" />
-                <input type="file" class="slds-file-selector__input slds-assistive-text" id="onelinkImage"
-                  aria-labelledby="file-selector-primary-label file-selector-secondary-label" />
-                <label class="slds-file-selector__body" for="onelinkImage" id="file-selector-secondary-label">
+        <div class="slds-card__body slds-card__body_inner">
+            <div id="workspace">
+                <div class="slds-form-element">
+                    <span class="slds-form-element__label" id="file-selector-primary-label">Attachment</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-file-selector slds-file-selector_files">
+                            <div class="slds-file-selector__dropzone">
+                                <input type="hidden" id="filename" />
+                                <input type="hidden" id="urlImage" />
+                                <input type="file" class="slds-file-selector__input slds-assistive-text" id="onelinkImage" aria-labelledby="file-selector-primary-label file-selector-secondary-label" />
+                                <label class="slds-file-selector__body" for="onelinkImage" id="file-selector-secondary-label">
                   <span class="slds-file-selector__button slds-button slds-button_neutral">
                     <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
-                      <use xlink:href="/image/css/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
+                      <use xlink:href="./css/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#upload"></use>
                     </svg>Upload Files</span>
                 </label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="slds-form-element">
-          <label class="slds-form-element__label" for="onelink">OneLink link:</label>
-          <div class="slds-form-element__control">
-            <div class="slds-combobox_container">
-              <div id="onelink-trigger" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
-                aria-expanded="false" aria-haspopup="listbox" role="combobox">
-                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
-                  <input onclick="$('#onelink-trigger').addClass('slds-is-open');" type="text"
-                    class="slds-input slds-combobox__input" id="onelink" aria-controls="listbox-id-1" autoComplete="off"
-                    role="textbox" placeholder="Select an Option" />
-                  <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="onelink">OneLink link:</label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-combobox_container">
+                            <div id="onelink-trigger" class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                    <input onclick="$('#onelink-trigger').addClass('slds-is-open');" type="text" class="slds-input slds-combobox__input" id="onelink" aria-controls="listbox-id-1" autoComplete="off" role="textbox" placeholder="Select an Option" />
+                                    <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
                     <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
-                      <use xlink:href="/image/css/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                      <use xlink:href="./css/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
                     </svg>
                   </span>
+                                </div>
+                                <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
+                                    <div id="listLinks"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" role="listbox">
-                  <div id="listLinks"></div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="imagealt" id="fixed-text-label">Image alt text:</label>
+                    <div class="slds-form-element__control slds-input-has-fixed-addon">
+                        <input type="text" id="imagealt" aria-labelledby="fixed-text-label fixed-text-addon-pre fixed-text-addon-post" class="slds-input" />
+                    </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="slds-form-element">
-          <label class="slds-form-element__label" for="imagealt" id="fixed-text-label">Image alt text:</label>
-          <div class="slds-form-element__control slds-input-has-fixed-addon">
-            <input type="text" id="imagealt"
-              aria-labelledby="fixed-text-label fixed-text-addon-pre fixed-text-addon-post" class="slds-input" />
-          </div>
-        </div>
-        <div class="slds-form-element">
-          <label class="slds-form-element__label" for="imagewidth" id="fixed-text-label">Image width:</label>
-          <div class="slds-form-element__control slds-input-has-fixed-addon">
-            <input type="number" id="imagewidth"
-              aria-labelledby="fixed-text-label fixed-text-addon-pre fixed-text-addon-post" class="slds-input" />
-            <span class="slds-form-element__addon" id="fixed-text-addon-post">px</span>
-          </div>
-        </div>
-        <div class="slds-form-element">
-          <label class="slds-form-element__label" for="imageheight" id="fixed-text-label">Image height:</label>
-          <div class="slds-form-element__control slds-input-has-fixed-addon">
-            <input type="number" id="imageheight"
-              aria-labelledby="fixed-text-label fixed-text-addon-pre fixed-text-addon-post" class="slds-input" />
-            <span class="slds-form-element__addon" id="fixed-text-addon-post">px</span>
-          </div>
-        </div>
-        <div class="slds-form-element slds-p-top_medium">
-          <div class="slds-form-element__control">
-            <button class="slds-button slds-button_brand" style="margin-left: 15px;" id="previewContent">Save
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="imagewidth" id="fixed-text-label">Image width:</label>
+                    <div class="slds-form-element__control slds-input-has-fixed-addon">
+                        <input type="number" id="imagewidth" aria-labelledby="fixed-text-label fixed-text-addon-pre fixed-text-addon-post" class="slds-input" />
+                        <span class="slds-form-element__addon" id="fixed-text-addon-post">px</span>
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="imageheight" id="fixed-text-label">Image height:</label>
+                    <div class="slds-form-element__control slds-input-has-fixed-addon">
+                        <input type="number" id="imageheight" aria-labelledby="fixed-text-label fixed-text-addon-pre fixed-text-addon-post" class="slds-input" />
+                        <span class="slds-form-element__addon" id="fixed-text-addon-post">px</span>
+                    </div>
+                </div>
+                <div class="slds-form-element slds-p-top_medium">
+                    <div class="slds-form-element__control">
+                        <button class="slds-button slds-button_brand" style="margin-left: 15px;" id="previewContent">Save
               Content</button>
-          </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </article>
-  <input type="hidden" id="links">
-  <input type="hidden" id="urlLink">
-  <input type="hidden" id="linkId">
-  <input type="hidden" id="rt" />
-  <input type="hidden" id="eid" />
-  <input type="hidden" id="contentsCount" />
-  <script src="/image/js/jquery.min.js"></script>
-  <script src="/image/js/main.js"></script>
+    </article>
+    <input type="hidden" id="links">
+    <input type="hidden" id="urlLink">
+    <input type="hidden" id="linkId">
+    <input type="hidden" id="rt" />
+    <input type="hidden" id="eid" />
+    <input type="hidden" id="contentsCount" />
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 
 </html>
