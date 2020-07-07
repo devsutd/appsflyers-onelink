@@ -537,7 +537,7 @@ function buildEmailSlot(emailforslot, length) {
   }
 }
 
-function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, onelinkurl, isLastOne) {
+function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, onelinkurl) {
 
   var date = new Date().toISOString();
 
@@ -560,8 +560,6 @@ function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, on
       success(upsertHTMLLogData) {
           $("#rt").val(upsertHTMLLogData.refresh_token);
           console.log(upsertHTMLLogData);
-          if(isLastOne)
-
       },
   });
 }
