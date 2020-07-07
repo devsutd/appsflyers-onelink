@@ -47,7 +47,7 @@ function GetHtmlEmails(accessToken) {
 }
 
 
-function updateEmail(emailId, EmailObject) {
+function updateEmail(emailId, EmailObject, linkstoreplace, urls) {
   var postData = JSON.stringify({
     "accessToken": $('#rt').val(),
     "id": emailId,
@@ -66,7 +66,14 @@ function updateEmail(emailId, EmailObject) {
   }).done(function (response) {
     replaceUrlTOkens(response.refresh_token);
     $('#rt').val(response.refresh_token);
+    prepareUpsertHtml(linkstoreplace, urls);
   });
+}
+
+function prepareUpsertHtml(linkstoreplace, urls){
+  for (let i = 0; i < linkstoreplace.length; i++) {
+    LogHTMLEmailLinksUpdates(id, urls.Links[linkstoreplace[i]].LinkText, urls.Links[linkstoreplace[i]].href, oneLinkId, oneLink);
+  }
 }
 
 function GetHtmlEmailByID(linkschecked) {
@@ -202,11 +209,11 @@ function getEmailLinks(id, rawHTML, linkstoreplace, toReplace) {
     objectLink.Links = [];
     for (let i = 0; i < linkstoreplace.length; i++) {
       objectLink.Links.push(urls.Links[linkstoreplace[i]]);
-      LogHTMLEmailLinksUpdates(id, urls.Links[linkstoreplace[i]].LinkText, urls.Links[linkstoreplace[i]].href, oneLinkId, oneLink);
     }
+
     let htmlreplaced = replaceLinks(rawHTML, objectLink, oneLink);
     currentEmail.views.html.content = htmlreplaced;
-    updateEmail(id, currentEmail);
+    updateEmail(id, currentEmail, linkstoreplace, urls);
   }
   return urls;
 }
@@ -530,7 +537,7 @@ function buildEmailSlot(emailforslot, length) {
   }
 }
 
-function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, onelinkurl) {
+function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, onelinkurl, isLastOne) {
 
   var date = new Date().toISOString();
 
@@ -553,6 +560,8 @@ function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, on
       success(upsertHTMLLogData) {
           $("#rt").val(upsertHTMLLogData.refresh_token);
           console.log(upsertHTMLLogData);
+          if(isLastOne)
+
       },
   });
 }
