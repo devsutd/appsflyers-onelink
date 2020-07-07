@@ -491,6 +491,7 @@ exports.GetContentBuilderEmails = (req, resp) => {
 };
 
 exports.UpdateEmail = (req, resp) => {
+console.log("on update email");
  sfmcHelper.refreshToken(req.body.accessToken).then((refreshTokenbody) => {
   request({
     url: `${process.env.restEndpoint}asset/v1/content/assets/${req.body.id}`,
@@ -668,6 +669,7 @@ exports.UpsertLogHTMLEmailLinks = (req, resp) => {
   sfmcHelper
    .upsertDataextensionRow(response.client, UpdateRequest)
    .then((body) => {
+    console.log(body);
     if (body.StatusCode !== undefined) {
      const r1 = {
       refresh_token: response.refresh_token,
