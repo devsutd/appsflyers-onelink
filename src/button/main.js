@@ -9,6 +9,12 @@
 const SDK = require('blocksdk');
 
 const sdk = new SDK({ blockEditorWidth: 300, tabs: ['htmlblock'] });
+this.sdk = new BlockSDK({
+ blockEditorWidth: 300,
+ tabs: [
+  'htmlblock'
+ ]
+});
 // eslint-disable-next-line no-use-before-define
 const ContentBlockID = uuidv4();
 let selectedBackgroundColor = '';
