@@ -492,6 +492,7 @@ exports.GetContentBuilderEmails = (req, resp) => {
 
 exports.UpdateEmail = (req, resp) => {
 console.log("on update email");
+console.log(req);
  sfmcHelper.refreshToken(req.body.accessToken).then((refreshTokenbody) => {
   request({
     url: `${process.env.restEndpoint}asset/v1/content/assets/${req.body.id}`,
