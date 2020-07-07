@@ -66,11 +66,11 @@ function updateEmail(emailId, EmailObject, linkstoreplace, urls) {
   }).done(function (response) {
     replaceUrlTOkens(response.refresh_token);
     $('#rt').val(response.refresh_token);
-    prepareUpsertHtml(linkstoreplace, urls);
+    prepareUpsertHtml(emailId, linkstoreplace, urls);
   });
 }
 
-function prepareUpsertHtml(linkstoreplace, urls){
+function prepareUpsertHtml(id, linkstoreplace, urls){
   for (let i = 0; i < linkstoreplace.length; i++) {
     LogHTMLEmailLinksUpdates(id, urls.Links[linkstoreplace[i]].LinkText, urls.Links[linkstoreplace[i]].href, oneLinkId, oneLink);
   }
