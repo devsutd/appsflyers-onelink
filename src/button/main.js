@@ -291,9 +291,8 @@ function SaveDataExtensionRow() {
 $(document).ready(() => {
  getUrlParameters();
 
- sdk.getData((_contentData) => {
-  console.log(_contentData);
-  sdk.setData(data);
+ sdk.getData(function(data, err) {
+  console.log(data);
  });
  getLinks();
  const classname = document.getElementsByClassName('slds-swatch');
