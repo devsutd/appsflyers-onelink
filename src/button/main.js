@@ -253,7 +253,6 @@ function getLinks() {
  $.ajax({
   url: endpoint,
   method: 'GET',
-  async: false,
   success(data) {
    if (data !== undefined) {
     listLinks(data);
@@ -284,7 +283,6 @@ function SaveDataExtensionRow() {
    $.ajax({
     url: '/sfmc/UpsertLink',
     method: 'POST',
-    async: false,
     data: link,
     success(upsertLinkData) {
      console.log(upsertLinkData);
