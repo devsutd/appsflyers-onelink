@@ -270,8 +270,8 @@ function buildDashboard(emails, from, page) {
     for (let index = 0; index < emails.length; index++) {
       const element = emails[index];
        if (element.data !== undefined) {
-        let emailCampaign = element.data.campaigns;
-        if (emailCampaign != undefined || emailCampaign.campaigns != undefined) {
+        emailCampaign = element.data.campaigns;
+        if (emailCampaign != undefined) {
           var campaign = getCampaignById(emailCampaign.campaigns[0].campaignId);
           /*
                     $.ajax({
