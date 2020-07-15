@@ -271,7 +271,7 @@ function buildDashboard(emails, from, page) {
       const element = emails[index];
        if (element.data !== undefined) {
         emailCampaign = element.data.campaigns;
-        if (emailCampaign != undefined) {
+        if (emailCampaign != undefined || Object.entries(emailCampaign).length == 0) {
           var campaign = getCampaignById(emailCampaign.campaigns[0].campaignId);
           /*
                     $.ajax({
