@@ -270,21 +270,11 @@ function buildDashboard(emails, from, page) {
     for (let index = 0; index < emails.length; index++) {
       const element = emails[index];
        if (element.data !== undefined) {
-        emailCampaign = element.data.campaigns;
-        if (emailCampaign != undefined || Object.entries(emailCampaign).length == 0) {
-          var campaign = getCampaignById(emailCampaign.campaigns[0].campaignId);
-          /*
-                    $.ajax({
-                      "url": "/sfmc/GetCampaignID",
-                      "method": "POST",
-                      "async": false,
-                      "headers": {
-                        "Content-Type": "application/json"
-                      },
-                      "data": postData,
-                    }).done(function (response) {
-                      campaign = response.body;
-                    });*/
+         if(Object.entries(element.data.campaigns).length === 0){
+          emailCampaign = element.data.campaigns;
+          if (emailCampaign != undefined) {
+            var campaign = getCampaignById(emailCampaign.campaigns[0].campaignId);
+          }
         }
       }
       let createdDate = new Date(element.createdDate);
