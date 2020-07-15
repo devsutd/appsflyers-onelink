@@ -272,7 +272,7 @@ function buildDashboard(emails, from, page) {
        if (element.data !== undefined) {
         if(element.data.campaigns != undefined) {
           emailCampaign = element.data.campaigns;
-          if (Object.entries(emailCampaign).length === 0) {
+          if (Object.entries(emailCampaign).length > 0) {
             var campaign = getCampaignById(emailCampaign.campaigns[0].campaignId);
           }
         }
