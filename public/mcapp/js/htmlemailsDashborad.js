@@ -270,9 +270,9 @@ function buildDashboard(emails, from, page) {
     for (let index = 0; index < emails.length; index++) {
       const element = emails[index];
        if (element.data !== undefined) {
-         if(Object.entries(element.data.campaigns).length === 0){
+        if(element.data.campaigns != undefined) {
           emailCampaign = element.data.campaigns;
-          if (emailCampaign != undefined) {
+          if (Object.entries(emailCampaign).length === 0) {
             var campaign = getCampaignById(emailCampaign.campaigns[0].campaignId);
           }
         }
