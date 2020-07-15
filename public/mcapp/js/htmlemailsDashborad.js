@@ -299,7 +299,7 @@ function buildDashboard(emails, from, page) {
       table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.data.email.legacy.legacyId}</div></td>`;
       table += `<td role="gridcell" colspan="2"><div class="slds-truncate" id="email${index}">${element.name}</div></td>`;
       //table += `<td role="gridcell" colspan="2"><div class="slds-truncate" ><a href="#" onclick="openAssignLinks();" id="email${index}">${element.name}</a> </div></td>`;
-      if (emailCampaign != undefined && emailCampaign.campaigns != undefined) {        
+      if (campaign != undefined && campaign != null) {        
         table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${campaign.name}</div></td>`;
       };
       table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.views.subjectline.content}</div></td>`;
