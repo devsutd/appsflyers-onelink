@@ -60,12 +60,8 @@ function buildDashboard(links, from, page) {
    table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${Campaign}</div></td>`;
    table += `<td role="gridcell" colspan="3"><div class="slds-truncate" title="${element.FullURL}">${element.FullURL}</div></td>`;
    table += '<td role="gridcell"><div class="slds-truncate" style="text-align:center;">';
-   table += '<div style="padding-left:2rem;padding-top:5rem;position:relative">';
+   table += '<span class="tooltip">Tooltip</span> ';
    table += `<a href="javascript:void(0)" aria-describedby="help">${element.ContentsCount}</a>`;
-   table += '<div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help" style="position:absolute;top:-4px;left:35px">';
-   table += '<div class="slds-popover__body">Sit nulla est ex deserunt exercitation anim occaecat. Nostrud ullamco deserunt aute id consequat veniam incididunt duis in sint irure nisi.</div>';
-   table += '</div>';
-   table += '</div>';
    table += '</div></td>';
    table += `<td role="gridcell"><div class="slds-truncate" >${element.Created}</div></td>`;
    table += `<td role="gridcell"><div class="slds-truncate" >${element.Modified}</div></td>`;
