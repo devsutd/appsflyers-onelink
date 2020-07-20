@@ -59,8 +59,8 @@ function buildDashboard(links, from, page) {
    table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.LinkName}</div></td>`;
    table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${Campaign}</div></td>`;
    table += `<td role="gridcell" colspan="3"><div class="slds-truncate" title="${element.FullURL}">${element.FullURL}</div></td>`;
-   table += '<td role="gridcell"><div class="slds-truncate" style="text-align:center;">';
-   table += '<span class="tooltip">Tooltip</span> ';
+   table += `<td role="gridcell"><div id="count-${element.LinkID}" class="trigger-count slds-truncate" style="text-align:center;">`;
+   table += `<span id="tooltipcount-${element.LinkID}" class="tooltipcount">Email 1</span>`;
    table += `<a href="javascript:void(0)" aria-describedby="help">${element.ContentsCount}</a>`;
    table += '</div></td>';
    table += `<td role="gridcell"><div class="slds-truncate" >${element.Created}</div></td>`;
@@ -263,6 +263,17 @@ function ready() {
   link = link.replace('{1}', $('#rt').val());
   window.location.href = link;
  });
+
+
+   $('.tooltipcount').hover(
+    () => {
+     console.log('tooltip!');
+     $(this).addClass('tooltip');
+    },
+    function() {
+     $(this).removeClass('tooltip');
+    },
+   );
 }
 
 function replaceUrlTOkens(token) {
