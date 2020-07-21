@@ -155,18 +155,16 @@ exports.refreshToken = (refresh_token) =>
     },
    },
    (err, response, body) => {
-    console.log(err);
-    console.log(response);
-    console.log(body);
+
     if (err) {
-      console.log("refresh token error");
-      return reject(JSON.stringify(err));
+     console.log("refresh token error");
+     return reject(JSON.stringify(err));
     }
 
     if (body.error) {
-      console.log("refresh token body error");
-      console.log(body.error);
-      return reject(JSON.stringify(body.error));
+     console.log("refresh token body error");
+     console.log(body.error);
+     return reject(JSON.stringify(body.error));
     }
 
     return resolve(body);
@@ -460,6 +458,41 @@ exports.getTokenRows = (req, resp) => {
     enterpriseId: req.body.enterpriseId,
    };
    return resp(null, r1);
+  });
+ });
+};
+
+
+
+exports.getAllEmailsWithOneLinks = (req, resp) => {
+ this.createSoapClient(req.body.refresh_token, (e, response) => {
+  if (e) {
+   return resp.status(500).end(e);
+  }
+
+  const requestObject = {
+   RetrieveRequest: {
+    ClientIDs: {
+     ClientID: req.body.eid,
+    },
+    ObjectType: `DataExtensionObject[${process.env.EmailsWithOneLinks}]`,
+    Properties: ["LinkID", "EmailID", "EmailName", "Count"],
+   },
+  };
+
+  response.client.Retrieve(requestObject, (err, res) => {
+   if (err) {
+    console.error("ERROR DETAILS: ", err);
+    return resp.status(400).send(err);
+   }
+   const r1 = {
+    OverallStatus: res.OverallStatus,
+    length: res.Results !== undefined ? res.Results.length : 0,
+    body: res.Results || [],
+    refresh_token: response.refresh_token,
+    enterpriseId: req.body.enterpriseId,
+   };
+   return resp.status(200).send(r1);
   });
  });
 };
