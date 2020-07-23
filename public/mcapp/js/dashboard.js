@@ -298,6 +298,8 @@ function replaceUrlTOkens(token) {
 }
 
 function getAllEmailsWithOneLinks(){
+    const url = '/getAllEmailsWithOneLinks';
+
     urlParams = {
         refresh_token: $('#rt').val(),
         enterpriseId: $('#eid').val()
