@@ -298,7 +298,7 @@ function replaceUrlTOkens(token) {
 }
 
 function getAllEmailsWithOneLinks(){
-    const url = '/getAllEmailsWithOneLinks';
+    const url = 'sfmcHelper/getAllEmailsWithOneLinks';
 
     urlParams = {
         refresh_token: $('#rt').val(),
