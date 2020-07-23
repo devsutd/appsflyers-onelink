@@ -302,7 +302,7 @@ function getAllEmailsWithOneLinks(){
 
     urlParams = {
         refresh_token: $('#rt').val(),
-        enterpriseId: $('#eid').val()
+        eid: $('#eid').val()
     };
      
     $.ajax({
