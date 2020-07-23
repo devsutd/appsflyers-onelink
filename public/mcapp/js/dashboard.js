@@ -110,6 +110,7 @@ function buildDashboard(links, from, page) {
 
  $('#dashboard-table').empty();
  $('#dashboard-table').html(table);
+ getAllEmailsWithOneLinks();
 
  ready();
 
@@ -295,6 +296,33 @@ function replaceUrlTOkens(token) {
  $('#DashboardLink')[0].href = '/Dashboard/home?rt=' + token + '&eid=' + $('#eid').val();
  console.log($('#htmlemailsLink')[0].href);
 }
+
+function getAllEmailsWithOneLinks(){
+    urlParams = {
+        refresh_token: $('#rt').val(),
+        enterpriseId: $('#eid').val()
+    };
+     
+    $.ajax({
+        url,
+        method: 'POST',
+        async: false,
+        data: urlParams,
+        success: (data) => {
+            console.log(data)
+            $('#rt').val(data.refresh_token);
+            $('#eid').val(data.enterpriseId);
+            replaceUrlTOkens($('#rt').val());
+            
+       },
+       error(jqXHR, error, errorThrown) {
+        console.log(error);
+        console.log(errorThrown);
+        console.log(jqXHR);
+       },
+    });
+}
+
 $(document).ready(() => {
  const urlParams = getUrlParameters();
  $('#rt').val(urlParams.refresh_token);
