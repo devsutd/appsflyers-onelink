@@ -298,7 +298,7 @@ function replaceUrlTOkens(token) {
 }
 
 function getAllEmailsWithOneLinks(){
-    const url = 'sfmcHelper/getAllEmailsWithOneLinks';
+    const url = 'https://appsflyers-onelink-dev.herokuapp.com/sfmcHelper/getAllEmailsWithOneLinks';
 
     urlParams = {
         refresh_token: $('#rt').val(),
