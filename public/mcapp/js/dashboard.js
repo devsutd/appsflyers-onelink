@@ -316,7 +316,7 @@ function getAllEmailsWithOneLinks(){
             console.log(data)
             $('#rt').val(data.refresh_token);
             replaceUrlTOkens($('#rt').val());
-            
+            return data;
        },
        error(jqXHR, error, errorThrown) {
         console.log(error);
