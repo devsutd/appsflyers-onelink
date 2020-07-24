@@ -315,7 +315,6 @@ function getAllEmailsWithOneLinks(){
         success: (data) => {
             console.log(data)
             $('#rt').val(data.refresh_token);
-            $('#eid').val(data.enterpriseId);
             replaceUrlTOkens($('#rt').val());
             
        },
