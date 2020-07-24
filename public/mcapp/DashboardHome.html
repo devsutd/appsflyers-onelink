@@ -63,7 +63,7 @@
                                                     <input id="lookup" onkeyup="filter()" class="slds-input" type="text"
                                                         aria-haspopup="true" aria-autocomplete="listbox" role="combobox"
                                                         aria-activedescendant="" />                                                          
-                                                    <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick="loadDashboards(false, 'filtered', 1)" title="Search">
+                                                    <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick="getAllEmailsWithOneLinks(false, 'filtered', 1)" title="Search">
                                                         <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default"
                                                             aria-hidden="true">
                                                             <use xlink:href="/mcapp/images/symbols.svg#search">
@@ -101,7 +101,7 @@
         function filter() {
             inp = $('#lookup').val();
             if(inp == '') {
-                loadDashboards(false, 'filtered', 1);
+                getAllEmailsWithOneLinks(false, 'filtered', 1);
             }
         }
     </script>

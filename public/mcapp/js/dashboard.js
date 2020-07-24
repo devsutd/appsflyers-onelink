@@ -25,8 +25,6 @@ function getCampaign(element) {
 }
 
 function buildDashboard(links, from, page) {
- let emailswithonelink = getAllEmailsWithOneLinks();
-
  let table = '<div class="slds-lookup" data-select="multi" data-scope="single" data-typeahead="true">';
  table += '<table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered slds-table_fixed-layout" role="grid" >';
 
@@ -174,7 +172,8 @@ function buildPaginator(allLinks) {
   totalPages: totalPages,
   visiblePages: 5,
   onPageClick: function(event, page) {
-   loadDashboards(params, "paginator", page);
+   let from = "paginator";
+   getAllEmailsWithOneLinks(params, "paginator", page);
   }
  });
 }
@@ -299,7 +298,7 @@ function replaceUrlTOkens(token) {
  console.log($('#htmlemailsLink')[0].href);
 }
 
-function getAllEmailsWithOneLinks(){
+function getAllEmailsWithOneLinks(params, from, page){
     const url = 'https://appsflyers-onelink-dev.herokuapp.com/sfmcHelper/getAllEmailsWithOneLinks';
 
     urlParams = {
@@ -313,10 +312,15 @@ function getAllEmailsWithOneLinks(){
         async: false,
         data: urlParams,
         success: (data) => {
-            console.log(data)
+            emailswithonelink = data;
             $('#rt').val(data.refresh_token);
             replaceUrlTOkens($('#rt').val());
-            return data;
+            urlParams = {
+                refresh_token: $('#rt').val(),
+                eid: $('#eid').val()
+            };
+
+            loadDashboards(urlParams, from, page);
        },
        error(jqXHR, error, errorThrown) {
         console.log(error);
@@ -344,10 +348,12 @@ function getAllEmailsWithOneLinksByLinkID(rows, currentLinkId){
 }
 
 $(document).ready(() => {
+ let emailswithonelink;
  const urlParams = getUrlParameters();
+ 
  $('#rt').val(urlParams.refresh_token);
  $('#eid').val(urlParams.enterpriseId);
- replaceUrlTOkens(urlParams.refresh_token)
+ replaceUrlTOkens(urlParams.refresh_token);
  loadDashboards(urlParams, "init", 1);
 
  ready();
