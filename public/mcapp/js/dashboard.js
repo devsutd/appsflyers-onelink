@@ -25,6 +25,8 @@ function getCampaign(element) {
 }
 
 function buildDashboard(links, from, page) {
+ let emailswithonelink = getAllEmailsWithOneLinks();
+
  let table = '<div class="slds-lookup" data-select="multi" data-scope="single" data-typeahead="true">';
  table += '<table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered slds-table_fixed-layout" role="grid" >';
 
@@ -53,6 +55,7 @@ function buildDashboard(links, from, page) {
   for (let index = 0; index < links.length; index++) {
    const element = links[index];
    var Campaign = getCampaign(element);
+   var contentCount = getAllEmailsWithOneLinksByLinkID(emailswithonelink.body, element.LinkID);
 
    table += '<tr>';
 
@@ -110,7 +113,6 @@ function buildDashboard(links, from, page) {
 
  $('#dashboard-table').empty();
  $('#dashboard-table').html(table);
- getAllEmailsWithOneLinks();
 
  ready();
 
@@ -323,6 +325,23 @@ function getAllEmailsWithOneLinks(){
         console.log(jqXHR);
        },
     });
+}
+
+function getAllEmailsWithOneLinksByLinkID(rows, currentLinkId){
+    let numberofcontents = 0;
+    for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        let linkID = row.Properties.Property[0].Value;
+        let emailID = row.Properties.Property[1].Value;
+        let emailName = row.Properties.Property[2].Value;
+        let count = row.Properties.Property[3].Value;
+
+        if(currentLinkId == linkID){
+            numberofcontents = numberofcontents + count;
+        }
+    }
+
+    return numberofcontents;
 }
 
 $(document).ready(() => {
