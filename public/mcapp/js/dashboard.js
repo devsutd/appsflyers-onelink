@@ -65,7 +65,7 @@ function buildDashboard(links, from, page) {
    table += '<a href="javascript:void(0)" aria-describedby="help">';
    table += `<span class="slds-icon_container slds-icon-utility-info">${objectCount.count}</span>`;
    table += '</a>';
-   table += '<div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help" style="position:absolute;top:-4px;left:15px">';
+   table += '<div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help" style="position:fixed;top:338px;right:235px">';
    table += '<div class="slds-popover__body">'
    for (let j = 0; j < objectCount.emails.length; j++) {
     table += objectCount.emails[j] + '<br>';
