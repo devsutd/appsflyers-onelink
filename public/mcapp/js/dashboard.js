@@ -63,9 +63,7 @@ function buildDashboard(links, from, page) {
    table += `<td role="gridcell" colspan="3"><div class="slds-truncate" title="${element.FullURL}">${element.FullURL}</div></td>`;
    table += `<td role="gridcell"><div id="count-${element.LinkID}" style="text-align:center;">`;
    table += '<div class="tooltipcount-trigger"  style="position:relative">';
-   table += '<a href="javascript:void(0)" aria-describedby="help">';
-   table += `<span class="slds-icon_container slds-icon-utility-info">${objectCount.count}</span>`;
-   table += '</a>';
+
    if(objectCount.count > 0) {
     table += '<div class="tooltipcount slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help" style="position:fixed;top:' + top + 'px;right:395px; display:none;">';
     table += '<div class="slds-popover__body">'
@@ -80,6 +78,9 @@ function buildDashboard(links, from, page) {
     table += '</div>';
     table += '</div>';
    }
+   table += '<a href="javascript:void(0)" aria-describedby="help">';
+   table += `<span class="slds-icon_container slds-icon-utility-info">${objectCount.count}</span>`;
+   table += '</a>';
    table += '</div></div></td>';
    table += `<td role="gridcell"><div class="slds-truncate" >${element.Created}</div></td>`;
    table += `<td role="gridcell"><div class="slds-truncate" >${element.Modified}</div></td>`;
