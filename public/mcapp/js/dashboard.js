@@ -61,21 +61,22 @@ function buildDashboard(links, from, page) {
    table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.LinkName}</div></td>`;
    table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${Campaign}</div></td>`;
    table += `<td role="gridcell" colspan="3"><div class="slds-truncate" title="${element.FullURL}">${element.FullURL}</div></td>`;
-   table += `<td role="gridcell"><div id="count-${element.LinkID}" class="tooltipcount trigger-count slds-truncate" style="text-align:center;">`;
+   table += `<td role="gridcell"><div id="count-${element.LinkID}" class="tooltipcount-trigger trigger-count slds-truncate" style="text-align:center;">`;
    table += '<div style="position:relative">';
    table += '<a href="javascript:void(0)" aria-describedby="help">';
    table += `<span class="slds-icon_container slds-icon-utility-info">${objectCount.count}</span>`;
    table += '</a>';
    if(objectCount.count > 0) {
-    table += '<div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help" style="position:fixed;top:' + top + 'px;right:395px; display:none;">';
+    table += '<div class="tooltipcount slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help" style="position:fixed;top:' + top + 'px;right:395px; display:none;">';
     table += '<div class="slds-popover__body">'
     for (let j = 0; j < objectCount.emails.length; j++) {
-     table += objectCount.emails[j] + '<br>';
+        if(j == 5) {
+            table += '<div class="slds-m-top_x-small" aria-hidden="true"><a href="#">See more</a></div>';
+            break;
+        }
+        else 
+            table += objectCount.emails[j] + '<br>';
     }
-    table += '<div class="slds-m-top_x-small" aria-hidden="true">Click';
-    table += '<span class="slds-assistive-text">Help</span>';
-    table += '</span> to learn more.</div>';
-    table += '</div>';
     table += '</div>';
     table += '</div>';
    }
@@ -244,6 +245,7 @@ function ready() {
   console.log($(this));
   $(this).addClass('slds-is-open');
  });
+
  $('.edit').hover(
   () => {
    console.log('.edit');
@@ -253,14 +255,7 @@ function ready() {
    $(this).parent().removeClass('slds-is-open');
   },
  );
- /* $('.slds-dropdown').hover(
-     function () {
-         $(this).addClass('slds-is-open');
-     },
-     function () {
-         $(this).removeClass('slds-is-open');
-     },
- ); */
+ 
  $('#btn-create').on('click', (e) => {
   e.preventDefault();
   console.log($('#eid').val());
@@ -283,15 +278,14 @@ function ready() {
  });
 
 
-   $('.tooltipcount').hover(
-    () => {
-     console.log('tooltip!');
-     $(this).addClass('tooltip');
-    },
-    function() {
-     $(this).removeClass('tooltip');
-    },
-   );
+ $('.tooltipcount-trigger').hover(
+  () => {
+    $(this).find('.tooltipcount').show();
+  },
+  function() {
+    $(this).find('.tooltipcount').hide();
+  },
+ );
 }
 
 function replaceUrlTOkens(token) {
