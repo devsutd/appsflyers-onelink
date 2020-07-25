@@ -808,3 +808,7 @@ html {
       border-bottom-color: rgb(222, 226, 230);
       border-left-color: rgb(222, 226, 230);
 }
+
+.slds-nubbin--bottom-left::after, .slds-nubbin--bottom-left::before, .slds-nubbin_bottom-left::after, .slds-nubbin_bottom-left::before {
+  display:none;
+}
