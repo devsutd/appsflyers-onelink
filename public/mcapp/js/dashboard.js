@@ -61,8 +61,8 @@ function buildDashboard(links, from, page) {
    table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.LinkName}</div></td>`;
    table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${Campaign}</div></td>`;
    table += `<td role="gridcell" colspan="3"><div class="slds-truncate" title="${element.FullURL}">${element.FullURL}</div></td>`;
-   table += `<td role="gridcell"><div id="count-${element.LinkID}" class="tooltipcount-trigger" style="text-align:center;">`;
-   table += '<div style="position:relative">';
+   table += `<td role="gridcell"><div id="count-${element.LinkID}" style="text-align:center;">`;
+   table += '<div class="tooltipcount-trigger"  style="position:relative">';
    table += '<a href="javascript:void(0)" aria-describedby="help">';
    table += `<span class="slds-icon_container slds-icon-utility-info">${objectCount.count}</span>`;
    table += '</a>';
@@ -276,7 +276,6 @@ function ready() {
   link = link.replace('{1}', $('#rt').val());
   window.location.href = link;
  });
-
 
  $('.tooltipcount-trigger').hover(
   () => {
