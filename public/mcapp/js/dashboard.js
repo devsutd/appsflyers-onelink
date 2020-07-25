@@ -61,7 +61,7 @@ function buildDashboard(links, from, page) {
    table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.LinkName}</div></td>`;
    table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${Campaign}</div></td>`;
    table += `<td role="gridcell" colspan="3"><div class="slds-truncate" title="${element.FullURL}">${element.FullURL}</div></td>`;
-   table += `<td role="gridcell"><div id="count-${element.LinkID}" class="tooltipcount-trigger trigger-count slds-truncate" style="text-align:center;">`;
+   table += `<td role="gridcell"><div id="count-${element.LinkID}" class="tooltipcount-trigger" style="text-align:center;">`;
    table += '<div style="position:relative">';
    table += '<a href="javascript:void(0)" aria-describedby="help">';
    table += `<span class="slds-icon_container slds-icon-utility-info">${objectCount.count}</span>`;
@@ -70,7 +70,7 @@ function buildDashboard(links, from, page) {
     table += '<div class="tooltipcount slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help" style="position:fixed;top:' + top + 'px;right:395px; display:none;">';
     table += '<div class="slds-popover__body">'
     for (let j = 0; j < objectCount.emails.length; j++) {
-        if(j == 5) {
+        if(j == 4) {
             table += '<div class="slds-m-top_x-small" aria-hidden="true"><a href="#">See more</a></div>';
             break;
         }
