@@ -61,11 +61,11 @@ function buildDashboard(links, from, page) {
    table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${Campaign}</div></td>`;
    table += `<td role="gridcell" colspan="3"><div class="slds-truncate" title="${element.FullURL}">${element.FullURL}</div></td>`;
    table += `<td role="gridcell"><div id="count-${element.LinkID}" class="tooltipcount trigger-count slds-truncate" style="text-align:center;">`;
-   table += '<div style="padding-left:2rem;padding-top:6.75rem;position:relative">';
+   table += '<div style="position:relative">';
    table += '<a href="javascript:void(0)" aria-describedby="help">';
    table += `<span class="slds-icon_container slds-icon-utility-info">${objectCount.count}</span>`;
    table += '</a>';
-   table += '<div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help" style="position:fixed;top:338px;right:235px">';
+   table += '<div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help" style="position:fixed;top:280px;right:350px">';
    table += '<div class="slds-popover__body">'
    for (let j = 0; j < objectCount.emails.length; j++) {
     table += objectCount.emails[j] + '<br>';
