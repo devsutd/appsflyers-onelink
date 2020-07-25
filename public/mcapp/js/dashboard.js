@@ -68,7 +68,7 @@ function buildDashboard(links, from, page) {
    table += '<div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help" style="position:absolute;top:-4px;left:15px">';
    table += '<div class="slds-popover__body">'
    for (let j = 0; j < objectCount.emails.length; j++) {
-    table += objectCount.emails[j].emailName + '<br>';
+    table += objectCount.emails[j] + '<br>';
    }
    table += '<div class="slds-m-top_x-small" aria-hidden="true">Click';
    table += '<span class="slds-icon_container slds-icon-utility-info" title="Help">';
