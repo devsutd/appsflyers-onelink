@@ -279,10 +279,10 @@ function ready() {
 
  $('.tooltipcount-trigger').hover(
   () => {
-    $(this).find('.tooltipcount').show();
+    $(this)[0].$.find(".tooltipcount")[0].attr("display","block");
   },
   function() {
-    $(this).find('.tooltipcount').hide();
+    $(this)[0].$.find(".tooltipcount")[0].attr("display","none");
   },
  );
 }
