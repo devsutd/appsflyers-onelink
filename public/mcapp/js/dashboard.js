@@ -80,7 +80,7 @@ function buildDashboard(links, from, page) {
     table += '</div>';
     table += '</div>';
    }
-   table += '</div></td>';
+   table += '</div></div></td>';
    table += `<td role="gridcell"><div class="slds-truncate" >${element.Created}</div></td>`;
    table += `<td role="gridcell"><div class="slds-truncate" >${element.Modified}</div></td>`;
    table += '<td>';
