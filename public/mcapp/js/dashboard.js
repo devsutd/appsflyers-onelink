@@ -54,6 +54,7 @@ function buildDashboard(links, from, page) {
    const element = links[index];
    var Campaign = getCampaign(element);
    var objectCount = getAllEmailsWithOneLinksByLinkID(emailswithonelink.body, element.LinkID);
+   var top = parseInt(index*50);
 
    table += '<tr>';
 
@@ -65,21 +66,19 @@ function buildDashboard(links, from, page) {
    table += '<a href="javascript:void(0)" aria-describedby="help">';
    table += `<span class="slds-icon_container slds-icon-utility-info">${objectCount.count}</span>`;
    table += '</a>';
-   table += '<div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help" style="position:fixed;top:280px;right:350px">';
-   table += '<div class="slds-popover__body">'
-   for (let j = 0; j < objectCount.emails.length; j++) {
-    table += objectCount.emails[j] + '<br>';
+   if(objectCount.count > 0) {
+    table += '<div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help" style="position:fixed;top:' + top + 'px;right:395px; display:none;">';
+    table += '<div class="slds-popover__body">'
+    for (let j = 0; j < objectCount.emails.length; j++) {
+     table += objectCount.emails[j] + '<br>';
+    }
+    table += '<div class="slds-m-top_x-small" aria-hidden="true">Click';
+    table += '<span class="slds-assistive-text">Help</span>';
+    table += '</span> to learn more.</div>';
+    table += '</div>';
+    table += '</div>';
+    table += '</div>';
    }
-   table += '<div class="slds-m-top_x-small" aria-hidden="true">Click';
-   table += '<span class="slds-icon_container slds-icon-utility-info" title="Help">';
-   table += '<svg class="slds-icon slds-icon slds-icon_xx-small" aria-hidden="true">';
-   table += '<use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#info"></use>';
-   table += '</svg>';
-   table += '<span class="slds-assistive-text">Help</span>';
-   table += '</span> to learn more.</div>';
-   table += '</div>';
-   table += '</div>';
-   table += '</div>';
    table += '</div></td>';
    table += `<td role="gridcell"><div class="slds-truncate" >${element.Created}</div></td>`;
    table += `<td role="gridcell"><div class="slds-truncate" >${element.Modified}</div></td>`;
