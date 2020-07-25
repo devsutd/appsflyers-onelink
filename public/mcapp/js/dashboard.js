@@ -53,7 +53,7 @@ function buildDashboard(links, from, page) {
   for (let index = 0; index < links.length; index++) {
    const element = links[index];
    var Campaign = getCampaign(element);
-   var contentCount = getAllEmailsWithOneLinksByLinkID(emailswithonelink.body, element.LinkID);
+   var objectCount = getAllEmailsWithOneLinksByLinkID(emailswithonelink.body, element.LinkID);
 
    table += '<tr>';
 
@@ -63,7 +63,7 @@ function buildDashboard(links, from, page) {
    table += `<td role="gridcell"><div id="count-${element.LinkID}" class="tooltipcount trigger-count slds-truncate" style="text-align:center;">`;
    table += '<div style="padding-left:2rem;padding-top:6.75rem;position:relative">';
    table += '<a href="javascript:void(0)" aria-describedby="help">';
-   table += `<span class="slds-icon_container slds-icon-utility-info">${element.ContentsCount}</span>`;
+   table += `<span class="slds-icon_container slds-icon-utility-info">${objectCount.count}</span>`;
    table += '</a>';
    table += '<div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help" style="position:absolute;top:-4px;left:15px">';
    table += '<div class="slds-popover__body">Sit nulla est ex deserunt exercitation anim occaecat. Nostrud ullamco deserunt aute id consequat veniam incididunt duis in sint irure nisi.';
@@ -332,6 +332,7 @@ function getAllEmailsWithOneLinks(params, from, page){
 
 function getAllEmailsWithOneLinksByLinkID(rows, currentLinkId){
     let numberofcontents = 0;
+    let emailArray = [];
     for (let i = 0; i < rows.length; i++) {
         const row = rows[i];
         let linkID = row.Properties.Property[0].Value;
@@ -341,10 +342,16 @@ function getAllEmailsWithOneLinksByLinkID(rows, currentLinkId){
 
         if(currentLinkId == linkID){
             numberofcontents = numberofcontents + parseInt(count);
+            emailArray.push(emailName);
         }
     }
 
-    return numberofcontents;
+    let objectCount = {
+        count: numberofcontents,
+        emails: emailArray
+    }
+
+    return objectCount;
 }
 
 $(document).ready(() => {
