@@ -340,7 +340,7 @@ function getAllEmailsWithOneLinksByLinkID(rows, currentLinkId){
         let count = row.Properties.Property[3].Value;
 
         if(currentLinkId == linkID){
-            numberofcontents = numberofcontents + count;
+            numberofcontents = numberofcontents + parseInt(count);
         }
     }
 
