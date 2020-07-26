@@ -338,7 +338,7 @@ function getAllEmailsWithOneLinksByLinkID(rows, currentLinkId){
 
         if(currentLinkId == linkID){
             numberofcontents = numberofcontents + parseInt(count);
-            emailArray.push(emailName);
+            emailArray.push(emailName + "(" + count + ")");
         }
     }
 
