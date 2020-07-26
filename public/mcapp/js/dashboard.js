@@ -54,7 +54,11 @@ function buildDashboard(links, from, page) {
    const element = links[index];
    var Campaign = getCampaign(element);
    var objectCount = getAllEmailsWithOneLinksByLinkID(emailswithonelink.body, element.LinkID);
-   var top = parseInt(index*50);
+   if(i == 0)
+    var top = 65;
+   else 
+    var top = top - 25;
+
 
    table += '<tr>';
 
@@ -65,7 +69,7 @@ function buildDashboard(links, from, page) {
    table += '<div class="tooltipcount-trigger"  style="position:relative">';
 
    if(objectCount.count > 0) {
-    table += `<div class="tooltipcount slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="tooltipcount-${element.LinkID}" style="position:fixed;top:${top}px;right:395px; display:none;">`;
+    table += `<div class="tooltipcount slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="tooltipcount-${element.LinkID}" style="position:fixed;top:${top}%;right:25%; display:none;">`;
     table += '<div class="slds-popover__body">'
     for (let j = 0; j < objectCount.emails.length; j++) {
         if(j == 5) {
