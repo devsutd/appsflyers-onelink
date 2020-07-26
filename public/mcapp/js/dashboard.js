@@ -61,11 +61,11 @@ function buildDashboard(links, from, page) {
    table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${element.LinkName}</div></td>`;
    table += `<td role="gridcell" colspan="2"><div class="slds-truncate" >${Campaign}</div></td>`;
    table += `<td role="gridcell" colspan="3"><div class="slds-truncate" title="${element.FullURL}">${element.FullURL}</div></td>`;
-   table += `<td role="gridcell"><div id="count-${element.LinkID}" style="text-align:center;">`;
+   table += `<td role="gridcell"><div id="count|${element.LinkID}" style="text-align:center;">`;
    table += '<div class="tooltipcount-trigger"  style="position:relative">';
 
    if(objectCount.count > 0) {
-    table += '<div class="tooltipcount slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="help" style="position:fixed;top:' + top + 'px;right:395px; display:none;">';
+    table += `<div class="tooltipcount slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="tooltipcount-${element.LinkID}" style="position:fixed;top:${top}px;right:395px; display:none;">`;
     table += '<div class="slds-popover__body">'
     for (let j = 0; j < objectCount.emails.length; j++) {
         if(j == 5) {
@@ -280,10 +280,16 @@ function ready() {
 
  $('.tooltipcount-trigger').hover(
   () => {
-    $(this)[0].$.find(".tooltipcount")[0].attr("display","block");
+    let parentNode = $(".tooltipcount-trigger")[0].parentNode.id;
+    let parentNodeSplitted = parentNode.split("|");
+    let id = parentNodeSplitted[1];
+    $("tooltipcount-" + id).show();
   },
   function() {
-    $(this)[0].$.find(".tooltipcount")[0].attr("display","none");
+    let parentNode = $(".tooltipcount-trigger")[0].parentNode.id;
+    let parentNodeSplitted = parentNode.split("|");
+    let id = parentNodeSplitted[1];
+    $("tooltipcount-" + id).hide();
   },
  );
 }
