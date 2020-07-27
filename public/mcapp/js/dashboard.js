@@ -50,14 +50,15 @@ function buildDashboard(links, from, page) {
    $("#currentDashboard").val(currentDashboard + 15);
   }
 
+  var top;
   for (let index = 0; index < links.length; index++) {
    const element = links[index];
    var Campaign = getCampaign(element);
    var objectCount = getAllEmailsWithOneLinksByLinkID(emailswithonelink.body, element.LinkID);
-   if(i == 0)
-    var top = 65;
+   if(index == 0)
+    top = 65;
    else 
-    var top = top - 25;
+    top = top - 25;
 
 
    table += '<tr>';
