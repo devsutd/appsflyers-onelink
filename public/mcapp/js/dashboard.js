@@ -284,17 +284,12 @@ function ready() {
  });
 
  $('.tooltipcount-trigger').hover(function() {
-    console.log($(".tooltipcount", this));
-    let parentNode = $(".tooltipcount-trigger")[0].parentNode.id;
-    let parentNodeSplitted = parentNode.split("|");
-    let id = parentNodeSplitted[1];
-    $("#tooltipcount-" + id).show();
+    let tooltipId = $(".tooltipcount", this)[0].id;
+    $("#" + tooltipId).show();
  },
   function() {
-    let parentNode = $(".tooltipcount-trigger")[0].parentNode.id;
-    let parentNodeSplitted = parentNode.split("|");
-    let id = parentNodeSplitted[1];
-    $("#tooltipcount-" + id).hide();
+    let tooltipId = $(".tooltipcount", this)[0].id;
+    $("#" + tooltipId).hide();
   },
  );
 }
