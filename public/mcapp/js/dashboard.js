@@ -74,7 +74,7 @@ function buildDashboard(links, from, page) {
     table += '<div class="slds-popover__body">'
     for (let j = 0; j < objectCount.emails.length; j++) {
         if(j == 5) {
-            table += `<div class="slds-m-top_x-small" aria-hidden="true"><a href="openEmailDetailsModal(${element.LinkID})">See more</a></div>`;
+            table += `<div class="slds-m-top_x-small" aria-hidden="true"><a href="#" onclick="openEmailDetailsModal(${element.LinkID})">See more</a></div>`;
             break;
         }
         else 
@@ -366,6 +366,11 @@ function openEmailDetailsModal(linkId){
         var p = '<p>' + objectEmails.emails[i] +'</p><br>';
         modal.append(p);
     }
+}
+
+function closeModal(){
+    $("#emaildetails").removeClass("slds-fade-in-open");
+    $("#background-modals-emaildetails").removeClass("slds-backdrop_open");
 }
 
 
