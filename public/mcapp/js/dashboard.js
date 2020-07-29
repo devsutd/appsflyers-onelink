@@ -74,7 +74,7 @@ function buildDashboard(links, from, page) {
     table += '<div class="slds-popover__body">'
     for (let j = 0; j < objectCount.emails.length; j++) {
         if(j == 5) {
-            table += `<div class="slds-m-top_x-small" aria-hidden="true"><a href="#" onclick="openEmailDetailsModal(${element.LinkID})">See more</a></div>`;
+            table += `<div class="slds-m-top_x-small" aria-hidden="true"><a href="#" onclick="openEmailDetailsModal('${element.LinkID}')">See more</a></div>`;
             break;
         }
         else 
