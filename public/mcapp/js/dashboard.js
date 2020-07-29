@@ -366,6 +366,7 @@ function openEmailDetailsModal(linkId){
         var p = '<p>' + objectEmails.emails[i] +'</p><br>';
         modal.append(p);
     }
+}
 
 
 $(document).ready(() => {
