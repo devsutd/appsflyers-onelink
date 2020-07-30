@@ -533,6 +533,94 @@ function buildEmailSlot(emailforslot, length) {
  }
 }
 
+function getAllEmailsWithOneLinks(emailUpdated){
+  const url = 'https://appsflyers-onelink-dev.herokuapp.com/sfmcHelper/getAllEmailsWithOneLinks';
+
+  urlParams = {
+      refresh_token: $('#rt').val(),
+      eid: $('#eid').val()
+  };
+   
+  $.ajax({
+      url,
+      method: 'POST',
+      async: false,
+      data: urlParams,
+      success: (data) => {
+        $('#rt').val(data.refresh_token);
+        emailswithonelink = data.body;
+        UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink);
+     },
+     error(jqXHR, error, errorThrown) {
+      console.log(error);
+      console.log(errorThrown);
+      console.log(jqXHR);
+     },
+  });
+}
+
+function UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink) {
+
+  let count = emailswithonelink.find(x => x.Properties.Property[1].Value === emailUpdated.EmailID && row.Properties.Property[0].Value === emailUpdated.OneLinkID).Properties.Property[3].Value;
+
+  const UpdateRequest = {
+    Options: {
+    SaveOptions: {
+      SaveOption: {
+      PropertyName: "DataExtensionObject",
+      SaveAction: "UpdateAdd",
+      },
+    },
+    },
+    Objects: [],
+  };
+
+  UpdateRequest.Objects.push({
+    attributes: {
+      "xsi:type": "DataExtensionObject",
+    },
+    CustomerKey: process.env.EmailsWithOneLinks,
+    Keys: [{
+      Key: [{
+        Name: "LinkID",
+        Value: data.LinkID,
+        },
+        {
+        Name: "EmailID",
+        Value: data.EmailID,
+        },
+      ],
+    }],
+    Properties: [{
+      Property: [{
+        Name: "EmailName",
+        Value: data.EmailName,
+        },
+        {
+        Name: "Count",
+        Value: count + 1,
+        },
+      ],
+    }],
+  });
+
+  const upsertRequest = {
+    refresh_token: $('#rt').val(),
+    UpdateRequest: UpdateRequest
+  };
+
+  $.ajax({
+    url: '/sfmc/UpsertEmailsWithOneLinks',
+    method: 'POST',
+    async: false,
+    data: upsertRequest,
+    success(response) {
+     $("#rt").val(response.refresh_token);
+     console.log(response);
+    },
+  });
+}
+
 function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, onelinkurl) {
 
  var date = new Date().toISOString();
@@ -555,6 +643,7 @@ function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, on
   data: data,
   success(upsertHTMLLogData) {
    $("#rt").val(upsertHTMLLogData.refresh_token);
+   getAllEmailsWithOneLinks(data);
    console.log(upsertHTMLLogData);
   },
  });
