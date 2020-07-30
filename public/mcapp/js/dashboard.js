@@ -357,7 +357,7 @@ function getAllEmailsWithOneLinksByLinkID(rows, currentLinkId){
 }
 
 function openEmailDetailsModal(linkId){
-    $("#emaildetails").addClass("slds-fade-in-open");
+    $("#emaildetails-modal").addClass("slds-fade-in-open");
     $("#background-modals-emaildetails").addClass("slds-backdrop_open");
     var modal = $("#emaildetails");
     
