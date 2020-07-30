@@ -673,17 +673,12 @@ exports.UpsertLogHTMLEmailLinks = (req, resp) => {
   sfmcHelper
    .upsertDataextensionRow(response.client, UpdateRequest)
    .then((body) => {
-    console.log(body);
-    if (body.StatusCode !== undefined) {
      const r1 = {
       refresh_token: response.refresh_token,
       Status: body.StatusCode[0],
       Body: body,
      };
      return resp.send(200, r1);
-    }
-
-    return resp.send(200, body);
    })
    .catch((err) => resp.send(400, err));
  });
