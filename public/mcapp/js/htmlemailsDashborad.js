@@ -256,7 +256,7 @@ function buildDashboard(emails, from, page) {
 
  table += '<tr>';
 
- table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>&nbsp;</b></td>';
+ table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="1"><b><input id="selectall" type="checkbox" name="selectall"></b></td>';
  table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>Email ID</b></td>';
  table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>Email Name</b></td>';
  table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>Campaign</b></td>';
@@ -574,4 +574,8 @@ $(document).ready(() => {
  replaceUrlTOkens($('#rt').val());
 
  loadHtmlEmails(urlParams, "init", 1);
+
+ $("#selectall").click(function() {
+    $(':checkbox').prop('checked', this.checked);
+ });
 });
