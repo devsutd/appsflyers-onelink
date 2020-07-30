@@ -256,7 +256,7 @@ function buildDashboard(emails, from, page) {
 
  table += '<tr>';
 
- table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>&nbsp;</b></td>';
+ table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="1"><b><input id="selectall" type="checkbox" name="selectall"></b></td>';
  table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>Email ID</b></td>';
  table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>Email Name</b></td>';
  table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>Campaign</b></td>';
@@ -533,6 +533,104 @@ function buildEmailSlot(emailforslot, length) {
  }
 }
 
+function getAllEmailsWithOneLinks(emailUpdated){
+  const url = 'https://appsflyers-onelink-dev.herokuapp.com/sfmcHelper/getAllEmailsWithOneLinks';
+
+  urlParams = {
+      refresh_token: $('#rt').val(),
+      eid: $('#eid').val()
+  };
+   
+  $.ajax({
+      url,
+      method: 'POST',
+      async: false,
+      data: urlParams,
+      success: (data) => {
+        $('#rt').val(data.refresh_token);
+        let emailswithonelink = data.body;
+        UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink);
+     },
+     error(jqXHR, error, errorThrown) {
+      console.log(error);
+      console.log(errorThrown);
+      console.log(jqXHR);
+     },
+  });
+}
+
+function UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink) {
+
+  let currentCount = 0;
+  for (let i = 0; i < emailswithonelink.length; i++) {
+    const row = emailswithonelink[i];
+    let linkID = row.Properties.Property[0].Value;
+    let emailID = row.Properties.Property[1].Value;
+    let emailName = row.Properties.Property[2].Value;
+    let count = row.Properties.Property[3].Value;
+
+    if(linkID == emailUpdated.OneLinkID && emailID == emailUpdated.EmailID)
+      currentCount = count;
+  }
+
+  const UpdateRequest = {
+    Options: {
+    SaveOptions: {
+      SaveOption: {
+      PropertyName: "DataExtensionObject",
+      SaveAction: "UpdateAdd",
+      },
+    },
+    },
+    Objects: [],
+  };
+
+  UpdateRequest.Objects.push({
+    attributes: {
+      "xsi:type": "DataExtensionObject",
+    },
+    CustomerKey: process.env.EmailsWithOneLinks,
+    Keys: [{
+      Key: [{
+        Name: "LinkID",
+        Value: data.LinkID,
+        },
+        {
+        Name: "EmailID",
+        Value: data.EmailID,
+        },
+      ],
+    }],
+    Properties: [{
+      Property: [{
+        Name: "EmailName",
+        Value: data.EmailName,
+        },
+        {
+        Name: "Count",
+        Value: currentCount + 1,
+        },
+      ],
+    }],
+  });
+
+  const upsertRequest = {
+    refresh_token: $('#rt').val(),
+    UpdateRequest: UpdateRequest
+  };
+
+  $.ajax({
+    url: '/sfmc/UpsertEmailsWithOneLinks',
+    method: 'POST',
+    async: false,
+    data: upsertRequest,
+    success(response) {
+     $("#rt").val(response.refresh_token);
+     console.log(response);
+    },
+  });
+}
+
 function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, onelinkurl) {
 
  var date = new Date().toISOString();
@@ -555,6 +653,7 @@ function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, on
   data: data,
   success(upsertHTMLLogData) {
    $("#rt").val(upsertHTMLLogData.refresh_token);
+   getAllEmailsWithOneLinks(data);
    console.log(upsertHTMLLogData);
   },
  });
@@ -574,4 +673,8 @@ $(document).ready(() => {
  replaceUrlTOkens($('#rt').val());
 
  loadHtmlEmails(urlParams, "init", 1);
+
+ $("#selectall").click(function() {
+    $(':checkbox').prop('checked', this.checked);
+ });
 });

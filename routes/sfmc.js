@@ -683,6 +683,8 @@ exports.UpsertLogHTMLEmailLinks = (req, resp) => {
      return resp.send(200, r1);
     }
 
+    body.refresh_token = response.refresh_token;
+    console.log(body);
     return resp.send(200, body);
    })
    .catch((err) => resp.send(400, err));
