@@ -574,7 +574,7 @@ function UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink) {
     if(linkID == emailUpdated.OneLinkID && emailID == emailUpdated.EmailID)
       currentCount = count;
   }
-  
+
   const upsertRequest = {
     refresh_token: $('#rt').val(),
     Count: currentCount,
@@ -584,7 +584,7 @@ function UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink) {
   }
 
   $.ajax({
-    url: '/sfmc/UpsertEmailsWithOneLinks',
+    url: '/sfmc/logEmailsWithOneLinks',
     method: 'POST',
     async: false,
     data: upsertRequest,
