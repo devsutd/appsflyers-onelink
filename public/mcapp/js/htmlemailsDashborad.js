@@ -47,7 +47,7 @@ function GetHtmlEmails(accessToken) {
 }
 
 
-function updateEmail(emailId, EmailObject, linkstoreplace, urls) {
+function updateEmail(emailId, EmailObject, linkstoreplace, urls, emailName) {
  var postData = JSON.stringify({
    "accessToken": $('#rt').val(),
    "id": emailId,
@@ -66,29 +66,31 @@ function updateEmail(emailId, EmailObject, linkstoreplace, urls) {
  }).done(function(response) {
   replaceUrlTOkens(response.refresh_token);
   $('#rt').val(response.refresh_token);
-  prepareUpsertHtml(emailId, linkstoreplace, urls);
+  prepareUpsertHtml(emailId, linkstoreplace, urls, emailName);
  });
 }
 
-function prepareUpsertHtml(id, linkstoreplace, urls) {
+function prepareUpsertHtml(id, linkstoreplace, urls, emailName) {
  for (let i = 0; i < linkstoreplace.length; i++) {
-  LogHTMLEmailLinksUpdates(id, urls.Links[linkstoreplace[i]].LinkText, urls.Links[linkstoreplace[i]].href, oneLinkId, oneLink);
+  LogHTMLEmailLinksUpdates(id, urls.Links[linkstoreplace[i]].LinkText, urls.Links[linkstoreplace[i]].href, oneLinkId, oneLink, emailName);
  }
 }
 
 function GetHtmlEmailByID(linkschecked) {
  let links = [];
  let currentEmailID;
+ let currentEmailName;
  let newEmail;
  for (let i = 0; i < linkschecked.length; i++) {
   let diccionarioLink = linkschecked[i].split("|");
   newEmail = diccionarioLink[0];
   if (currentEmailID == "" || currentEmailID == undefined) {
    currentEmailID = diccionarioLink[0];
+   currentEmailName = diccionarioLink[1];
   }
 
   if (currentEmailID == newEmail) {
-   links.push(diccionarioLink[1]);
+   links.push(diccionarioLink[2]);
    if (linkschecked.length - 1 == i) {
     var postData = JSON.stringify({
      "accessToken": $('#rt').val(),
@@ -106,7 +108,7 @@ function GetHtmlEmailByID(linkschecked) {
      replaceUrlTOkens(response.refresh_token);
      $('#rt').val(response.refresh_token);
      currentEmail = response.body;
-     getEmailLinks(currentEmailID, response.body.views.html.content, links, true);
+     getEmailLinks(currentEmailID, response.body.views.html.content, links, true, currentEmailName);
     });
    }
   } else {
@@ -126,11 +128,11 @@ function GetHtmlEmailByID(linkschecked) {
     replaceUrlTOkens(response.refresh_token);
     $('#rt').val(response.refresh_token);
     currentEmail = response.body;
-    getEmailLinks(currentEmailID, response.body.views.html.content, links, true);
+    getEmailLinks(currentEmailID, response.body.views.html.content, links, true, currentEmailName);
 
     currentEmailID = diccionarioLink[0];
     links = [];
-    links.push(diccionarioLink[1]);
+    links.push(diccionarioLink[2]);
 
     if (linkschecked.length - 1 == i) {
      var postData = JSON.stringify({
@@ -149,7 +151,7 @@ function GetHtmlEmailByID(linkschecked) {
       replaceUrlTOkens(response.refresh_token);
       $('#rt').val(response.refresh_token);
       currentEmail = response.body;
-      getEmailLinks(currentEmailID, response.body.views.html.content, links, true);
+      getEmailLinks(currentEmailID, response.body.views.html.content, links, true, currentEmailName);
      });
     }
    });
@@ -174,7 +176,7 @@ function GetAllContentBuilderAssets(accessToken) {
 }
 
 
-function getEmailLinks(id, rawHTML, linkstoreplace, toReplace) {
+function getEmailLinks(id, rawHTML, linkstoreplace, toReplace, emailName) {
  var doc = document.createElement("html");
  doc.innerHTML = rawHTML;
  var links = doc.getElementsByTagName("a")
@@ -212,7 +214,7 @@ function getEmailLinks(id, rawHTML, linkstoreplace, toReplace) {
 
   let htmlreplaced = replaceLinks(rawHTML, objectLink, oneLink);
   currentEmail.views.html.content = htmlreplaced;
-  updateEmail(id, currentEmail, linkstoreplace, urls);
+  updateEmail(id, currentEmail, linkstoreplace, urls, emailName);
  }
  return urls;
 }
@@ -477,7 +479,7 @@ function buildEmailSlot(emailforslot, length) {
     emailModalSlot += '</div>';
     emailModalSlot += '<div class="slds-no-flex">';
     emailModalSlot += '<div class="slds-checkbox">';
-    emailModalSlot += `<input type="checkbox" name="linksfromemail" id="${emailforslot[j].emailId}|Link${i}" value="${emailforslot[j].emailBody.id}|${i}"/>`;
+    emailModalSlot += `<input type="checkbox" name="linksfromemail" id="${emailforslot[j].emailId}|Link${i}" value="${emailforslot[j].emailBody.id}|${emailforslot[j].emailBody.name}|${i}"/>`;
     emailModalSlot += `<label class="slds-checkbox__label" for="${emailforslot[j].emailId}|Link${i}">`;
     emailModalSlot += '<span class="slds-checkbox_faux"></span>';
     emailModalSlot += '</label>';
@@ -572,51 +574,14 @@ function UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink) {
     if(linkID == emailUpdated.OneLinkID && emailID == emailUpdated.EmailID)
       currentCount = count;
   }
-
-  const UpdateRequest = {
-    Options: {
-    SaveOptions: {
-      SaveOption: {
-      PropertyName: "DataExtensionObject",
-      SaveAction: "UpdateAdd",
-      },
-    },
-    },
-    Objects: [],
-  };
-
-  UpdateRequest.Objects.push({
-    attributes: {
-      "xsi:type": "DataExtensionObject",
-    },
-    CustomerKey: process.env.EmailsWithOneLinks,
-    Keys: [{
-      Key: [{
-        Name: "LinkID",
-        Value: data.LinkID,
-        },
-        {
-        Name: "EmailID",
-        Value: data.EmailID,
-        },
-      ],
-    }],
-    Properties: [{
-      Property: [{
-        Name: "EmailName",
-        Value: data.EmailName,
-        },
-        {
-        Name: "Count",
-        Value: currentCount + 1,
-        },
-      ],
-    }],
-  });
-
   const upsertRequest = {
     refresh_token: $('#rt').val(),
-    UpdateRequest: UpdateRequest
+    UpdateRequest: {
+      "Count": currentCount,
+      "EmailName": emailUpdated.EmailName,
+      "LinkID": emailUpdated.OneLinkID,
+      "EmailID": emailUpdated.EmailID
+    }
   };
 
   $.ajax({
@@ -631,7 +596,7 @@ function UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink) {
   });
 }
 
-function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, onelinkurl) {
+function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, onelinkurl, emailName) {
 
  var date = new Date().toISOString();
 
@@ -643,7 +608,8 @@ function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, on
   LinkReplaced: linkreplaced,
   OneLinkID: onelinkid,
   OneLinkURL: onelinkurl,
-  Modified: date
+  Modified: date,
+  EmailName: emailName
  };
 
  $.ajax({
