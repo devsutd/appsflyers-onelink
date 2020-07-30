@@ -548,7 +548,7 @@ function getAllEmailsWithOneLinks(emailUpdated){
       data: urlParams,
       success: (data) => {
         $('#rt').val(data.refresh_token);
-        emailswithonelink = data.body;
+        let emailswithonelink = data.body;
         UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink);
      },
      error(jqXHR, error, errorThrown) {
