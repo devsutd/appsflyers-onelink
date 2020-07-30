@@ -360,7 +360,7 @@ function openEmailDetailsModal(linkId){
     $("#emaildetails-modal").addClass("slds-fade-in-open");
     $("#background-modals-emaildetails").addClass("slds-backdrop_open");
     var modal = $("#emaildetails");
-    
+    modal.empty();
     var objectEmails = getAllEmailsWithOneLinksByLinkID(emailswithonelink.body, linkId);
     for (let i = 0; i < objectEmails.emails.length; i++) {
         var p = '<p><a href="#">' + objectEmails.emails[i] +'</a></p>';
