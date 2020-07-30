@@ -491,8 +491,8 @@ exports.GetContentBuilderEmails = (req, resp) => {
 };
 
 exports.UpdateEmail = (req, resp) => {
-console.log("on update email");
-console.log(req);
+ console.log("on update email");
+ console.log(req);
  sfmcHelper.refreshToken(req.body.accessToken).then((refreshTokenbody) => {
   request({
     url: `${process.env.restEndpoint}asset/v1/content/assets/${req.body.id}`,
@@ -505,10 +505,10 @@ console.log(req);
    },
    (err, _response, body) => {
     if (err) {
-      console.log(err);
-      console.log(_response);
-      console.log(body);
-      return resp.status(401).send(err);
+     console.log(err);
+     console.log(_response);
+     console.log(body);
+     return resp.status(401).send(err);
     }
     console.log(JSON.parse(body));
     var response = {
@@ -686,5 +686,32 @@ exports.UpsertLogHTMLEmailLinks = (req, resp) => {
     return resp.send(200, body);
    })
    .catch((err) => resp.send(400, err));
+ });
+};
+
+
+
+exports.logEmailsWithOneLinks = (req, resp) => {
+ console.log("upsert row console log");
+ sfmcHelper.createSoapClient(req.body.refresh_token, (e, response) => {
+  if (e) {
+   return resp.status(500).send(e);
+  }
+
+  const Properties = [{ Name: "Count", Value: req.body.Count }, { Name: "EmailName", Value: req.body.EmailName }];
+  const UpdateRequest = sfmcHelper.UpdateRequestObject(process.env.EmailsWithOneLinks, [{ Name: "LinkID", Value: req.body.LinkID },
+   { Name: "EmailID", Value: req.body.EmailID }
+  ], Properties);
+  sfmcHelper
+   .upsertDataextensionRow(response.client, UpdateRequest)
+   .then((body) => {
+
+    const r1 = {
+     refresh_token: response.refresh_token,
+     body: body,
+    };
+    return resp.status(200).send(r1);
+   })
+   .catch((err) => resp.status(400).send(err));
  });
 };

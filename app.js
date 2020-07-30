@@ -113,6 +113,8 @@ app.post('/TokenConfiguration/UpsertAuthenticationSetting', tokenConfiguration.U
 app.post('/TokenConfiguration/ReadSettings', tokenConfiguration.ReadSettings);
 app.post('/TokenConfiguration/UpdateSetting', tokenConfiguration.UpdateSetting);
 app.post('/sfmchelper/getAllEmailsWithOneLinks', sfmcHelper.getAllEmailsWithOneLinks);
+app.post('/sfmc/logEmailsWithOneLinks', sfmc.logEmailsWithOneLinks);
+
 app.use((_req, res, next) => {
  res.header('Access-Control-Allow-Origin', '*');
  res.header('Access-Control-Allow-Headers', '*');
