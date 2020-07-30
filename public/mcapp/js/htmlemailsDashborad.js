@@ -563,7 +563,7 @@ function UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink) {
 
   let currentCount = 0;
   for (let i = 0; i < emailswithonelink.length; i++) {
-    const row = rows[i];
+    const row = emailswithonelink[i];
     let linkID = row.Properties.Property[0].Value;
     let emailID = row.Properties.Property[1].Value;
     let emailName = row.Properties.Property[2].Value;
