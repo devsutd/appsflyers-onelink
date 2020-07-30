@@ -363,13 +363,13 @@ function openEmailDetailsModal(linkId){
     
     var objectEmails = getAllEmailsWithOneLinksByLinkID(emailswithonelink.body, linkId);
     for (let i = 0; i < objectEmails.emails.length; i++) {
-        var p = '<p>' + objectEmails.emails[i] +'</p><br>';
+        var p = '<p><a href="#">' + objectEmails.emails[i] +'</a></p>';
         modal.append(p);
     }
 }
 
 function closeModal(){
-    $("#emaildetails").removeClass("slds-fade-in-open");
+    $("#emaildetails-modal").removeClass("slds-fade-in-open");
     $("#background-modals-emaildetails").removeClass("slds-backdrop_open");
 }
 
