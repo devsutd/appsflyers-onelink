@@ -206,7 +206,6 @@ function loadDashboards(urlParams, from, page) {
   success: (data) => {
    let links = data.data;
    $('#rt').val(data.refresh_token);
-   $('#eid').val(data.enterpriseId);
    replaceUrlTOkens($('#rt').val())
    if (inp != undefined && links != undefined) {
     links = links.filter(x => x.LinkName.toLowerCase().includes(inp));
@@ -264,7 +263,6 @@ function ready() {
  
  $('#btn-create').on('click', (e) => {
   e.preventDefault();
-  console.log($('#eid').val());
   let redirectUrl = `/dashboard/create/?rt=${$('#rt').val()}`;
   redirectUrl += `&eid=${$('#eid').val()}`;
   window.location.href = redirectUrl;
