@@ -561,7 +561,17 @@ function getAllEmailsWithOneLinks(emailUpdated){
 
 function UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink) {
 
-  let count = emailswithonelink.find(x => x.Properties.Property[1].Value === emailUpdated.EmailID && row.Properties.Property[0].Value === emailUpdated.OneLinkID).Properties.Property[3].Value;
+  let currentCount = 0;
+  for (let i = 0; i < emailswithonelink.length; i++) {
+    const row = rows[i];
+    let linkID = row.Properties.Property[0].Value;
+    let emailID = row.Properties.Property[1].Value;
+    let emailName = row.Properties.Property[2].Value;
+    let count = row.Properties.Property[3].Value;
+
+    if(linkID == emailUpdated.OneLinkID && emailID == emailUpdated.EmailID)
+      currentCount = count;
+  }
 
   const UpdateRequest = {
     Options: {
@@ -598,7 +608,7 @@ function UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink) {
         },
         {
         Name: "Count",
-        Value: count + 1,
+        Value: currentCount + 1,
         },
       ],
     }],
