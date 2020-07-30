@@ -572,7 +572,7 @@ function UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink) {
     let count = row.Properties.Property[3].Value;
 
     if(linkID == emailUpdated.OneLinkID && emailID == emailUpdated.EmailID)
-      currentCount = count;
+      currentCount = count + 1;
   }
 
   const upsertRequest = {
