@@ -2,7 +2,8 @@ function getCampaignById(id) {
  var campaigns;
  var campaign;
  var postData = JSON.stringify({
-  "accessToken": $("#rt").val()
+  "accessToken": $("#rt").val(),
+  tssd: $("#tssd").val()
  });
 
  $.ajax({
@@ -30,7 +31,7 @@ function getCampaignById(id) {
 
 function GetHtmlEmails(accessToken) {
  // este metodo devuelve todos los emails html paste
- var postData = JSON.stringify({ "accessToken": accessToken })
+ var postData = JSON.stringify({ "accessToken": accessToken, tssd: $("#tssd").val() })
  $.ajax({
   "url": "/sfmc/GetContentBuilderEmails",
   "method": "POST",
@@ -51,7 +52,8 @@ function updateEmail(emailId, EmailObject, linkstoreplace, urls, emailName) {
  var postData = JSON.stringify({
    "accessToken": $('#rt').val(),
    "id": emailId,
-   "email": EmailObject
+   "email": EmailObject,
+   tssd: $("#tssd").val()
   })
   // Nota: Lo probe pasando el objeto completo  que te devuelve el metodo getemails o get email by id y editando el html.
   // por ahi se pueden pasar menos valores, pero habria que probar.
@@ -94,7 +96,8 @@ function GetHtmlEmailByID(linkschecked) {
    if (linkschecked.length - 1 == i) {
     var postData = JSON.stringify({
      "accessToken": $('#rt').val(),
-     "id": currentEmailID
+     "id": currentEmailID,
+     tssd: $("#tssd").val()
     })
 
     $.ajax({
@@ -114,6 +117,7 @@ function GetHtmlEmailByID(linkschecked) {
   } else {
    var postData = JSON.stringify({
     "accessToken": $('#rt').val(),
+    tssd: $("#tssd").val(),
     "id": currentEmailID
    })
 
@@ -137,6 +141,7 @@ function GetHtmlEmailByID(linkschecked) {
     if (linkschecked.length - 1 == i) {
      var postData = JSON.stringify({
       "accessToken": $('#rt').val(),
+      tssd: $("#tssd").val()
       "id": currentEmailID
      })
 
@@ -160,7 +165,7 @@ function GetHtmlEmailByID(linkschecked) {
 }
 
 function GetAllContentBuilderAssets(accessToken) {
- var postData = JSON.stringify({ "accessToken": accessToken })
+ var postData = JSON.stringify({ "accessToken": accessToken, tssd: $("#tssd").val() })
 
  $.ajax({
   "url": "/sfmc/GetAllContentBuilderAssets",
@@ -221,8 +226,8 @@ function getEmailLinks(id, rawHTML, linkstoreplace, toReplace, emailName) {
 
 
 function replaceUrlTOkens(token) {
- $('#htmlemailsLink')[0].href = '/htmlemails/home?rt=' + token + '&eid=' + $('#eid').val();
- $('#DashboardLink')[0].href = '/Dashboard/home?rt=' + token + '&eid=' + $('#eid').val();
+ $('#htmlemailsLink')[0].href = '/htmlemails/home?rt=' + token + '&eid=' + $('#eid').val() + '&tssd=' + $('#tssd').val();
+ $('#DashboardLink')[0].href = '/Dashboard/home?rt=' + token + '&eid=' + $('#eid').val() + '&tssd=' + $('#tssd').val();
 }
 
 function replaceLinks(rawHTML, object, OneLink) {
@@ -247,7 +252,9 @@ function getUrlParameters() {
  const urlParams = {
   refresh_token: url.searchParams.get('rt'),
   enterpriseId: url.searchParams.get('eid'),
+  tssd: url.searchParams.get('tssd')
  };
+ $('#tssd').val(urlParams.tssd);
  return urlParams;
 }
 
@@ -320,6 +327,7 @@ function buildDashboard(emails, from, page) {
 function buildPaginator(allEmails) {
  const params = {
   refresh_token: $('#rt').val(),
+  tssd: $('#tssd').val(),
   enterpriseId: $('#eid').val()
  };
  var totalPages = Math.ceil(allEmails.length / 15);
@@ -344,7 +352,7 @@ function buildPaginator(allEmails) {
 
 
 function loadHtmlEmails(urlParams, from, page) {
- var postData = JSON.stringify({ "accessToken": $("#rt").val() })
+ var postData = JSON.stringify({ "accessToken": $("#rt").val(), tssd: $("#tssd").val() })
  var inp = $('#lookup').val();
 
  $.ajax({
@@ -399,7 +407,8 @@ function listLinks(data) {
 function getLinks() {
  let rt = $('#rt').val();
  let eid = $('#eid').val();
- const endpoint = '/sfmc/GetLinks?rt=' + rt + '&eid=' + eid;
+ let tssd = $('#tssd').val();
+ const endpoint = `/sfmc/GetLinks?rt=${rt}&eid=${eid}&tssd=${tssd}`;
  $.ajax({
   url: endpoint,
   method: 'GET',
@@ -420,7 +429,8 @@ function getEmailSlot(emails) {
   let emailId = emails[i];
   var postData = JSON.stringify({
    "accessToken": $('#rt').val(),
-   "id": emailId
+   "id": emailId,
+   tssd: $('#tssd').val()
   })
 
   $.ajax({
@@ -535,64 +545,66 @@ function buildEmailSlot(emailforslot, length) {
  }
 }
 
-function getAllEmailsWithOneLinks(emailUpdated){
-  const url = 'https://appsflyers-onelink-dev.herokuapp.com/sfmcHelper/getAllEmailsWithOneLinks';
+function getAllEmailsWithOneLinks(emailUpdated) {
+ const url = 'https://appsflyers-onelink-dev.herokuapp.com/sfmcHelper/getAllEmailsWithOneLinks';
 
-  urlParams = {
-      refresh_token: $('#rt').val(),
-      eid: $('#eid').val()
-  };
-   
-  $.ajax({
-      url,
-      method: 'POST',
-      async: false,
-      data: urlParams,
-      success: (data) => {
-        $('#rt').val(data.refresh_token);
-        let emailswithonelink = data.body;
-        UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink);
-     },
-     error(jqXHR, error, errorThrown) {
-      console.log(error);
-      console.log(errorThrown);
-      console.log(jqXHR);
-     },
-  });
+ urlParams = {
+  refresh_token: $('#rt').val(),
+  eid: $('#eid').val(),
+  tssd: $('#tssd').val()
+ };
+
+ $.ajax({
+  url,
+  method: 'POST',
+  async: false,
+  data: urlParams,
+  success: (data) => {
+   $('#rt').val(data.refresh_token);
+   let emailswithonelink = data.body;
+   UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink);
+  },
+  error(jqXHR, error, errorThrown) {
+   console.log(error);
+   console.log(errorThrown);
+   console.log(jqXHR);
+  },
+ });
 }
 
 function UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink) {
 
-  let currentCount = 0;
-  for (let i = 0; i < emailswithonelink.length; i++) {
-    const row = emailswithonelink[i];
-    let linkID = row.Properties.Property[0].Value;
-    let emailID = row.Properties.Property[1].Value;
-    let emailName = row.Properties.Property[2].Value;
-    let count = row.Properties.Property[3].Value;
+ let currentCount = 0;
+ for (let i = 0; i < emailswithonelink.length; i++) {
+  const row = emailswithonelink[i];
+  let linkID = row.Properties.Property[0].Value;
+  let emailID = row.Properties.Property[1].Value;
+  let emailName = row.Properties.Property[2].Value;
+  let count = row.Properties.Property[3].Value;
 
-    if(linkID == emailUpdated.OneLinkID && emailID == emailUpdated.EmailID)
-      currentCount = count + 1;
-  }
+  if (linkID == emailUpdated.OneLinkID && emailID == emailUpdated.EmailID)
+   currentCount = count + 1;
+ }
 
-  const upsertRequest = {
-    refresh_token: $('#rt').val(),
-    Count: currentCount,
-    EmailName: emailUpdated.EmailName,
-    LinkID: emailUpdated.OneLinkID,
-    EmailID: emailUpdated.EmailID
-  }
+ const upsertRequest = {
+  refresh_token: $('#rt').val(),
+  tssd: $('#tssd').val(),
+  Count: currentCount,
+  EmailName: emailUpdated.EmailName,
+  LinkID: emailUpdated.OneLinkID,
+  EmailID: emailUpdated.EmailID
+ }
 
-  $.ajax({
-    url: '/sfmc/logEmailsWithOneLinks',
-    method: 'POST',
-    async: false,
-    data: upsertRequest,
-    success(response) {
-     $("#rt").val(response.refresh_token);
-     console.log(response);
-    },
-  });
+ $.ajax({
+  url: '/sfmc/logEmailsWithOneLinks',
+  method: 'POST',
+  async: false,
+  data: upsertRequest,
+  success(response) {
+   $("#rt").val(response.refresh_token);
+   console.log(response);
+  },
+ });
 }
 
 function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, onelinkurl, emailName) {
@@ -601,6 +613,7 @@ function LogHTMLEmailLinksUpdates(emailId, linktext, linkreplaced, onelinkid, on
 
  const data = {
   refresh_token: $('#rt').val(),
+  tssd: $('#tssd').val(),
   LogID: undefined,
   EmailID: emailId,
   LinkText: linktext,
@@ -640,6 +653,6 @@ $(document).ready(() => {
  loadHtmlEmails(urlParams, "init", 1);
 
  $("#selectall").click(function() {
-    $(':checkbox').prop('checked', this.checked);
+  $(':checkbox').prop('checked', this.checked);
  });
 });

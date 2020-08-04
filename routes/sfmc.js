@@ -28,7 +28,7 @@ function CreateContentBuilderJPG(data, accessToken) {
   console.log(postData);
 
   request({
-    url: `${process.env.restEndpoint}/asset/v1/content/assets`,
+    url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets`,
     method: "POST",
     headers: {
      "Content-Type": "application/json",
@@ -51,7 +51,7 @@ function ImagenStatus(data, accessToken) {
  console.log("Dentro de CreateContentBuilderJPG");
  return new Promise((resolve, reject) => {
   const { id } = data;
-  const endpoint = `${process.env.restEndpoint}/asset/v1/content/assets?$filter=id%20eq%20${id}`;
+  const endpoint = `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets?$filter=id%20eq%20${id}`;
   request({
     url: endpoint,
     method: "GET",
@@ -82,7 +82,7 @@ exports.SaveImage = async(req, resp, _next) => {
 
  await Promise.all([
   sfmcHelper
-  .refreshToken(req.body.refresh_token)
+  .refreshToken(req.body.refresh_token, req.body.tssd)
   .then((data) => {
    CreateContentBuilderJPG(req.body, data.access_token)
     .then((r) => {
@@ -107,7 +107,7 @@ exports.GetImageStatus = (req, resp) => {
  // return  resp.send(200, "body");
 
  sfmcHelper
-  .refreshToken(req.body.refresh_token)
+  .refreshToken(req.body.refresh_token, req.body.tssd)
   .then((data) => {
    console.log(data);
    ImagenStatus(req.body, data.access_token)
@@ -128,7 +128,7 @@ exports.GetImageStatus = (req, resp) => {
 };
 
 exports.GetLinks = (req, resp) => {
- sfmcHelper.createSoapClient(req.query.rt, (e, response) => {
+ sfmcHelper.createSoapClient(req.query.rt, req.body.tssd, (e, response) => {
   if (e) {
    return resp.status(401).send(e);
   }
@@ -171,7 +171,7 @@ exports.GetLinks = (req, resp) => {
 };
 exports.UpsertImageRow = (req, resp) => {
  console.log("upsert row console log");
- sfmcHelper.createSoapClient(req.body.refresh_token, (e, response) => {
+ sfmcHelper.createSoapClient(req.body.refresh_token, req.body.tssd, (e, response) => {
   if (e) {
    return resp.status(500).end(e);
   }
@@ -225,7 +225,7 @@ exports.UpsertImageRow = (req, resp) => {
 };
 
 exports.UpsertButtonRow = (req, resp) => {
- sfmcHelper.createSoapClient(req.body.refresh_token, (e, response) => {
+ sfmcHelper.createSoapClient(req.body.refresh_token, req.body.tssd, (e, response) => {
   if (e) {
    return resp.status(500).send(e);
   }
@@ -307,7 +307,7 @@ exports.UpsertButtonRow = (req, resp) => {
 };
 exports.UpsertLink = (req, resp) => {
  console.log("upsert link body request", req.body);
- sfmcHelper.createSoapClient(req.body.refresh_token, (e, response) => {
+ sfmcHelper.createSoapClient(req.body.refresh_token, req.body.tssd, (e, response) => {
   if (e) {
    return resp.status(500).end(e);
   }
@@ -403,10 +403,10 @@ function getEmailsFilter(id, type) {
  return filter;
 }
 
-function contentAssetsQuery(filter, access_token) {
+function contentAssetsQuery(filter, access_token, tssd) {
  return new Promise((resolve, reject) => {
   request({
-    url: `${process.env.restEndpoint}asset/v1/content/assets/query`,
+    url: `https://${tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/query`,
     method: "POST",
     headers: {
      "Content-Type": "application/json",
@@ -428,17 +428,17 @@ function contentAssetsQuery(filter, access_token) {
 
 exports.GetContentBuilderTemplateBasedEmails = (req) => {
  return new Promise((resolve, reject) => {
-  sfmcHelper.refreshToken(req.body.refresh_token)
+  sfmcHelper.refreshToken(req.body.refresh_token, req.body.tssd)
    .then((refreshTokenbody) => {
     const filter = getEmailsFilter(207, "templatebasedemail");
     var response = {
      refresh_token: refreshTokenbody.refresh_token,
     };
-    contentAssetsQuery(filter, refreshTokenbody.access_token)
+    contentAssetsQuery(filter, refreshTokenbody.access_token, req.body.tssd)
      .then((emails) => {
       filter.page.pageSize = emails.count;
       if (emails.count > 250) {
-       contentAssetsQuery(filter, refreshTokenbody.access_token).then(
+       contentAssetsQuery(filter, refreshTokenbody.access_token, req.body.tssd).then(
         (allEmails) => {
 
          response.body = allEmails;
@@ -458,13 +458,13 @@ exports.GetContentBuilderTemplateBasedEmails = (req) => {
 };
 
 exports.GetContentBuilderEmails = (req, resp) => {
- sfmcHelper.refreshToken(req.body.accessToken).then((refreshTokenbody) => {
+ sfmcHelper.refreshToken(req.body.accessToken, req.body.tssd).then((refreshTokenbody) => {
   const filter = getEmailsFilter(208, "htmlemail");
   console.clear();
   console.log(refreshTokenbody);
 
   request({
-    url: `${process.env.restEndpoint}asset/v1/content/assets/query`,
+    url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/query`,
     method: "POST",
     headers: {
      "Content-Type": "application/json",
@@ -493,9 +493,9 @@ exports.GetContentBuilderEmails = (req, resp) => {
 exports.UpdateEmail = (req, resp) => {
  console.log("on update email");
  console.log(req);
- sfmcHelper.refreshToken(req.body.accessToken).then((refreshTokenbody) => {
+ sfmcHelper.refreshToken(req.body.accessToken, req.body.tssd).then((refreshTokenbody) => {
   request({
-    url: `${process.env.restEndpoint}asset/v1/content/assets/${req.body.id}`,
+    url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/${req.body.id}`,
     method: "PUT",
     headers: {
      "Content-Type": "application/json",
@@ -522,9 +522,9 @@ exports.UpdateEmail = (req, resp) => {
  });
 };
 exports.GetEmailByID = (req, resp) => {
- sfmcHelper.refreshToken(req.body.accessToken).then((refreshTokenbody) => {
+ sfmcHelper.refreshToken(req.body.accessToken, req.body.tssd).then((refreshTokenbody) => {
   request({
-    url: `${process.env.restEndpoint}asset/v1/content/assets/${req.body.id}`,
+    url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/${req.body.id}`,
     method: "GET",
     headers: {
      "Content-Type": "application/json",
@@ -548,10 +548,10 @@ exports.GetEmailByID = (req, resp) => {
 
 exports.GetCampaigns = (req, resp) => {
  console.log(req);
- sfmcHelper.refreshToken(req.body.accessToken).then((refreshTokenbody) => {
+ sfmcHelper.refreshToken(req.body.accessToken, req.body.tssd).then((refreshTokenbody) => {
   console.log(refreshTokenbody);
   request({
-    url: `${process.env.restEndpoint}hub/v1/campaigns`,
+    url: `https://${req.body.tssd}.rest.marketingcloudapis.com/hub/v1/campaigns`,
     method: "GET",
     headers: {
      "Content-Type": "application/json",
@@ -576,9 +576,10 @@ exports.GetCampaigns = (req, resp) => {
 };
 
 exports.GetAllContentBuilderAssets = (req, resp) => {
- sfmcHelper.refreshToken(req.body.accessToken).then((refreshTokenbody) => {
+ sfmcHelper.refreshToken(req.body.accessToken, req.body.tssd).then((refreshTokenbody) => {
+
   request({
-    url: `${process.env.restEndpoint}asset/v1/content/assets/`,
+    url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/`,
     method: "GET",
     headers: {
      "Content-Type": "application/json",
@@ -602,7 +603,7 @@ exports.GetAllContentBuilderAssets = (req, resp) => {
 
 exports.UpsertEmailsWithOneLinks = (req, resp) => {
  return new Promise((resolve, reject) => {
-  sfmcHelper.createSoapClient(req.body.refresh_token, (e, response) => {
+  sfmcHelper.createSoapClient(req.body.refresh_token, req.body.tssd, (e, response) => {
    if (e) {
     return reject(e);
    }
@@ -627,11 +628,9 @@ exports.UpsertEmailsWithOneLinks = (req, resp) => {
  })
 }
 
-
-
 exports.UpsertLogHTMLEmailLinks = (req, resp) => {
  console.log("upsert row console log");
- sfmcHelper.createSoapClient(req.body.refresh_token, (e, response) => {
+ sfmcHelper.createSoapClient(req.body.refresh_token, req.body.tssd, (e, response) => {
   if (e) {
    return resp.status(500).end(e);
   }
@@ -695,7 +694,7 @@ exports.UpsertLogHTMLEmailLinks = (req, resp) => {
 
 exports.logEmailsWithOneLinks = (req, resp) => {
  console.log("upsert row console log");
- sfmcHelper.createSoapClient(req.body.refresh_token, (e, response) => {
+ sfmcHelper.createSoapClient(req.body.refresh_token, req.body.tssd, (e, response) => {
   if (e) {
    return resp.status(500).send(e);
   }

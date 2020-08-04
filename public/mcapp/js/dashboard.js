@@ -4,7 +4,9 @@ function getUrlParameters() {
  const urlParams = {
   refresh_token: url.searchParams.get('rt'),
   enterpriseId: url.searchParams.get('eid'),
+  tssd: url.searchParams.get('tssd')
  };
+ $('#tssd').val(urlParams.tssd);
  return urlParams;
 }
 
@@ -55,9 +57,9 @@ function buildDashboard(links, from, page) {
    const element = links[index];
    var Campaign = getCampaign(element);
    var objectCount = getAllEmailsWithOneLinksByLinkID(emailswithonelink.body, element.LinkID);
-   if(index == 0)
+   if (index == 0)
     bottom = 65;
-   else 
+   else
     bottom = bottom - 25;
 
 
@@ -69,16 +71,15 @@ function buildDashboard(links, from, page) {
    table += `<td role="gridcell"><div id="count|${element.LinkID}" style="text-align:center;">`;
    table += '<div class="tooltipcount-trigger"  style="position:relative">';
 
-   if(objectCount.count > 0) {
+   if (objectCount.count > 0) {
     table += `<div class="tooltipcount slds-popover slds-popover_tooltip slds-nubbin_bottom-left" role="tooltip" id="tooltipcount-${element.LinkID}" style="position:fixed;bottom:${bottom}%;right:27%; display:none;">`;
     table += '<div class="slds-popover__body">'
     for (let j = 0; j < objectCount.emails.length; j++) {
-        if(j == 5) {
-            table += `<div class="slds-m-top_x-small" aria-hidden="true"><a href="#" onclick="openEmailDetailsModal('${element.LinkID}')">See more</a></div>`;
-            break;
-        }
-        else 
-            table += objectCount.emails[j] + '<br>';
+     if (j == 5) {
+      table += `<div class="slds-m-top_x-small" aria-hidden="true"><a href="#" onclick="openEmailDetailsModal('${element.LinkID}')">See more</a></div>`;
+      break;
+     } else
+      table += objectCount.emails[j] + '<br>';
     }
     table += '</div>';
     table += '</div>';
@@ -138,6 +139,7 @@ function Duplicate(element) {
  const postData = {
   refresh_token: $('#rt').val(),
   enterpriseId: $('#eid').val(),
+  tssd: $('#tssd').val(),
   linkName: `${element.LinkName}_Copy`,
   baseUrl: element.BaseURL,
   status: 'Active',
@@ -155,7 +157,7 @@ function Duplicate(element) {
   data: postData,
   success(data) {
    if (data.Status === 'OK') {
-    window.location.href = `/dashboard/home/?rt=${data.refresh_token}&eid=${$('#eid').val()}`;
+    window.location.href = `/dashboard/home/?rt=${data.refresh_token}&eid=${$('#eid').val()}&tssd=${$('#tssd').val()}`;
    }
   }
  });
@@ -194,7 +196,8 @@ function loadDashboards(urlParams, from, page) {
  if (from == "filtered") {
   urlParams = {
    refresh_token: $('#rt').val(),
-   enterpriseId: $('#eid').val()
+   enterpriseId: $('#eid').val(),
+   tssd: $('#tssd').val()
   };
  }
 
@@ -260,11 +263,11 @@ function ready() {
    $(this).parent().removeClass('slds-is-open');
   },
  );
- 
+
  $('#btn-create').on('click', (e) => {
   e.preventDefault();
   let redirectUrl = `/dashboard/create/?rt=${$('#rt').val()}`;
-  redirectUrl += `&eid=${$('#eid').val()}`;
+  redirectUrl += `&eid=${$('#eid').val()}&tssd=${$('#tssd').val()}`;
   window.location.href = redirectUrl;
  });
 
@@ -282,12 +285,12 @@ function ready() {
  });
 
  $('.tooltipcount-trigger').hover(function() {
-    let tooltipId = $(".tooltipcount", this)[0].id;
-    $("#" + tooltipId).show();
- },
+   let tooltipId = $(".tooltipcount", this)[0].id;
+   $("#" + tooltipId).show();
+  },
   function() {
-    let tooltipId = $(".tooltipcount", this)[0].id;
-    $("#" + tooltipId).hide();
+   let tooltipId = $(".tooltipcount", this)[0].id;
+   $("#" + tooltipId).hide();
   },
  );
 }
@@ -298,87 +301,90 @@ function replaceUrlTOkens(token) {
  console.log($('#htmlemailsLink')[0].href);
 }
 
-function getAllEmailsWithOneLinks(params, from, page){
-    const url = 'https://appsflyers-onelink-dev.herokuapp.com/sfmcHelper/getAllEmailsWithOneLinks';
+function getAllEmailsWithOneLinks(params, from, page) {
+ const url = 'https://appsflyers-onelink-dev.herokuapp.com/sfmcHelper/getAllEmailsWithOneLinks';
 
-    urlParams = {
-        refresh_token: $('#rt').val(),
-        eid: $('#eid').val()
-    };
-     
-    $.ajax({
-        url,
-        method: 'POST',
-        async: false,
-        data: urlParams,
-        success: (data) => {
-            emailswithonelink = data;
-            $('#rt').val(data.refresh_token);
-            replaceUrlTOkens($('#rt').val());
-            urlParams = {
-                refresh_token: $('#rt').val(),
-                eid: $('#eid').val()
-            };
+ urlParams = {
+  refresh_token: $('#rt').val(),
+  eid: $('#eid').val(),
+  tssd: $('#tssd').val(),
+ };
 
-            loadDashboards(urlParams, from, page);
-       },
-       error(jqXHR, error, errorThrown) {
-        console.log(error);
-        console.log(errorThrown);
-        console.log(jqXHR);
-       },
-    });
+ $.ajax({
+  url,
+  method: 'POST',
+  async: false,
+  data: urlParams,
+  success: (data) => {
+   emailswithonelink = data;
+   $('#rt').val(data.refresh_token);
+   replaceUrlTOkens($('#rt').val());
+   urlParams = {
+    refresh_token: $('#rt').val(),
+    eid: $('#eid').val(),
+    tssd: $('#tssd').val(),
+   };
+
+   loadDashboards(urlParams, from, page);
+  },
+  error(jqXHR, error, errorThrown) {
+   console.log(error);
+   console.log(errorThrown);
+   console.log(jqXHR);
+  },
+ });
 }
 
-function getAllEmailsWithOneLinksByLinkID(rows, currentLinkId){
-    let numberofcontents = 0;
-    let emailArray = [];
-    for (let i = 0; i < rows.length; i++) {
-        const row = rows[i];
-        let linkID = row.Properties.Property[0].Value;
-        let emailID = row.Properties.Property[1].Value;
-        let emailName = row.Properties.Property[2].Value;
-        let count = row.Properties.Property[3].Value;
+function getAllEmailsWithOneLinksByLinkID(rows, currentLinkId) {
+ let numberofcontents = 0;
+ let emailArray = [];
+ for (let i = 0; i < rows.length; i++) {
+  const row = rows[i];
+  let linkID = row.Properties.Property[0].Value;
+  let emailID = row.Properties.Property[1].Value;
+  let emailName = row.Properties.Property[2].Value;
+  let count = row.Properties.Property[3].Value;
 
-        if(currentLinkId == linkID){
-            numberofcontents = numberofcontents + parseInt(count);
-            emailArray.push(emailName + "(" + count + ")");
-        }
-    }
+  if (currentLinkId == linkID) {
+   numberofcontents = numberofcontents + parseInt(count);
+   emailArray.push(emailName + "(" + count + ")");
+  }
+ }
 
-    let objectCount = {
-        count: numberofcontents,
-        emails: emailArray
-    }
+ let objectCount = {
+  count: numberofcontents,
+  emails: emailArray
+ }
 
-    return objectCount;
+ return objectCount;
 }
 
-function openEmailDetailsModal(linkId){
-    $("#emaildetails-modal").addClass("slds-fade-in-open");
-    $("#background-modals-emaildetails").addClass("slds-backdrop_open");
-    var modal = $("#emaildetails");
-    modal.empty();
-    var objectEmails = getAllEmailsWithOneLinksByLinkID(emailswithonelink.body, linkId);
-    for (let i = 0; i < objectEmails.emails.length; i++) {
-        var p = '<p><a href="#">' + objectEmails.emails[i] +'</a></p>';
-        modal.append(p);
-    }
+function openEmailDetailsModal(linkId) {
+ $("#emaildetails-modal").addClass("slds-fade-in-open");
+ $("#background-modals-emaildetails").addClass("slds-backdrop_open");
+ var modal = $("#emaildetails");
+ modal.empty();
+ var objectEmails = getAllEmailsWithOneLinksByLinkID(emailswithonelink.body, linkId);
+ for (let i = 0; i < objectEmails.emails.length; i++) {
+  var p = '<p><a href="#">' + objectEmails.emails[i] + '</a></p>';
+  modal.append(p);
+ }
 }
 
-function closeModal(){
-    $("#emaildetails-modal").removeClass("slds-fade-in-open");
-    $("#background-modals-emaildetails").removeClass("slds-backdrop_open");
+function closeModal() {
+ $("#emaildetails-modal").removeClass("slds-fade-in-open");
+ $("#background-modals-emaildetails").removeClass("slds-backdrop_open");
 }
 
 
 $(document).ready(() => {
  let emailswithonelink;
  const urlParams = getUrlParameters();
- 
+
  $('#rt').val(urlParams.refresh_token);
  $('#eid').val(urlParams.enterpriseId);
- replaceUrlTOkens(urlParams.refresh_token);
+ $('#tssd').val(urlParams.tssd),
+  replaceUrlTOkens(urlParams.refresh_token);
  loadDashboards(urlParams, "init", 1);
 
  ready();

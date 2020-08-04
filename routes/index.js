@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
-const sfmcHelper = require("./sfmcHelper");
-const sfmc = require("./sfmc");
-const installAppExchange = require("./InstallAppExchange");
+const sfmcHelper = require('./sfmcHelper');
+const sfmc = require('./sfmc');
+const installAppExchange = require('./InstallAppExchange');
 
 function countDuplicados(links) {
  const data = [];
@@ -37,17 +37,15 @@ function emailsUsingCustomBlocks(emails) {
     const blocksKeys = Object.keys(blocks);
     for (let j = 0; j < blocksKeys.length; j++) {
      const contentblock = blocks[blocksKeys[j]];
-     if (contentblock.assetType.name === "customblock") {
+     if (contentblock.assetType.name === 'customblock') {
       if (contentblock.meta !== undefined) {
        const { options } = contentblock.meta;
        if (options !== undefined) {
         if (options.customBlockData !== undefined) {
          const { linkID } = options.customBlockData;
          data.Links.push(linkID);
-
         }
        }
-
       }
      }
     }
@@ -65,8 +63,8 @@ function UpdateRequestObjectMulipleRows(upsertData) {
   Options: {
    SaveOptions: {
     SaveOption: {
-     PropertyName: "DataExtensionObject",
-     SaveAction: "UpdateAdd",
+     PropertyName: 'DataExtensionObject',
+     SaveAction: 'UpdateAdd',
     },
    },
   },
@@ -76,31 +74,31 @@ function UpdateRequestObjectMulipleRows(upsertData) {
   const element = upsertData[index];
   UpdateRequest.Objects.push({
    attributes: {
-    "xsi:type": "DataExtensionObject",
+    'xsi:type': 'DataExtensionObject',
    },
    CustomerKey: process.env.EmailsWithOneLinks,
    Keys: [{
     Key: [{
-      Name: "LinkID",
+      Name: 'LinkID',
       Value: element.LinkID,
      },
      {
-      Name: "EmailID",
+      Name: 'EmailID',
       Value: element.EmailID,
      },
     ],
-   }, ],
+   }],
    Properties: [{
     Property: [{
-      Name: "EmailName",
+      Name: 'EmailName',
       Value: element.EmailName,
      },
      {
-      Name: "Count",
+      Name: 'Count',
       Value: element.Count,
      },
     ],
-   }, ],
+   }],
   });
   console.log(UpdateRequest);
  }
@@ -112,17 +110,16 @@ function UpdateRequestObjectMulipleRows(upsertData) {
 exports.login = (req, res) => {
  try {
   if (req.query.code === undefined) {
-   let stateParam = "&state=mcapp";
+   let stateParam = '&state=mcapp';
    if (req.query.state !== undefined) {
     stateParam = `&state=${req.query.state}`;
    }
    const redirectUri = `${process.env.baseAuth}/v2/authorize?response_type=code&client_id=${process.env.sfmcClientId}&redirect_uri=${process.env.redirectURI}${stateParam}`;
-   // res.redirect('https://mc8nghvf-gp9-nfl9jcsjjs7r214.auth.marketingcloudapis.com/v2/authorize?response_type=code&client_id=g7j9nk7vj5o6dv1v9j34d9ei&redirect_uri=https://appsflyer-mc-app-dev.herokuapp.com/login&state=mystate');
    res.redirect(redirectUri);
   } else {
-   console.log("Entro con el codigo de authenticacion");
-   const tssd = req.query.tssd === undefined ? "" : req.query.tssd;
-   console.log("Estado : ", req.query.state);
+   console.log('Entro con el codigo de authenticacion');
+   const tssd = req.query.tssd === undefined ? process.env.tssd : req.query.tssd;
+   console.log('Estado : ', req.query.state);
    const { state } = req.query;
    const request = {
     body: {
@@ -133,7 +130,7 @@ exports.login = (req, res) => {
 
    console.log(req.query.code);
 
-   if (state === "mcapp") {
+   if (state === 'mcapp') {
     sfmcHelper.authorize(request, (e, r) => {
      if (e) {
       res.status(400).end(e);
@@ -143,6 +140,7 @@ exports.login = (req, res) => {
       body: {
        refresh_token: r.refreshToken,
        eid: r.bussinessUnitInfo.enterprise_id,
+       tssd,
       },
      };
      // eslint-disable-next-line consistent-return
@@ -150,12 +148,16 @@ exports.login = (req, res) => {
       if (!error) {
        // console.log(response.OverallStatus.indexOf("Error: Data extension does not exist"))
 
-       if (response.OverallStatus !== "OK") {
+       if (response.OverallStatus !== 'OK') {
+        Request2.body.refresh_token = response.refresh_token;
         installAppExchange
          .createDataExtensions(Request2)
          .then((resp) => {
           console.log(resp);
-          const view = `/mcapp/home?eid=${resp.eid}&rt=${resp.refresh_token}`;
+          let view = `/mcapp/home?eid=${resp.eid}&rt=${resp.refresh_token}`;
+          if (tssd !== undefined) {
+           view += `&tssd=${tssd}`;
+          }
           return res.redirect(view);
          })
          .catch((err) => {
@@ -168,12 +170,13 @@ exports.login = (req, res) => {
          .GetContentBuilderTemplateBasedEmails(Request2)
          .then((emails) => {
           const upsertData = emailsUsingCustomBlocks(
-           emails.body.items
+           emails.body.items,
           );
 
           const upsertRequest = {
            body: {
             refresh_token: emails.refresh_token,
+            tssd,
             UpdateRequest: UpdateRequestObjectMulipleRows(
              upsertData
             ),
@@ -182,13 +185,18 @@ exports.login = (req, res) => {
           sfmc
            .UpsertEmailsWithOneLinks(upsertRequest)
            .then((r2) => {
-            let view = "";
+            let view = '';
             if (response.length > 0) {
              view = `/dashboard/home?eid=${r.bussinessUnitInfo.enterprise_id}&rt=${r2.refresh_token}`;
             } else {
              // si no  hay datos redirecciono al home
              view = `/mcapp/home?eid=${r.bussinessUnitInfo.enterprise_id}&rt=${r2.refresh_token}`;
             }
+
+            if (tssd !== undefined) {
+             view += `&tssd=${tssd}`;
+            }
+
             return res.redirect(view);
            })
            .catch((e2) => {
@@ -201,8 +209,8 @@ exports.login = (req, res) => {
     });
    }
 
-   if (state === "image" || state === "button") {
-    let returnView = "";
+   if (state === 'image' || state === 'button') {
+    let returnView = '';
     console.log(state);
 
     sfmcHelper.authorize(request, (e, r) => {
@@ -211,14 +219,14 @@ exports.login = (req, res) => {
       return;
      }
 
-     if (state === "image") {
+     if (state === 'image') {
       returnView = `/image/?rt=${r.refreshToken}&eid=${r.bussinessUnitInfo.enterprise_id}`;
      } else {
       returnView = `/button/?rt=${r.refreshToken}&eid=${r.bussinessUnitInfo.enterprise_id}`;
      }
 
-     console.log("Authorized: ", r);
-     console.log("Redirect Uri: ", returnView);
+     console.log('Authorized: ', r);
+     console.log('Redirect Uri: ', returnView);
      res.redirect(returnView);
     });
    }
@@ -229,5 +237,5 @@ exports.login = (req, res) => {
 };
 
 exports.logout = (req) => {
- req.session.token = "";
+ req.session.token = '';
 };

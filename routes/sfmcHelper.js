@@ -1,10 +1,3 @@
-/* eslint-disable prefer-promise-reject-errors */
-/* eslint-disable consistent-return */
-/* eslint-disable prefer-destructuring */
-/* eslint-disable no-plusplus */
-
-"use strict";
-
 const request = require("request");
 const soap = require("soap");
 const parser = require("xml2js");
@@ -114,10 +107,15 @@ function parseUpsertResponse(rawResponse) {
  );
  return data;
 }
-exports.getAccessToken = (code) =>
- new Promise((resolve, reject) => {
+exports.getAccessToken = (code, tssd) => {
+ if (tssd === undefined) {
+  return Promise.reject("invalid tennant subdomain");
+ }
+ const endpoint = `https://${tssd}.auth.marketingcloudapis.com/v2/token`;
+
+ return new Promise((resolve, reject) => {
   request({
-    url: process.env.authEndpoint,
+    url: endpoint,
     method: "Post",
     json: {
      grant_type: "authorization_code",
@@ -136,34 +134,32 @@ exports.getAccessToken = (code) =>
      return reject(JSON.stringify(body));
     }
 
-    return resolve(body);
+    resolve(body);
    }
   );
  });
+};
 
 // eslint-disable-next-line camelcase
-exports.refreshToken = (refresh_token) =>
- new Promise((resolve, reject) => {
+exports.refreshToken = (refresh_token, tssd) => {
+ const endpoint = `https://${tssd}.auth.marketingcloudapis.com/v2/token`;
+ return new Promise((resolve, reject) => {
   request({
-    url: process.env.authEndpoint,
+    url: endpoint,
     method: "Post",
     json: {
      grant_type: "refresh_token",
      client_id: process.env.sfmcClientId,
      client_secret: process.env.sfmcClientSecret,
-     refresh_token: refresh_token,
+     refresh_token,
     },
    },
    (err, response, body) => {
-
     if (err) {
-     console.log("refresh token error");
      return reject(JSON.stringify(err));
     }
 
     if (body.error) {
-     console.log("refresh token body error");
-     console.log(body.error);
      return reject(JSON.stringify(body.error));
     }
 
@@ -171,12 +167,31 @@ exports.refreshToken = (refresh_token) =>
    }
   );
  });
+};
 
 exports.authorize = async(req, res) => {
- await Promise.all([
-  this.getAccessToken(req.body.code)
+ try {
+  const accessTokenbody = await this.getAccessToken(req.body.code, req.body.tssd);
+  const refreshTokenbody = await this.refreshToken(accessTokenbody.refresh_token, req.body.tssd);
+  if (refreshTokenbody === undefined) {
+   return res('Refresh token is undefined', null);
+  }
+
+  const getUserInfoBody = await this.getUserInfo(refreshTokenbody.access_token);
+  const getUserInfoResponse = JSON.parse(getUserInfoBody);
+  const customResponse = {
+   bussinessUnitInfo: getUserInfoResponse.organization,
+   apiEndpoints: getUserInfoResponse.rest,
+   refreshToken: refreshTokenbody.refresh_token,
+  };
+  return res(null, customResponse);
+ } catch (ex) {
+  return res(ex, null);
+ }
+ /*await Promise.all([
+  this.getAccessToken(req.body.code, req.body.tssd)
   .then((accessTokenbody) => {
-   this.refreshToken(accessTokenbody.refresh_token)
+   this.refreshToken(accessTokenbody.refresh_token, req.body.tssd)
 
    .then((refreshTokenbody) => {
      this.getUserInfo(refreshTokenbody.access_token)
@@ -205,7 +220,7 @@ exports.authorize = async(req, res) => {
    console.log(err);
    return res(err, null);
   }),
- ]);
+ ]); */
 };
 
 exports.getUserInfo = (accessToken) =>
@@ -257,13 +272,13 @@ exports.retrieveRequest = (client, requestObject) =>
    resolve(data);
   });
  });
-exports.createSoapClient = (refreshToken, callback) => {
+exports.createSoapClient = (refreshToken, tssd, callback) => {
  if (refreshToken === undefined) {
   console.error("invalid refresh_token");
   callback("refresh_token is required", null);
  }
 
- this.refreshToken(refreshToken)
+ this.refreshToken(refreshToken, tssd)
   .then((response) => {
    soap.createClient(
     `${response.soap_instance_url}etframework.wsdl`, {},
@@ -423,76 +438,82 @@ exports.retrieveFolder = (enterpriceId, name, client) =>
  });
 
 exports.getTokenRows = (req, resp) => {
- this.createSoapClient(req.body.refresh_token, (e, response) => {
-  if (e) {
-   return resp.status(500).end(e);
-  }
-
-  const requestObject = {
-   RetrieveRequest: {
-    ClientIDs: {
-     ClientID: req.body.eid,
-    },
-    ObjectType: `DataExtensionObject[${process.env.TokenAuthenticationDataExtension}]`,
-    Properties: ["Token", "Authorized"],
-    Filter: {
-     attributes: {
-      "xsi:type": "SimpleFilterPart",
-     },
-     Property: "Authorized",
-     SimpleOperator: "equals",
-     Value: true,
-    },
-   },
-  };
-
-  response.client.Retrieve(requestObject, (err, res) => {
-   if (err) {
-    console.error("ERROR DETAILS: ", err);
-    return resp.send(400, err);
+ this.createSoapClient(
+  req.body.refresh_token,
+  req.body.tssd,
+  (e, response) => {
+   if (e) {
+    return resp.status(500).end(e);
    }
-   const r1 = {
-    OverallStatus: res.OverallStatus,
-    length: res.Results !== undefined ? res.Results.length : 0,
-    refresh_token: response.refresh_token,
-    enterpriseId: req.body.enterpriseId,
+
+   const requestObject = {
+    RetrieveRequest: {
+     ClientIDs: {
+      ClientID: req.body.eid,
+     },
+     ObjectType: `DataExtensionObject[${process.env.TokenAuthenticationDataExtension}]`,
+     Properties: ["Token", "Authorized"],
+     Filter: {
+      attributes: {
+       "xsi:type": "SimpleFilterPart",
+      },
+      Property: "Authorized",
+      SimpleOperator: "equals",
+      Value: true,
+     },
+    },
    };
-   return resp(null, r1);
-  });
- });
+
+   response.client.Retrieve(requestObject, (err, res) => {
+    if (err) {
+     console.error("ERROR DETAILS: ", err);
+     return resp.send(400, err);
+    }
+    const r1 = {
+     OverallStatus: res.OverallStatus,
+     length: res.Results !== undefined ? res.Results.length : 0,
+     refresh_token: response.refresh_token,
+     enterpriseId: req.body.enterpriseId,
+    };
+    return resp(null, r1);
+   });
+  }
+ );
 };
 
-
-
 exports.getAllEmailsWithOneLinks = (req, resp) => {
- this.createSoapClient(req.body.refresh_token, (e, response) => {
-  if (e) {
-   return resp.status(500).end(e);
-  }
-
-  const requestObject = {
-   RetrieveRequest: {
-    ClientIDs: {
-     ClientID: req.body.eid,
-    },
-    ObjectType: `DataExtensionObject[${process.env.EmailsWithOneLinks}]`,
-    Properties: ["LinkID", "EmailID", "EmailName", "Count"],
-   },
-  };
-
-  response.client.Retrieve(requestObject, (err, res) => {
-   if (err) {
-    console.error("ERROR DETAILS: ", err);
-    return resp.status(400).send(err);
+ this.createSoapClient(
+  req.body.refresh_token,
+  req.body.tssd,
+  (e, response) => {
+   if (e) {
+    return resp.status(500).end(e);
    }
-   const r1 = {
-    OverallStatus: res.OverallStatus,
-    length: res.Results !== undefined ? res.Results.length : 0,
-    body: res.Results || [],
-    refresh_token: response.refresh_token,
-    enterpriseId: req.body.enterpriseId,
+
+   const requestObject = {
+    RetrieveRequest: {
+     ClientIDs: {
+      ClientID: req.body.eid,
+     },
+     ObjectType: `DataExtensionObject[${process.env.EmailsWithOneLinks}]`,
+     Properties: ["LinkID", "EmailID", "EmailName", "Count"],
+    },
    };
-   return resp.status(200).send(r1);
-  });
- });
+
+   response.client.Retrieve(requestObject, (err, res) => {
+    if (err) {
+     console.error("ERROR DETAILS: ", err);
+     return resp.status(400).send(err);
+    }
+    const r1 = {
+     OverallStatus: res.OverallStatus,
+     length: res.Results !== undefined ? res.Results.length : 0,
+     body: res.Results || [],
+     refresh_token: response.refresh_token,
+     enterpriseId: req.body.enterpriseId,
+    };
+    return resp.status(200).send(r1);
+   });
+  }
+ );
 };

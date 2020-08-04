@@ -11,47 +11,42 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
 
-    <link rel="stylesheet"
-        href="/mcapp/css/salesforce-lightning-design-system/assets/styles/salesforce-lightning-design-system.min.css">
+    <link rel="stylesheet" href="/mcapp/css/salesforce-lightning-design-system/assets/styles/salesforce-lightning-design-system.min.css">
     <link href="/mcapp/css/create-style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="/mcapp/js/jquery-3.5.1.min.js"></script>
     <style>
-        ::-webkit-input-placeholder {
+         ::-webkit-input-placeholder {
             /* Chrome/Opera/Safari */
             font-size: 13px;
             font-family: museo_sans300;
         }
-
-        ::-moz-placeholder {
+        
+         ::-moz-placeholder {
             /* Firefox 19+ */
-
             font-size: 13px;
             font-family: museo_sans300;
         }
-
-        :-ms-input-placeholder {
+        
+         :-ms-input-placeholder {
             /* IE 10+ */
-
             font-size: 13px;
             font-family: museo_sans300;
         }
-
-        :-moz-placeholder {
+        
+         :-moz-placeholder {
             /* Firefox 18- */
-
             font-size: 13px;
             font-family: museo_sans300;
         }
-
+        
         #rules {
             margin-left: 30px;
-
         }
-
+        
         #btn-addParameter {
             margin-left: 60px;
         }
-
+        
         .rules-container>.af-button:before {
             content: "";
             position: absolute;
@@ -63,7 +58,7 @@
             border-top: 2px solid #e8e8e8;
             z-index: 0;
         }
-
+        
         .af-core.input-item .input-container .input-inner input,
         .af-core.input-item .input-container .input-inner textarea {
             font-family: museo_sans300;
@@ -79,9 +74,9 @@
             font-size: 13px;
             font-family: museo_sans300;
         }
-
+        
         .Select-placeholder,
-        :not(.Select--multi)>.Select-control .Select-value {
+         :not(.Select--multi)>.Select-control .Select-value {
             bottom: 0;
             color: #aaa;
             left: 0;
@@ -99,7 +94,7 @@
             font-size: 13px;
             font-family: museo_sans300;
         }
-
+        
         .Select-value-label,
         #btn-addLink,
         #cancel,
@@ -107,37 +102,37 @@
             font-family: museo_sans300;
             font-size: 13px;
         }
-
+        
         .slds-form-element__label {
             font-family: museo_sans300;
             font-size: 15px;
         }
-
+        
         .slds-form-element {
             width: 80%;
             padding-left: 6%;
             padding-top: 1%;
         }
-
+        
         .hide {
             display: none !important;
         }
-
+        
         .show {
             display: block !important;
         }
-
+        
         .slds-box {
             background-color: pink;
         }
-
+        
         .input-inner-custom {
             position: relative !important;
             width: 48% !important;
             display: inline-block !important;
             margin-right: 1% !important;
         }
-
+        
         .c3 svg,
         .datepicker-days,
         .dc-chart .tick text,
@@ -160,14 +155,12 @@
 
 <body>
     <div>
-        <img src="https://image.sflink.afsdktests.com/lib/fe3d15707564067f721270/m/1/bae131a1-9bc9-477b-9f91-422f3d7d712f.png"
-            alt="">
+        <img src="https://image.sflink.afsdktests.com/lib/fe3d15707564067f721270/m/1/bae131a1-9bc9-477b-9f91-422f3d7d712f.png" alt="">
     </div>
     <div class="slds-tabs_default">
         <ul class="slds-tabs_default__nav" role="tablist">
             <li class="slds-tabs_default__item slds-is-active" title="Item One" role="presentation">
-                <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="0"
-                    aria-selected="true" aria-controls="tab-default-1" id="tab-default-1__item">Create OneLink</a>
+                <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-default-1" id="tab-default-1__item">Create OneLink</a>
             </li>
         </ul>
     </div>
@@ -254,11 +247,11 @@
         </div>
         <div class="slds-col" style="    text-align: center;   margin-right: 85px; margin-top:10px; margin-bottom:10px">
             <a href="#" id="cancel" style="text-decoration: none; margin-right:5px;">Cancel</a>
-            <button id="btn-addLink" class="slds-button slds-button_brand"
-                style="padding: 7px 12px; font-size:15px;display:inline-block;">Generate link</button>
+            <button id="btn-addLink" class="slds-button slds-button_brand" style="padding: 7px 12px; font-size:15px;display:inline-block;">Generate link</button>
         </div>
     </div>
     <input type="hidden" id="JSONParameters" name="JSONParameters" value="">
+    <input type="hidden" id="tssd" name="tssd" value="">
     <input type="hidden" id="rt" name="rt" value="">
     <input type="hidden" id="eid" name="eid" value="">
     <input type="hidden" id="rl" name="rl" value="">
