@@ -331,13 +331,16 @@ $(document).ready(() => {
  }
 
  function replaceUrlTOkens(token) {
-  $("#htmlemailsLink")[0].href = `/htmlemails/home?rt=${token}&eid=${$(
-      "#eid"
-    ).val()}&tssd=${$("#tssd").val()}`;
-  $("#DashboardLink")[0].href = `/Dashboard/home?rt=${token}&eid=${$(
-      "#eid"
-    ).val()}&tssd=${$("#tssd").val()}`;
-  console.log($("#htmlemailsLink")[0].href);
+  if ($("#htmlemailsLink")[0] !== undefined) {
+
+   $("#htmlemailsLink")[0].href = `/htmlemails/home?rt=${token}&eid=${$(
+    "#eid"
+  ).val()}&tssd=${$("#tssd").val()}`;
+   $("#DashboardLink")[0].href = `/Dashboard/home?rt=${token}&eid=${$(
+    "#eid"
+  ).val()}&tssd=${$("#tssd").val()}`;
+   console.log($("#htmlemailsLink")[0].href);
+  }
  }
 
  function buildPaginator(allLinks) {
