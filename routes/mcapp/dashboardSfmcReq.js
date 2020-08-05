@@ -6,11 +6,16 @@ const uuidv1 = require('uuid/v4');
 const sfmcHelper = require('../sfmcHelper');
 
 function xssEscape(stringToEscape) {
- return stringToEscape
-  .replace(/</g, '&lt;')
-  .replace(/>/g, '&gt;')
-  .replace(/"/g, '&quot;')
-  .replace(/'/g, "&#x27;");
+ let str = stringToEscape;
+ if (str !== undefined) {
+  str = str.replace(/</g, '&lt;');
+  str = str.replace(/>/g, '&gt;');
+  str = str.replace(/"/g, '&quot;');
+  str = str.replace(/'/g, '&#x27;');
+ }
+
+ return str;
+ // return stringToEscape.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
 }
 
 exports.loadDashboards = (req, resp) => {
@@ -38,7 +43,9 @@ exports.loadDashboards = (req, resp) => {
     };
     console.log(dashboardResponse);
     return resp.status(200).send(dashboardResponse);
-   }).catch((err) => resp.send(400, err));
+   }).catch((err) => {
+    return resp.status(400).send(err);
+   });
  });
 };
 
@@ -160,10 +167,10 @@ exports.UpsertLink = (req, resp) => {
       refresh_token: response.refresh_token,
       Status: body.StatusCode[0],
      };
-     return resp.send(200, r1);
+     return resp.status(200).send(r1);
     }
 
-    return resp.send(200, body);
-   }).catch((err) => resp.send(400, err));
+    return resp.status(200).send(body);
+   }).catch((err) => resp.status(400).send(err));
  });
 };

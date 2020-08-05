@@ -29,7 +29,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 // Configure Express
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 5000);
 app.use(bodyParser.raw({ type: 'application/jwt' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb', extended: true }));
 app.use(bodyParser.json({ type: 'application/json', limit: '50mb', extended: true }));

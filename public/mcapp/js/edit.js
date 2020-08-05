@@ -655,7 +655,7 @@ $(document).ready(() => {
  $('#cancel').on('click', (e) => {
   e.preventDefault();
   if ($('#rt').val() === undefined ||
-   $('#rt').val() === '') { window.location.href = `/dashboard/home/?rt=${urlParams.refresh_token}&eid=${urlParams.enterpriseId}`; } else { window.location.href = `/dashboard/home/?rt=${$('#rt').val()}&eid=${$('#eid').val()}`; }
+   $('#rt').val() === '') { window.location.href = `/dashboard/home/?rt=${urlParams.refresh_token}&eid=${urlParams.enterpriseId}&tssd=${$('#tssd').val()}`; } else { window.location.href = `/dashboard/home/?rt=${$('#rt').val()}&eid=${$('#eid').val()}&tssd=${$('#tssd').val()}`; }
  });
 
  $('#linkName').on('click', (e) => {
@@ -749,7 +749,7 @@ $(document).ready(() => {
     $('.slds-box').html(`<p>${errorThrown}</p>`);
     setInterval((evt) => {
      evt.preventDefault();
-     window.location.href = `/dashboard/home/?rt=${$('#rt').val()}&eid=${$('#eid').val()}`;
+     window.location.href = `/dashboard/home/?rt=${$('#rt').val()}&eid=${$('#eid').val()}&tssd=${$('#tssd').val()}`;
     }, 30000);
    },
   });
