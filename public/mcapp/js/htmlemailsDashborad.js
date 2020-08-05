@@ -141,7 +141,7 @@ function GetHtmlEmailByID(linkschecked) {
     if (linkschecked.length - 1 == i) {
      var postData = JSON.stringify({
       "accessToken": $('#rt').val(),
-      tssd: $("#tssd").val()
+      tssd: $("#tssd").val(),
       "id": currentEmailID
      })
 

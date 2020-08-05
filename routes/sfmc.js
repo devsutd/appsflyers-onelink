@@ -690,8 +690,6 @@ exports.UpsertLogHTMLEmailLinks = (req, resp) => {
  });
 };
 
-
-
 exports.logEmailsWithOneLinks = (req, resp) => {
  console.log("upsert row console log");
  sfmcHelper.createSoapClient(req.body.refresh_token, req.body.tssd, (e, response) => {

@@ -43,9 +43,7 @@ exports.loadDashboards = (req, resp) => {
     };
     console.log(dashboardResponse);
     return resp.status(200).send(dashboardResponse);
-   }).catch((err) => {
-    return resp.status(400).send(err);
-   });
+   }).catch((err) => resp.status(400).send(err));
  });
 };
 
@@ -71,7 +69,7 @@ exports.getLinksCount = (req, resp) => {
     const dashboardResponse = {
      data: body,
      refresh_token: response.refresh_token,
-     enterpriseId: req.body.enterpriseId
+     enterpriseId: req.body.enterpriseId,
     };
     return resp.status(200).send(dashboardResponse);
    }).catch((err) => resp.send(400, err));
@@ -109,7 +107,7 @@ exports.getLinkByID = (req, resp) => {
 exports.UpsertLink = (req, resp) => {
  sfmcHelper.createSoapClient(req.body.refresh_token, req.body.tssd, (e, response) => {
   if (e) { return resp.status(500).end(e); }
-  console.log("UpsertLink <br>");
+  console.log('UpsertLink <br>');
   console.log(req.body);
   const Properties = [{
     Name: 'LinkName',
@@ -162,10 +160,10 @@ exports.UpsertLink = (req, resp) => {
   console.log(UpdateRequest);
   sfmcHelper.upsertDataextensionRow(response.client, UpdateRequest)
    .then((body) => {
-    if (body.StatusCode !== undefined) {
+    if (body.OverallStatus !== undefined) {
      const r1 = {
       refresh_token: response.refresh_token,
-      Status: body.StatusCode[0],
+      Status: body.OverallStatus,
      };
      return resp.status(200).send(r1);
     }
