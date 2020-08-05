@@ -80,8 +80,10 @@ function getUrlParameters() {
  const url = new URL(window.location.href);
  const rt = url.searchParams.get('rt');
  const eid = url.searchParams.get('eid');
+ const tssd = url.searchParams.get('tssd');
  $('#rt').val(rt);
  $('#eid').val(eid);
+ $('#tssd').val(tssd);
 }
 
 function listLinks(data) {
@@ -249,7 +251,7 @@ document.getElementById('workspace').addEventListener('input', () => {
 });
 
 function getLinks() {
- const endpoint = `/sfmc/GetLinks?rt=${$('#rt').val()}&eid=${$('#eid').val()}`;
+ const endpoint = `/sfmc/GetLinks?rt=${$('#rt').val()}&eid=${$('#eid').val()}&tssd=${$('#tssd').val()}`;
  $.ajax({
   url: endpoint,
   method: 'GET',
@@ -271,8 +273,9 @@ function SaveDataExtensionRow() {
 
  const link = {};
  link.LinkID = data.linkID;
+ link.tssd = $('#tssd').val();
  link.contentsCount = contentsCount;
-
+ data.tssd = $('#tssd').val();
  $.ajax({
   url: '/sfmc/UpsertButtonRow',
   method: 'POST',
@@ -285,6 +288,7 @@ function SaveDataExtensionRow() {
     method: 'POST',
     data: link,
     success(upsertLinkData) {
+     $('#rt').val(refresh_token);
      console.log(upsertLinkData);
     },
    });

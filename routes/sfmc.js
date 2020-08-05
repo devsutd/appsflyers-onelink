@@ -23,12 +23,10 @@ function CreateContentBuilderJPG(data, accessToken) {
  console.log("Dentro de CreateContentBuilderJPG");
  return new Promise((resolve, reject) => {
   const base64 = data.fileBase64.split(",")[1];
-  console.log(base64);
+  //console.log(base64);
   const postData = assetObject(data.name, base64);
-  console.log(postData);
-
   request({
-    url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets`,
+    url: `https://${data.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets`,
     method: "POST",
     headers: {
      "Content-Type": "application/json",
@@ -86,18 +84,23 @@ exports.SaveImage = async(req, resp, _next) => {
   .then((data) => {
    CreateContentBuilderJPG(req.body, data.access_token)
     .then((r) => {
+     var rsp = {
+      refresh_token: data.refresh_token,
+      data: r
+     }
+
      console.log(r);
      console.log("Save Image - OK");
-     resp.status(200).end(r);
+     return resp.status(200).send(rsp);
     })
     .catch((e) => {
      console.log(e);
      console.log("Save Image - Error");
-     resp.status(200).end(e);
+     return resp.status(200).end(e);
     });
   })
   .catch((err) => {
-   resp.status(500).end(err);
+   return resp.status(500).end(err);
   }),
  ]);
 };
@@ -128,7 +131,7 @@ exports.GetImageStatus = (req, resp) => {
 };
 
 exports.GetLinks = (req, resp) => {
- sfmcHelper.createSoapClient(req.query.rt, req.body.tssd, (e, response) => {
+ sfmcHelper.createSoapClient(req.query.rt, req.query.tssd, (e, response) => {
   if (e) {
    return resp.status(401).send(e);
   }
@@ -292,10 +295,10 @@ exports.UpsertButtonRow = (req, resp) => {
   sfmcHelper
    .upsertDataextensionRow(response.client, UpdateRequest)
    .then((body) => {
-    if (body.StatusCode !== undefined) {
+    if (body.OverallStatus !== undefined) {
      const r1 = {
       refresh_token: response.refresh_token,
-      Status: body.StatusCode[0],
+      Status: body.OverallStatus,
      };
      return resp.send(200, r1);
     }
@@ -329,15 +332,15 @@ exports.UpsertLink = (req, resp) => {
   sfmcHelper
    .upsertDataextensionRow(response.client, UpdateRequest)
    .then((body) => {
-    if (body.StatusCode !== undefined) {
+    if (body.OverallStatus !== undefined) {
      const r1 = {
       refresh_token: response.refresh_token,
-      Status: body.StatusCode[0],
+      Status: body.OverallStatus[0],
      };
      return resp.status(200).send(r1);
     }
 
-    return resp.status(200).semd(body);
+    return resp.status(200).send(body);
    })
    .catch((err) => {
     return resp.status(500).send(err);

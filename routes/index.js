@@ -220,9 +220,9 @@ exports.login = (req, res) => {
      }
 
      if (state === 'image') {
-      returnView = `/image/?rt=${r.refreshToken}&eid=${r.bussinessUnitInfo.enterprise_id}`;
+      returnView = `/image/?rt=${r.refreshToken}&eid=${r.bussinessUnitInfo.enterprise_id}&tssd=${tssd}`;
      } else {
-      returnView = `/button/?rt=${r.refreshToken}&eid=${r.bussinessUnitInfo.enterprise_id}`;
+      returnView = `/button/?rt=${r.refreshToken}&eid=${r.bussinessUnitInfo.enterprise_id}&tssd=${tssd}`;
      }
 
      console.log('Authorized: ', r);
