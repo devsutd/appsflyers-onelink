@@ -49,7 +49,7 @@ function ImagenStatus(data, accessToken) {
  console.log("Dentro de CreateContentBuilderJPG");
  return new Promise((resolve, reject) => {
   const { id } = data;
-  const endpoint = `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets?$filter=id%20eq%20${id}`;
+  const endpoint = `https://${data.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets?$filter=id%20eq%20${id}`;
   request({
     url: endpoint,
     method: "GET",
