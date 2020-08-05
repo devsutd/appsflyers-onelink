@@ -10,10 +10,8 @@
     style-src  'self' 'unsafe-inline' *">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
-    <link rel="stylesheet"
-    href="/mcapp/css/salesforce-lightning-design-system/assets/styles/salesforce-lightning-design-system.min.css">
-    <link rel="stylesheet"
-    href="/mcapp/css/styles.css">
+    <link rel="stylesheet" href="/mcapp/css/salesforce-lightning-design-system/assets/styles/salesforce-lightning-design-system.min.css">
+    <link rel="stylesheet" href="/mcapp/css/styles.css">
     <script type="text/javascript" src="/mcapp/js/jquery-3.5.1.min.js"></script>
     <script type="text/javascript" src="/mcapp/js/validatetoken.js"></script>
     <style>
@@ -24,17 +22,13 @@
 </head>
 
 <body style="background-color: #fff;">
-    <div class="visual-area-positions--left-half " closertotopclass="project-canvas-element--closer-to-top" id="login"
-        style="display:block;">
+    <div class="visual-area-positions--left-half " closertotopclass="project-canvas-element--closer-to-top" id="login" style="display:block;">
         <div class="slds-grid slds-grid_align-center ">
 
-            <div class="slds-clearfix visual-area-positions--closer-to-top visual-area-positions--left-half slds-size_medium"
-                dropzone="grid column 1" style="width: 400px;">
+            <div class="slds-clearfix visual-area-positions--closer-to-top visual-area-positions--left-half slds-size_medium" dropzone="grid column 1" style="width: 400px;">
                 <div class="visual-area-positions--left-half" closertotopclass="project-canvas-element--closer-to-top">
-                    <div class="slds-form slds-clearfix slds-form_stacked slds-align_absolute-center visual-area-positions--closer-to-top visual-area-positions--left-half"
-                        dropzone="formLayout">
-                        <div class="visual-area-positions--left-half"
-                            closertotopclass="project-canvas-element--closer-to-top">
+                    <div class="slds-form slds-clearfix slds-form_stacked slds-align_absolute-center visual-area-positions--closer-to-top visual-area-positions--left-half" dropzone="formLayout">
+                        <div class="visual-area-positions--left-half" closertotopclass="project-canvas-element--closer-to-top">
                             <img src="../mcapp/images/Logo.PNG" style="width: auto; height: auto;"></div>
                     </div>
                 </div>
@@ -43,33 +37,26 @@
                         <div id="error"></div>
                         <div class="slds-card__header slds-clearfix slds-grid">
                             <header class="slds-media slds-media_center slds-has-flexi-truncate">
-                                <div
-                                    class="slds-grid slds-grid_vertical-align-center slds-size_3-of-4 slds-medium-size_2-of-3">
+                                <div class="slds-grid slds-grid_vertical-align-center slds-size_3-of-4 slds-medium-size_2-of-3">
                                     <div class="slds-media__body">
-                                        <h2><a class="slds-card__header-link slds-truncate"
-                                                href="javascript:void(0);"><span
+                                        <h2><a class="slds-card__header-link slds-truncate" href="javascript:void(0);"><span
                                                     class="slds-text-heading_small"></span></a></h2>
                                     </div>
                                 </div>
                             </header>
 
                         </div>
-                        <div class="slds-card__body slds-clearfix slds-card__body_inner visual-area-positions--left-half"
-                            dropzone="card body">
-                            <div class="visual-area-positions--left-half"
-                                closertotopclass="project-canvas-element--closer-to-top">
-                                <div class="slds-form slds-clearfix slds-form_stacked visual-area-positions--left-half"
-                                    dropzone="formLayout">
+                        <div class="slds-card__body slds-clearfix slds-card__body_inner visual-area-positions--left-half" dropzone="card body">
+                            <div class="visual-area-positions--left-half" closertotopclass="project-canvas-element--closer-to-top">
+                                <div class="slds-form slds-clearfix slds-form_stacked visual-area-positions--left-half" dropzone="formLayout">
 
-                                    <div class="visual-area-positions--left-half"
-                                    closertotopclass="project-canvas-element--closer-to-top" style="padding-top: 16px; padding-bottom: 16px;">
+                                    <div class="visual-area-positions--left-half" closertotopclass="project-canvas-element--closer-to-top" style="padding-top: 16px; padding-bottom: 16px;">
                                         <span>AppsFlyer requires the below Token and Salesforce Enterprise ID (EID) information to be added to the AppsFlyer platform to gain access to the AppsFlyer OneLink App for Salesforce.  
                                             <br>When you have completed adding the Token and Salesforce Enterprise ID (EID) to AppsFlyer platform, proceed by clicking the ‘Validate’ button below.
                                         <br> For additional information of how to activate the AppsFlyer OneLink App for Salesforce please follow these                                     <a href="https://support.appsflyer.com/hc/en-us/articles/360004964178">instructions</a>.
                                     </span>
-                                </div>
-                                    <div class="visual-area-positions--left-half"
-                                        closertotopclass="project-canvas-element--closer-to-top" id="password-panel">
+                                    </div>
+                                    <div class="visual-area-positions--left-half" closertotopclass="project-canvas-element--closer-to-top" id="password-panel">
                                         <div class="slds-form-element slds-m-bottom_x-small ">
                                             <label class="slds-form-element__label">
                                                 <span>Token</span>
@@ -92,19 +79,17 @@
                                             </div>
                                         </label>
                                         <div class="slds-form-element__control">
-                                            <input class="slds-input" type="text" id="eid" readonly> <a href="#" id="copyEid"
-                                            eid>Copy</a>
+                                            <input class="slds-input" type="text" id="eid" readonly> <a href="#" id="copyEid" eid>Copy</a>
                                         </div>
                                     </div>
-                                  
-                                    <div class="visual-area-positions--left-half"
-                                        closertotopclass="project-canvas-element--closer-to-top">
-                                        <button id="btn-validate"
-                                            class="slds-button slds-m-top_small slds-theme_brand   slds-button_brand">
+
+                                    <div class="visual-area-positions--left-half" closertotopclass="project-canvas-element--closer-to-top">
+                                        <button id="btn-validate" class="slds-button slds-m-top_small slds-theme_brand   slds-button_brand">
                                             <span>Validate</span>
                                         </button>
                                     </div>
                                     <input type="hidden" id="rt">
+                                    <input type="hidden" id="tssd" name="tssd" value="">
                                     <input type="hidden" id="af_jwt">
                                 </div>
                             </div>
