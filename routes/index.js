@@ -113,7 +113,7 @@ exports.login = (req, res) => {
   if (req.query.code === undefined) {
    let stateParam = '&state=mcapp';
    if (req.query.state !== undefined) {
-    stateParam = `&state=${req.query.state}`;
+    stateParam = `&state=${JSON.stringify(req.query.state)}`;
    }
    const redirectUri = `${process.env.baseAuth}/v2/authorize?response_type=code&client_id=${process.env.sfmcClientId}&redirect_uri=${process.env.redirectURI}${stateParam}`;
    console.log(`redirect uri: ${redirectUri}`);
@@ -233,7 +233,8 @@ exports.login = (req, res) => {
     });
    }
   }
- } catch (err) {
+ } catch (err) {;
+  console.log(`error on login method: ${err}`);
   return res.status(200).send(err);
  }
 };
