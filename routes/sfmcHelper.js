@@ -230,10 +230,11 @@ exports.authorize = async(req, res) => {
  ]); */
 };
 
-exports.getUserInfo = (accessToken) =>
+exports.getUserInfo = (accessToken, tssd) =>
+
  new Promise((resolve, reject) => {
   request({
-    url: process.env.userInfo,
+    url: `https://${tssd}.auth.marketingcloudapis.com/v2/userinfo`,
     method: "GET",
     headers: {
      "Content-Type": "application/json",
