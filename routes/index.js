@@ -109,11 +109,11 @@ function UpdateRequestObjectMulipleRows(upsertData) {
 // eslint-disable-next-line consistent-return
 exports.login = (req, res) => {
  try {
-  console.log(`Metodo login: ${req.query}`);
+  console.log(`Metodo login: ${JSON.stringify(req.query)}`);
   if (req.query.code === undefined) {
    let stateParam = '&state=mcapp';
    if (req.query.state !== undefined) {
-    stateParam = `&state=${JSON.stringify(req.query.state)}`;
+    stateParam = `&state=${req.query.state}`;
    }
    const redirectUri = `${process.env.baseAuth}/v2/authorize?response_type=code&client_id=${process.env.sfmcClientId}&redirect_uri=${process.env.redirectURI}${stateParam}`;
    console.log(`redirect uri: ${redirectUri}`);
