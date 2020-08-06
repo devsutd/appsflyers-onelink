@@ -171,19 +171,26 @@ exports.refreshToken = (refresh_token, tssd) => {
 
 exports.authorize = async(req, res) => {
  try {
+  console.log(JSON.stringify(req.Body));
   const accessTokenbody = await this.getAccessToken(req.body.code, req.body.tssd);
+  console.log(`ACCESSTOKEN RESPONSE: ${accessTokenbody}`);
   const refreshTokenbody = await this.refreshToken(accessTokenbody.refresh_token, req.body.tssd);
+  console.log(`refreshToken RESPONSE: ${refreshTokenbody}`);
   if (refreshTokenbody === undefined) {
    return res('Refresh token is undefined', null);
   }
 
   const getUserInfoBody = await this.getUserInfo(refreshTokenbody.access_token);
+  console.log(`getUserInfo RESPONSE: ${refreshTokenbody}`);
   const getUserInfoResponse = JSON.parse(getUserInfoBody);
+
   const customResponse = {
    bussinessUnitInfo: getUserInfoResponse.organization,
    apiEndpoints: getUserInfoResponse.rest,
    refreshToken: refreshTokenbody.refresh_token,
   };
+
+  console.log(`customResponse RESPONSE: ${refreshTokenbody}`);
   return res(null, customResponse);
  } catch (ex) {
   return res(ex, null);
