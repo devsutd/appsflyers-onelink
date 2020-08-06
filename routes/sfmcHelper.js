@@ -180,8 +180,8 @@ exports.authorize = async(req, res) => {
    return res('Refresh token is undefined', null);
   }
 
-  const getUserInfoBody = await this.getUserInfo(refreshTokenbody.access_token);
-  console.log(`getUserInfo RESPONSE: ${JSON.stringify(getUserInfoBody)}`);
+  const getUserInfoBody = await this.getUserInfo(refreshTokenbody.access_token, req.body.tssd);
+  console.log(`getUserInfo RESPONSE: ${getUserInfoBody}`);
   const getUserInfoResponse = JSON.parse(getUserInfoBody);
 
   const customResponse = {
