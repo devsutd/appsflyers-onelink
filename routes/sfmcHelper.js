@@ -173,7 +173,7 @@ exports.authorize = async(req, res) => {
  try {
   console.log(JSON.stringify(req.Body));
   const accessTokenbody = await this.getAccessToken(req.body.code, req.body.tssd);
-  console.log(`ACCESSTOKEN RESPONSE: ${JSON.stringify(accessTokenbody)}`);
+  console.table(accessTokenbody);
   const refreshTokenbody = await this.refreshToken(accessTokenbody.refresh_token, req.body.tssd);
   console.log(`refreshToken RESPONSE: ${JSON.stringify(refreshTokenbody)}`);
   if (refreshTokenbody === undefined) {
