@@ -181,7 +181,7 @@ exports.authorize = async(req, res) => {
   }
 
   const getUserInfoBody = await this.getUserInfo(refreshTokenbody.access_token);
-  console.log(`getUserInfo RESPONSE: ${JSON.stringify(refreshTokenbody)}`);
+  console.log(`getUserInfo RESPONSE: ${JSON.stringify(getUserInfoBody)}`);
   const getUserInfoResponse = JSON.parse(getUserInfoBody);
 
   const customResponse = {
@@ -190,7 +190,7 @@ exports.authorize = async(req, res) => {
    refreshToken: refreshTokenbody.refresh_token,
   };
 
-  console.log(`customResponse RESPONSE: ${JSON.stringify(refreshTokenbody)}`);
+  console.log(`customResponse RESPONSE: ${JSON.stringify(customResponse)}`);
   return res(null, customResponse);
  } catch (ex) {
   return res(ex, null);
