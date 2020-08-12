@@ -81,7 +81,7 @@ function xmlToArray(rawResponse) {
       }
       element.push(obj);
      }
-     console.log(element);
+
      data = element;
     }
    } // processed data
@@ -97,11 +97,9 @@ function parseUpsertResponse(rawResponse) {
    tagNameProcessors: [stripPrefix],
   },
   (err, result) => {
-   console.log(result);
    if (result.Envelope.Body[0].UpdateResponse[0].Results !== undefined) {
     const rows = result.Envelope.Body[0].UpdateResponse[0].Results;
     data = rows[0];
-    console.log(data);
    } // processed data
   }
  );
@@ -171,17 +169,13 @@ exports.refreshToken = (refresh_token, tssd) => {
 
 exports.authorize = async(req, res) => {
  try {
-  console.log(JSON.stringify(req.Body));
   const accessTokenbody = await this.getAccessToken(req.body.code, req.body.tssd);
-  console.table(accessTokenbody);
   const refreshTokenbody = await this.refreshToken(accessTokenbody.refresh_token, req.body.tssd);
-  console.log(`refreshToken RESPONSE: ${JSON.stringify(refreshTokenbody)}`);
   if (refreshTokenbody === undefined) {
    return res('Refresh token is undefined', null);
   }
 
   const getUserInfoBody = await this.getUserInfo(refreshTokenbody.access_token, req.body.tssd);
-  console.log(`getUserInfo RESPONSE: ${getUserInfoBody}`);
   const getUserInfoResponse = JSON.parse(getUserInfoBody);
 
   const customResponse = {
@@ -190,7 +184,6 @@ exports.authorize = async(req, res) => {
    refreshToken: refreshTokenbody.refresh_token,
   };
 
-  console.log(`customResponse RESPONSE: ${JSON.stringify(customResponse)}`);
   return res(null, customResponse);
  } catch (ex) {
   return res(ex, null);

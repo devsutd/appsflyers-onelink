@@ -328,7 +328,6 @@ exports.UpsertLink = (req, resp) => {
    Properties
   );
 
-  console.log(UpdateRequest);
   sfmcHelper
    .upsertDataextensionRow(response.client, UpdateRequest)
    .then((body) => {
@@ -476,8 +475,6 @@ exports.GetContentBuilderEmails = (req, resp) => {
     body: JSON.stringify(filter),
    },
    (err, _response, body) => {
-    console.log(err);
-    console.log(body);
     if (err) {
      return resp.status(401).send(err);
     }
@@ -508,9 +505,6 @@ exports.UpdateEmail = (req, resp) => {
    },
    (err, _response, body) => {
     if (err) {
-     console.log(err);
-     console.log(_response);
-     console.log(body);
      return resp.status(401).send(err);
     }
     console.log(JSON.parse(body));
@@ -671,11 +665,11 @@ exports.UpsertLogHTMLEmailLinks = (req, resp) => {
    Properties
   );
 
-  console.log(UpdateRequest);
+
   sfmcHelper
    .upsertDataextensionRow(response.client, UpdateRequest)
    .then((body) => {
-    console.log(body);
+
     if (body.StatusCode !== undefined) {
      const r1 = {
       refresh_token: response.refresh_token,
@@ -686,10 +680,13 @@ exports.UpsertLogHTMLEmailLinks = (req, resp) => {
     }
 
     body.refresh_token = response.refresh_token;
-    console.log(body);
+
     return resp.send(200, body);
    })
-   .catch((err) => resp.send(400, err));
+   .catch((err) => {
+    console.error(err);
+    return resp.send(400, err);
+   });
  });
 };
 
