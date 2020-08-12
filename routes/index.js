@@ -189,6 +189,7 @@ exports.login = (req, res) => {
           sfmc
            .UpsertEmailsWithOneLinks(upsertRequest)
            .then((r2) => {
+            console.log(`Log upsert Emails ${r2}`);
             let view = '';
             if (response.length > 0) {
              view = `/dashboard/home?eid=${r.bussinessUnitInfo.enterprise_id}&rt=${r2.refresh_token}`;
