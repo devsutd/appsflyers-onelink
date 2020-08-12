@@ -169,13 +169,22 @@ exports.refreshToken = (refresh_token, tssd) => {
 
 exports.authorize = async(req, res) => {
  try {
-  const accessTokenbody = await this.getAccessToken(req.body.code, req.body.tssd);
-  const refreshTokenbody = await this.refreshToken(accessTokenbody.refresh_token, req.body.tssd);
+  const accessTokenbody = await this.getAccessToken(
+   req.body.code,
+   req.body.tssd
+  );
+  const refreshTokenbody = await this.refreshToken(
+   accessTokenbody.refresh_token,
+   req.body.tssd
+  );
   if (refreshTokenbody === undefined) {
-   return res('Refresh token is undefined', null);
+   return res("Refresh token is undefined", null);
   }
 
-  const getUserInfoBody = await this.getUserInfo(refreshTokenbody.access_token, req.body.tssd);
+  const getUserInfoBody = await this.getUserInfo(
+   refreshTokenbody.access_token,
+   req.body.tssd
+  );
   const getUserInfoResponse = JSON.parse(getUserInfoBody);
 
   const customResponse = {
@@ -191,7 +200,6 @@ exports.authorize = async(req, res) => {
 };
 
 exports.getUserInfo = (accessToken, tssd) =>
-
  new Promise((resolve, reject) => {
   request({
     url: `https://${tssd}.auth.marketingcloudapis.com/v2/userinfo`,
