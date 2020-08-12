@@ -112,7 +112,6 @@ function UpdateRequestObjectMulipleRows(upsertData, eid) {
 // eslint-disable-next-line consistent-return
 exports.login = (req, res) => {
  try {
-  console.log(`Metodo login: ${JSON.stringify(req.query)}`);
   if (req.query.code === undefined) {
    let stateParam = "&state=mcapp";
    if (req.query.state !== undefined) {
@@ -134,16 +133,13 @@ exports.login = (req, res) => {
     },
    };
 
-   console.log(req.query.code);
-
    if (state === "mcapp") {
     sfmcHelper.authorize(request, (e, r) => {
      if (e) {
       res.status(400).end(e);
       return;
      }
-     console.clear();
-     console.log(r);
+     console.table(r);
      const Request2 = {
       body: {
        refresh_token: r.refreshToken,
