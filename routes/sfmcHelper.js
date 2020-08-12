@@ -195,39 +195,6 @@ exports.authorize = async(req, res) => {
  } catch (ex) {
   return res(ex, null);
  }
- /*await Promise.all([
-  this.getAccessToken(req.body.code, req.body.tssd)
-  .then((accessTokenbody) => {
-   this.refreshToken(accessTokenbody.refresh_token, req.body.tssd)
-
-   .then((refreshTokenbody) => {
-     this.getUserInfo(refreshTokenbody.access_token)
-      .then((getUserInfoBody) => {
-       const getUserInfoResponse = JSON.parse(getUserInfoBody);
-       const customResponse = {
-        bussinessUnitInfo: getUserInfoResponse.organization,
-        apiEndpoints: getUserInfoResponse.rest,
-        refreshToken: refreshTokenbody.refresh_token,
-       };
-       const response = customResponse;
-
-       return res(null, response);
-      })
-      .catch((err2) => {
-       console.log(err2);
-       return res(err2, null);
-      });
-    })
-    .catch((err1) => {
-     console.log(err1);
-     return res(err1, null);
-    });
-  })
-  .catch((err) => {
-   console.log(err);
-   return res(err, null);
-  }),
- ]); */
 };
 
 exports.getUserInfo = (accessToken, tssd) =>
