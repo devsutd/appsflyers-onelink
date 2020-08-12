@@ -67,8 +67,8 @@ function UpdateRequestObjectMulipleRows(upsertData, eid) {
      SaveAction: "UpdateAdd",
     },
    },
-   Client: {
-    ID: eid,
+   ClientIDs: {
+    ClientID: eid,
    },
   },
   Objects: [],
