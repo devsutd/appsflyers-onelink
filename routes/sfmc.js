@@ -642,12 +642,13 @@ exports.GetAllContentBuilderAssets = (req, resp) => {
 exports.UpsertEmailsWithOneLinks = (req) => {
     console.log('UpsertEmailsWithOneLinks process start...');
     return new Promise((resolve, reject) => {
+        console.log(`refresh token ${req.body.refresh_token}`);
+        console.log(`tssd ${req.body.tssd}`);
         sfmcHelper.createSoapClient(
             req.body.refresh_token,
             req.body.tssd,
             (e, response) => {
                 if (e) {
-                    console.log(e);
                     return reject(e);
                 }
 

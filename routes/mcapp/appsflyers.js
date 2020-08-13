@@ -49,7 +49,6 @@ exports.validateToken = (req, resp) => {
         if (err) { return resp.send(500, err); }
         if (body.indexOf('No past login found for user token') > -1) { return resp.status(200).send('unauthorized'); }
 
-        // TODO:UPDATE DATAEXTENSION TO AUTHORIZED
         return resp.status(200).send(body);
     });
     // return resp.status(200).send();
