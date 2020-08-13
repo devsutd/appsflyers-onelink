@@ -208,7 +208,8 @@ exports.UpsertImageRow = (req, resp) => {
     process.env.ImageContentBlockDataExtension, [{
      Name: "ContentBlockID",
      Value: req.body.ContentBlockID === undefined ?
-      uuidv1() : req.body.ContentBlockID,
+      uuidv1() :
+      req.body.ContentBlockID,
     }, ],
     Properties
    );
@@ -296,7 +297,8 @@ exports.UpsertButtonRow = (req, resp) => {
     process.env.ButtonContentBlockDataExtension, [{
      Name: "ContentBlockID",
      Value: req.body.contentBlockID === undefined ?
-      uuidv1() : req.body.contentBlockID,
+      uuidv1() :
+      req.body.contentBlockID,
     }, ],
     Properties
    );
@@ -660,7 +662,6 @@ exports.UpsertEmailsWithOneLinks = (req, resp) => {
     sfmcHelper
      .upsertDataextensionRow(response.client, req.body.UpdateRequest)
      .then((body) => {
-
       if (body.OverallStatus !== undefined) {
        const r1 = {
         refresh_token: response.refresh_token,

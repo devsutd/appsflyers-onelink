@@ -7,12 +7,12 @@ function countDuplicados(links) {
  const data = [];
  for (let index = 0; index < links.length; index++) {
   const element = links[index];
-  element.Links.forEach((linkid) => {
+  element.Links.forEach(linkid => {
    data.push({
     EmailID: element.EmailID,
     EmailName: element.EmailName,
     LinkID: linkid,
-    count: element.Links.filter((i) => i === linkid).length,
+    count: element.Links.filter(i => i === linkid).length,
    });
   });
  }
@@ -156,14 +156,14 @@ exports.login = (req, res) => {
         Request2.body.refresh_token = response.refresh_token;
         installAppExchange
          .createDataExtensions(Request2)
-         .then((resp) => {
+         .then(resp => {
           let view = `/mcapp/home?eid=${resp.eid}&rt=${resp.refresh_token}`;
           if (tssd !== undefined) {
            view += `&tssd=${tssd}`;
           }
           return res.redirect(view);
          })
-         .catch((err) => {
+         .catch(err => {
           console.log(err);
          });
        } else {
@@ -171,7 +171,7 @@ exports.login = (req, res) => {
         Request2.body.refresh_token = response.refresh_token;
         sfmc
          .GetContentBuilderTemplateBasedEmails(Request2)
-         .then((emails) => {
+         .then(emails => {
           const upsertData = emailsUsingCustomBlocks(
            emails.body.items
           );
@@ -188,7 +188,7 @@ exports.login = (req, res) => {
           };
           sfmc
            .UpsertEmailsWithOneLinks(upsertRequest)
-           .then((r2) => {
+           .then(r2 => {
             console.log(`Log upsert Emails ${r2}`);
             let view = "";
             if (response.length > 0) {
@@ -204,7 +204,7 @@ exports.login = (req, res) => {
 
             return res.redirect(view);
            })
-           .catch((e2) => {
+           .catch(e2 => {
             console.log(e2);
            });
          });
@@ -242,6 +242,6 @@ exports.login = (req, res) => {
  }
 };
 
-exports.logout = (req) => {
+exports.logout = req => {
  req.session.token = "";
 };

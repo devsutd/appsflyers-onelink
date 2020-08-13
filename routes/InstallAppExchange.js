@@ -168,9 +168,13 @@ const GetAppsFlyersFolderID = (enterpriseId, client) =>
        return reject("Error: can't retrieve Shared Data Extensions");
       }
      })
-     .catch((err1) => reject(err1));
+     .catch((err1) => {
+         return reject(err1)
+        });
    })
-   .catch((e) => reject(e));
+   .catch((e) =>{
+       return reject(e)
+});
  });
 
 exports.createDataExtensions = async(req) =>
