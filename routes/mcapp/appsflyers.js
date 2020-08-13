@@ -27,7 +27,6 @@ exports.auth = (req, resp) => {
             });
 
             body.af_jwt = cookies[0].value;
-
         }
 
 
