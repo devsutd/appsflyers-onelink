@@ -118,13 +118,11 @@ const retrieveFolder = (enterpriceId, name, client) => new Promise((resolve, rej
             'shared_dataextension',
         ),
     );
-    console.log(requestObject);
     client.Retrieve(requestObject, (err, response) => {
         if (err) {
             return reject(JSON.stringify(err));
         }
 
-        console.log(response);
         return resolve(response);
     });
 });
@@ -180,7 +178,6 @@ exports.createDataExtensions = async (req) => new Promise((resolve, reject) => {
                 response.eid = req.body.eid;
                 GetAppsFlyersFolderID(req.body.eid, response.client)
                     .then((r1) => {
-                        console.log(r1);
                         const CreateRequestDEObjImage = CreateRequestDE(
                             req.body.eid,
                             process.env.ImageContentBlockDataExtension,

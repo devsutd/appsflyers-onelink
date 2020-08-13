@@ -104,7 +104,6 @@ function UpdateRequestObjectMulipleRows(upsertData, eid) {
                 ],
             }],
         });
-        console.log(UpdateRequest);
     }
 
     return UpdateRequest;
