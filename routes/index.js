@@ -139,7 +139,7 @@ exports.login = (req, res) => {
       res.status(400).end(e);
       return;
      }
-     console.table(r);
+     console.log(r);
      const Request2 = {
       body: {
        refresh_token: r.refreshToken,
