@@ -90,21 +90,6 @@ function xmlToArray(rawResponse) {
     return data;
 }
 
-/* function parseUpsertResponse(rawResponse) {
-    let data;
-    parser.parseString(
-        rawResponse, {
-            tagNameProcessors: [stripPrefix],
-        },
-        (err, result) => {
-            if (result.Envelope.Body[0].UpdateResponse[0].Results !== undefined) {
-                const rows = result.Envelope.Body[0].UpdateResponse[0].Results;
-                data = rows[0];
-            } // processed data
-        },
-    );
-    return data;
-} */
 exports.getAccessToken = (code, tssd) => {
     if (tssd === undefined) {
         return Promise.reject(new Error('invalid tennant subdomain'));
