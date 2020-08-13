@@ -110,10 +110,8 @@ exports.GetImageStatus = (req, resp) => {
  sfmcHelper
   .refreshToken(req.body.refresh_token, req.body.tssd)
   .then((data) => {
-   console.log(data);
    ImagenStatus(req.body, data.access_token)
     .then((r) => {
-     console.log(r);
      // eslint-disable-next-line no-param-reassign
      r.refresh_token = data.refresh_token;
      console.log("Get Image status - OK");
@@ -160,7 +158,6 @@ exports.GetLinks = (req, resp) => {
   sfmcHelper
    .retrieveRequest(response.client, requestObject)
    .then((body) => {
-    console.log(body);
     const responseObje = {
      links: body,
      refresh_token: response.refresh_token,
@@ -663,7 +660,7 @@ exports.UpsertEmailsWithOneLinks = (req, resp) => {
     sfmcHelper
      .upsertDataextensionRow(response.client, req.body.UpdateRequest)
      .then((body) => {
-      console.log(body);
+
       if (body.OverallStatus !== undefined) {
        const r1 = {
         refresh_token: response.refresh_token,

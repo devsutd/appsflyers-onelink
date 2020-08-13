@@ -157,7 +157,6 @@ exports.login = (req, res) => {
         installAppExchange
          .createDataExtensions(Request2)
          .then((resp) => {
-          console.log(resp);
           let view = `/mcapp/home?eid=${resp.eid}&rt=${resp.refresh_token}`;
           if (tssd !== undefined) {
            view += `&tssd=${tssd}`;

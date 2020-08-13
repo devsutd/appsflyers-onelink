@@ -308,25 +308,29 @@ exports.UpdateRequestObject = (customerkey, keys, Properties) => {
 };
 
 exports.upsertDataextensionRow = (client, UpdateRequest) =>
- new Promise((resolve, reject) => {
-  if (client === undefined) {
-   console.error("invalid soap client");
-   return reject("client is required");
+ console.log("upsertDataextensionRow process start");
+new Promise((resolve, reject) => {
+ if (client === undefined) {
+  console.error("invalid soap client");
+  return reject("client is required");
+ }
+
+ if (UpdateRequest === undefined) {
+  console.error("invalid UpdateRequest");
+  return reject("UpdateRequest is required");
+ }
+
+ client.Update(UpdateRequest, (err, res, rawResponse, body, rawrequest) => {
+  if (err) {
+   console.error("ERROR DETAILS: ", err);
+   return reject(err);
   }
 
-  if (UpdateRequest === undefined) {
-   console.error("invalid UpdateRequest");
-   return reject("UpdateRequest is required");
-  }
-
-  client.Update(UpdateRequest, (err, res, rawResponse, body, rawrequest) => {
-   if (err) {
-    console.error("ERROR DETAILS: ", err);
-    return reject(err);
-   }
-   return resolve(res);
-  });
+  console.log(res);
+  console.log("upsertDataextensionRow process end");
+  return resolve(res);
  });
+});
 
 exports.createDataExtension = (client, CreateRequest) =>
  new Promise((resolve, reject) => {
