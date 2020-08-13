@@ -52,7 +52,7 @@ $(document).ready(() => {
    async: false,
    data: postData,
    success(data) {
-    if (data.OverallStatus === "OK") {
+    if (data.Status === "OK") {
      window.location.href = `/dashboard/home/?rt=${
             data.refresh_token
           }&eid=${$("#eid").val()}&tssd=${$("#tssd").val()}`;
