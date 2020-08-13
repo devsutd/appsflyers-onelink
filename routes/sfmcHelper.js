@@ -328,7 +328,6 @@ exports.upsertDataextensionRow = (client, UpdateRequest) => new Promise((resolve
     });
 });
 
-
 exports.createDataExtension = (client, CreateRequest) => new Promise((resolve, reject) => {
     client.Create(CreateRequest, (e, r) => {
         if (e) {
