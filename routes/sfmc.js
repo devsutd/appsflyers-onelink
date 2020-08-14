@@ -20,7 +20,7 @@ function assetObject(ImageName, fileBase64) {
 }
 
 function CreateContentBuilderJPG(data, accessToken) {
-    console.log('Dentro de CreateContentBuilderJPG');
+    console.log('SFMC LINEA 23: Dentro de CreateContentBuilderJPG');
     return new Promise((resolve, reject) => {
         const base64 = data.fileBase64.split(',')[1];
         // console.log(base64);
@@ -45,7 +45,7 @@ function CreateContentBuilderJPG(data, accessToken) {
 }
 
 function ImagenStatus(data, accessToken) {
-    console.log('Dentro de CreateContentBuilderJPG');
+    console.log('SFMC LINEA 48 entro de CreateContentBuilderJPG');
     return new Promise((resolve, reject) => {
         const { id } = data;
         const endpoint = `https://${ data.tssd }.rest.marketingcloudapis.com/asset/v1/content/assets?$filter=id%20eq%20${ id }`;
@@ -73,7 +73,7 @@ function ImagenStatus(data, accessToken) {
 
 // eslint-disable-next-line no-unused-vars
 exports.SaveImage = async (req, resp, _next) => {
-    console.log('Dentro de SaveImage');
+    console.log('SFMC LINEA 76 Dentro de SaveImage');
     // return  resp.send(200, "body");
 
     await Promise.all([
@@ -87,13 +87,13 @@ exports.SaveImage = async (req, resp, _next) => {
                             data: r,
                         };
 
-                        console.log(r);
-                        console.log('Save Image - OK');
+                        console.log('SFMC LINEA 90 Save Image - OK');
+                        console.log('SFMC LINEA 91', r);
                         return resp.status(200).send(rsp);
                     })
                     .catch((e) => {
-                        console.log(e);
-                        console.log('Save Image - Error');
+                        console.log('ERROR ON SFMC LINEA 95 Save Image - Error');
+                        console.log('ERROR ON SFMC.JS LINEA 96', e);
                         return resp.status(200).end(e);
                     });
             })
@@ -102,7 +102,7 @@ exports.SaveImage = async (req, resp, _next) => {
 };
 
 exports.GetImageStatus = (req, resp) => {
-    console.log('Dentro de GetImageStatus');
+    console.log('SFMC LINEA  105: Dentro de GetImageStatus');
     // return  resp.send(200, "body");
 
     sfmcHelper
@@ -112,12 +112,12 @@ exports.GetImageStatus = (req, resp) => {
                 .then((r) => {
                     // eslint-disable-next-line no-param-reassign
                     r.refresh_token = data.refresh_token;
-                    console.log('Get Image status - OK');
+                    console.log('SFMC LINEA  115: Get Image status - OK');
                     return resp.status(200).send(r);
                 })
                 .catch((e) => {
-                    console.log(e);
-                    console.log('Get Image status - Error');
+                    console.log('SFMC LINEA  119:  ERROR ON SFMC.JS LINEA 119', e);
+                    console.log('SFMC LINEA  120: Get Image status - Error');
                     return resp.status(200).send(e);
                 });
         })
@@ -125,7 +125,6 @@ exports.GetImageStatus = (req, resp) => {
 };
 
 exports.GetLinks = (req, resp) => {
-    console.log('');
     sfmcHelper.createSoapClient(req.query.rt, req.query.tssd, (e, response) => {
         if (e) {
             return resp.status(401).send(e);
@@ -164,20 +163,20 @@ exports.GetLinks = (req, resp) => {
                 return resp.status(200).send(responseObje);
             })
             .catch((err) => {
-                console.log(err);
+                console.log('ERROR ON SFMC HELPER LINE 167', err);
                 return resp.status(500).send(err);
             });
     });
 };
 
 exports.UpsertImageRow = (req, resp) => {
-    console.log('UpsertImageRow process start...');
+    console.log('SFMC LINEA  173: UpsertImageRow process start...');
     sfmcHelper.createSoapClient(
         req.body.refresh_token,
         req.body.tssd,
         (e, response) => {
             if (e) {
-                console.log(e);
+                console.log('ERROR ON SFMC.JS LINEA 180', e);
                 return resp.status(500).end(e);
             }
 
@@ -220,7 +219,7 @@ exports.UpsertImageRow = (req, resp) => {
                             refresh_token: response.refresh_token,
                             Status: body.StatusCode[0],
                         };
-                        console.log('UpsertImageRow process end...');
+                        console.log('SFMC LINEA  222:  UpsertImageRow process end...');
                         return resp.send(200, r1);
                     }
                     console.log('UpsertImageRow process end...');
@@ -232,13 +231,13 @@ exports.UpsertImageRow = (req, resp) => {
 };
 
 exports.UpsertButtonRow = (req, resp) => {
-    console.log('UpsertButtonRow  process start...');
+    console.log('SFMC LINEA  234:  UpsertButtonRow  process start...');
     sfmcHelper.createSoapClient(
         req.body.refresh_token,
         req.body.tssd,
         (e, response) => {
             if (e) {
-                console.log(e);
+                console.log('SFMC LINEA  240:  ERROR ON SFMC.JS LINEA 241', e);
                 return resp.status(500).send(e);
             }
 
@@ -309,10 +308,10 @@ exports.UpsertButtonRow = (req, resp) => {
                             refresh_token: response.refresh_token,
                             Status: body.OverallStatus,
                         };
-                        console.log('UpsertButtonRow  process end...');
+                        console.log('SFMC LINEA  311: UpsertButtonRow  process end...');
                         return resp.send(200, r1);
                     }
-                    console.log('UpsertButtonRow  process end...');
+                    console.log('SFMC LINEA  314: UpsertButtonRow  process end...');
                     return resp.send(200, body);
                 })
                 .catch((err) => {
@@ -323,15 +322,15 @@ exports.UpsertButtonRow = (req, resp) => {
     );
 };
 exports.UpsertLink = (req, resp) => {
-    console.log('UpsertLink  process start...');
+    console.log('SFMC LINEA  325:  UpsertLink  process start...');
     sfmcHelper.createSoapClient(
         req.body.refresh_token,
         req.body.tssd,
         (e, response) => {
             if (e) {
-                console.log(e);
+                console.log('SFMC LINEA  331: ERROR ON UPSERT LINK', e);
                 return resp.status(500).end(e);
-            }
+            };
 
             const Properties = [{
                 Name: 'ContentsCount',
@@ -354,10 +353,10 @@ exports.UpsertLink = (req, resp) => {
                             refresh_token: response.refresh_token,
                             Status: body.OverallStatus[0],
                         };
-                        console.log('UpsertLink  process end...');
+                        console.log('SFMC LINEA  356: UpsertLink  process end...');
                         return resp.status(200).send(r1);
                     }
-                    console.log('UpsertLink  process end...');
+                    console.log('SFMC LINEA  359:  UpsertLink  process end...');
                     return resp.status(200).send(body);
                 })
                 .catch((err) => resp.status(500).send(err));
@@ -424,7 +423,7 @@ function getEmailsFilter(id, type) {
 }
 
 function contentAssetsQuery(filter, accessToken, tssd) {
-    console.log('contentAssetsQuery process start...');
+    console.log('SFMC LINEA  426:  contentAssetsQuery process start...');
     return new Promise((resolve, reject) => {
         request({
             url: `https://${ tssd }.rest.marketingcloudapis.com/asset/v1/content/assets/query`,
@@ -437,17 +436,17 @@ function contentAssetsQuery(filter, accessToken, tssd) {
         },
             (err, _response, body) => {
                 if (err) {
-                    console.log(err);
+                    console.log('ERROR ON SFMC.JS LINEA 440', err);
                     reject(err);
                 }
-                console.log('contentAssetsQuery process start...');
+                console.log('SFMC LINEA  442:  contentAssetsQuery process start...');
                 return resolve(JSON.parse(body));
             });
     });
 }
 
 exports.GetContentBuilderTemplateBasedEmails = (req) => {
-    console.log('GetContentBuilderTemplateBasedEmails process start...');
+    console.log('SFMC LINEA  449: GetContentBuilderTemplateBasedEmails process start...');
     return new Promise((resolve, reject) => {
         sfmcHelper
             .refreshToken(req.body.refresh_token, req.body.tssd)
@@ -460,25 +459,20 @@ exports.GetContentBuilderTemplateBasedEmails = (req) => {
                     .then((emails) => {
                         filter.page.pageSize = emails.count;
                         if (emails.count > 250) {
-                            contentAssetsQuery(
-                                filter,
-                                rtResponse.access_token,
-                                req.body.tssd,
-                            ).then((allEmails) => {
-                                response.body = allEmails;
-                                console.log('\n Emails: \n', allEmails);
-                                console.log('\n GetContentBuilderTemplateBasedEmails process end...');
-                                return resolve(response);
-                            });
+                            contentAssetsQuery(filter, rtResponse.access_token, req.body.tssd)
+                                .then((allEmails) => {
+                                    response.body = allEmails;
+                                    console.log('SFMC LINEA  465:  GetContentBuilderTemplateBasedEmails process end...');
+                                    return resolve(response);
+                                });
                         } else {
                             response.body = emails;
-                            console.log('\n Emails: \n', emails);
-                            console.log('\n GetContentBuilderTemplateBasedEmails process end...');
+                            console.log('SFMC LINEA  470:  GetContentBuilderTemplateBasedEmails process end...');
                             return resolve(response);
                         }
                     })
                     .catch((err) => {
-                        console.log(err);
+                        console.log('ERROR ON SFMC.JS LINEA 476', err);
                         return reject(err);
                     });
             });
@@ -486,7 +480,7 @@ exports.GetContentBuilderTemplateBasedEmails = (req) => {
 };
 
 exports.GetContentBuilderEmails = (req, resp) => {
-    console.log('GetContentBuilderEmails process start...');
+    console.log('SFMC LINEA  483: GetContentBuilderEmails process start...');
     sfmcHelper
         .refreshToken(req.body.accessToken, req.body.tssd)
         .then((rtResponse) => {
@@ -501,7 +495,7 @@ exports.GetContentBuilderEmails = (req, resp) => {
                 body: JSON.stringify(filter),
             },
                 (err, _response, body) => {
-                    console.log(_response);
+                    console.log('SFMC LINEA  498: ', _response);
                     if (err) {
                         console.error(err);
                         return resp.status(401).send(err);
@@ -512,14 +506,14 @@ exports.GetContentBuilderEmails = (req, resp) => {
                         body: JSON.parse(body),
                     };
                     // eslint-disable-next-line prefer-const
-                    console.log('GetContentBuilderEmails process end...');
+                    console.log('SFMC LINEA  509: GetContentBuilderEmails process end...');
                     return resp.status(200).send(response);
                 });
         });
 };
 
 exports.UpdateEmail = (req, resp) => {
-    console.log('UpdateEmail process start...');
+    console.log('SFMC LINEA  516: UpdateEmail process start...');
     sfmcHelper
         .refreshToken(req.body.accessToken, req.body.tssd)
         .then((refreshTokenbody) => {
@@ -534,20 +528,20 @@ exports.UpdateEmail = (req, resp) => {
             },
                 (err, _response, body) => {
                     if (err) {
-                        console.log(err);
+                        console.log('ERROR ON SFMC.JS LINEA 532', err);
                         return resp.status(401).send(err);
                     }
                     const response = {
                         refresh_token: refreshTokenbody.refresh_token,
                         body,
                     };
-                    console.log('UpdateEmail process end...');
+                    console.log('SFMC LINEA  538: UpdateEmail process end...');
                     return resp.status(200).send(response);
                 });
         });
 };
 exports.GetEmailByID = (req, resp) => {
-    console.log('GetEmailByID process start...');
+    console.log('SFMC LINEA  544: GetEmailByID process start...');
     sfmcHelper
         .refreshToken(req.body.accessToken, req.body.tssd)
         .then((refreshTokenbody) => {
@@ -568,18 +562,18 @@ exports.GetEmailByID = (req, resp) => {
                         refresh_token: refreshTokenbody.refresh_token,
                         body: JSON.parse(body),
                     };
-                    console.log('GetEmailByID process end...');
+                    console.log('SFMC LINEA  565: GetEmailByID process end...');
                     return resp.status(200).send(response);
                 });
         });
 };
 
 exports.GetCampaigns = (req, resp) => {
-    console.log('GetCampaigns process start...');
+    console.log('SFMC LINEA  572: GetCampaigns process start...');
     sfmcHelper
         .refreshToken(req.body.accessToken, req.body.tssd)
         .then((refreshTokenbody) => {
-            console.log(refreshTokenbody);
+            console.log('SFMC LINEA  576: ', refreshTokenbody);
             request({
                 url: `https://${ req.body.tssd }.rest.marketingcloudapis.com/hub/v1/campaigns`,
                 method: 'GET',
@@ -590,57 +584,56 @@ exports.GetCampaigns = (req, resp) => {
             },
                 (err, _response, body) => {
                     if (err) {
-                        console.log(err);
+                        console.log('ERROR ON SFMC.JS LINEA 588', err);
                         return resp.status(401).send(err);
                     }
-                    console.log(JSON.parse(body));
+                    console.log('SFMC LINEA  590: ', JSON.parse(body));
                     const response = {
                         refresh_token: refreshTokenbody.refresh_token,
                         body: JSON.parse(body),
                     };
                     // eslint-disable-next-line prefer-const
-                    console.log('GetCampaigns process end...');
+                    console.log('SFMC LINEA  596: GetCampaigns process end...');
                     return resp.status(200).send(response);
                 });
         });
 };
 
 exports.GetAllContentBuilderAssets = (req, resp) => {
-    console.log('GetAllContentBuilderAssets process start...');
+    console.log('SFMC LINEA  603: GetAllContentBuilderAssets process start...');
     sfmcHelper
         .refreshToken(req.body.accessToken, req.body.tssd)
-        .then((refreshTokenbody) => {
+        .then((rtResponse) => {
             request({
                 url: `https://${ req.body.tssd }.rest.marketingcloudapis.com/asset/v1/content/assets/`,
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${ refreshTokenbody.access_token }`,
+                    Authorization: `Bearer ${ rtResponse.access_token }`,
                 },
             },
                 (err, _response, body) => {
                     if (err) {
-                        console.log(err);
+                        console.log('ERROR ON SFMC.JS LINEA 618', err);
                         return resp.status(401).send(err);
                     }
                     const response = {
-                        refresh_token: refreshTokenbody.refresh_token,
+                        refresh_token: rtResponse.refresh_token,
                         body,
                     };
                     // eslint-disable-next-line prefer-const
 
-                    console.log('GetAllContentBuilderAssets process end...');
+                    console.log('SFMC LINEA  626: GetAllContentBuilderAssets process end...');
                     return resp.status(200).send(response);
                 });
         });
 };
 
 exports.UpsertEmailsWithOneLinks = (req) => {
-    console.log('UpsertEmailsWithOneLinks process start...');
+    console.log('SFMC LINEA  633: UpsertEmailsWithOneLinks process start...');
     return new Promise((resolve, reject) => {
-        console.log("\n\n");
-        console.log(`refresh token ${ req.body.refresh_token }`);
-        console.log(`tssd ${ req.body.tssd }`);
+        console.log(`SFMC LINEA  635:  refresh token ${ req.body.refresh_token }`);
+        console.log(`SFMC LINEA  636: tssd ${ req.body.tssd }`);
         sfmcHelper.createSoapClient(
             req.body.refresh_token,
             req.body.tssd,
@@ -652,21 +645,21 @@ exports.UpsertEmailsWithOneLinks = (req) => {
                 sfmcHelper
                     .upsertDataextensionRow(response.client, req.body.UpdateRequest)
                     .then((body) => {
-                        console.log(body);
+                        console.log('SFMC LINEA  548: ', body);
                         if (body.OverallStatus !== undefined) {
                             const r1 = {
                                 refresh_token: response.refresh_token,
                                 Status: body.OverallStatus,
                             };
-                            console.log('UpsertEmailsWithOneLinks process end...');
+                            console.log('SFMC LINEA  654: UpsertEmailsWithOneLinks process end...');
                             return resolve(r1);
                         }
 
-                        console.log('UpsertEmailsWithOneLinks process end...');
+                        console.log('SFMC LINEA  658: UpsertEmailsWithOneLinks process end...');
                         return resolve(body);
                     })
                     .catch((err) => {
-                        console.log(err);
+                        console.log('ERROR ON SFMC.JS LINEA 664', err);
                         return reject(err);
                     });
             },
@@ -675,7 +668,7 @@ exports.UpsertEmailsWithOneLinks = (req) => {
 };
 
 exports.UpsertLogHTMLEmailLinks = (req, resp) => {
-    console.log('UpsertLogHTMLEmailLinks process start...');
+    console.log('SFMC LINEA  671: UpsertLogHTMLEmailLinks process start...');
     sfmcHelper.createSoapClient(
         req.body.refresh_token,
         req.body.tssd,
@@ -727,12 +720,12 @@ exports.UpsertLogHTMLEmailLinks = (req, resp) => {
                             Status: body.StatusCode[0],
                             Body: body,
                         };
-                        console.log('UpsertLogHTMLEmailLinks process end...');
+                        console.log('SFMC LINEA  723: UpsertLogHTMLEmailLinks process end...');
                         return resp.send(200, r1);
                     }
 
                     body.refresh_token = response.refresh_token;
-                    console.log('UpsertLogHTMLEmailLinks process end...');
+                    console.log('SFMC LINEA  728: UpsertLogHTMLEmailLinks process end...');
                     return resp.send(200, body);
                 })
                 .catch((err) => {
@@ -744,13 +737,13 @@ exports.UpsertLogHTMLEmailLinks = (req, resp) => {
 };
 
 exports.logEmailsWithOneLinks = (req, resp) => {
-    console.log('logEmailsWithOneLinks process start...');
+    console.log('SFMC LINEA  740: logEmailsWithOneLinks process start...');
     sfmcHelper.createSoapClient(
         req.body.refresh_token,
         req.body.tssd,
         (e, response) => {
             if (e) {
-                console.log(e);
+                console.log('SFMC LINEA  746: ERROR ON SFMC.JS LINEA 748', e);
                 return resp.status(500).send(e);
             }
 
@@ -772,11 +765,11 @@ exports.logEmailsWithOneLinks = (req, resp) => {
                         refresh_token: response.refresh_token,
                         body,
                     };
-                    console.log('logEmailsWithOneLinks process end...');
+                    console.log('SFMC LINEA  768: logEmailsWithOneLinks process end...');
                     return resp.status(200).send(r1);
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.log('ERROR ON SFMC.JS LINEA 774', err);
                     return resp.status(400).send(err);
                 });
         },

@@ -60,7 +60,7 @@ function emailsUsingCustomBlocks(emails) {
 }
 
 function UpdateRequestObjectMulipleRows(upsertData, eid) {
-    console.log(eid);
+    console.log("INDEX LINEA 62", eid);
     const UpdateRequest = {
         Options: {
             SaveOptions: {
@@ -119,12 +119,12 @@ exports.login = (req, res) => {
                 stateParam = `&state=${ req.query.state }`;
             }
             const redirectUri = `${ process.env.baseAuth }/v2/authorize?response_type=code&client_id=${ process.env.sfmcClientId }&redirect_uri=${ process.env.redirectURI }${ stateParam }`;
-            console.log(`redirect uri: ${ redirectUri }`);
+            console.log(`INDEX LINEA 122 redirect uri: ${ redirectUri }`);
             res.redirect(redirectUri);
         } else {
-            console.log('Entro con el codigo de authenticacion');
+            console.log('INDEX LINEA 125  Entro con el codigo de authenticacion');
             const tssd = req.query.tssd === undefined ? process.env.tssd : req.query.tssd;
-            console.log('Estado : \n', req.query.state);
+            console.log('INDEX LINEA 126  Estado : \n', req.query.state);
             const { state } = req.query;
             const request = {
                 body: {
@@ -162,7 +162,7 @@ exports.login = (req, res) => {
                                         return res.redirect(view);
                                     })
                                     .catch((err) => {
-                                        console.log(err);
+                                        console.log("ERROR ON INDEX LINE 165:", err);
                                     });
                             } else {
                                 // si ok y hay datos redirecciono al dashboard
@@ -187,7 +187,7 @@ exports.login = (req, res) => {
                                         sfmc
                                             .UpsertEmailsWithOneLinks(upsertRequest)
                                             .then((r2) => {
-                                                console.log(`Log upsert Emails ${ r2 }`);
+                                                console.log(`INDEX LINEA 190  Log upsert Emails ${ r2 }`);
                                                 let view = '';
                                                 if (response.length > 0) {
                                                     view = `/dashboard/home?eid=${ r.bussinessUnitInfo.enterprise_id }&rt=${ r2.refresh_token }`;
@@ -203,7 +203,7 @@ exports.login = (req, res) => {
                                                 return res.redirect(view);
                                             })
                                             .catch((e2) => {
-                                                console.log(e2);
+                                                console.log('INDEX LINEA 206 ', e2);
                                             });
                                     });
                             }
@@ -214,7 +214,6 @@ exports.login = (req, res) => {
 
             if (state === 'image' || state === 'button') {
                 let returnView = '';
-                console.log(state);
 
                 sfmcHelper.authorize(request, (e, r) => {
                     if (e) {
@@ -228,14 +227,14 @@ exports.login = (req, res) => {
                         returnView = `/button/?rt=${ r.refreshToken }&eid=${ r.bussinessUnitInfo.enterprise_id }&tssd=${ tssd }`;
                     }
 
-                    console.log('Authorized: ', r);
-                    console.log('Redirect Uri: ', returnView);
+                    console.log('INDEX LINEA 230 Authorized: ', r);
+                    console.log('NDEX LINEA 231 Redirect Uri: ', returnView);
                     res.redirect(returnView);
                 });
             }
         }
     } catch (err) {
-        console.log(`error on login method: ${ err }`);
+        console.log(`ERROR INDEX LINEA  237: ${ err }`);
         return res.status(200).send(err);
     }
 };
