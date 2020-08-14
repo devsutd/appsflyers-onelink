@@ -7,8 +7,8 @@ function xmlToArray(rawResponse) {
     let data;
     parser.parseString(
         rawResponse, {
-            tagNameProcessors: [stripPrefix],
-        },
+        tagNameProcessors: [stripPrefix],
+    },
         (err, result) => {
             if (
                 result.Envelope.Body[0].RetrieveResponseMsg[0].Results !== undefined
@@ -94,7 +94,7 @@ exports.getAccessToken = (code, tssd) => {
     if (tssd === undefined) {
         return Promise.reject(new Error('invalid tennant subdomain'));
     }
-    const endpoint = `https://${tssd}.auth.marketingcloudapis.com/v2/token`;
+    const endpoint = `https://${ tssd }.auth.marketingcloudapis.com/v2/token`;
 
     return new Promise((resolve, reject) => {
         request({
@@ -108,23 +108,23 @@ exports.getAccessToken = (code, tssd) => {
                 redirect_uri: process.env.redirectURI,
             },
         },
-        (err, response, body) => {
-            if (err) {
-                return reject(JSON.stringify(err));
-            }
+            (err, response, body) => {
+                if (err) {
+                    return reject(JSON.stringify(err));
+                }
 
-            if (body.error !== undefined) {
-                return reject(JSON.stringify(body));
-            }
+                if (body.error !== undefined) {
+                    return reject(JSON.stringify(body));
+                }
 
-            return resolve(body);
-        });
+                return resolve(body);
+            });
     });
 };
 
 // eslint-disable-next-line camelcase
 exports.refreshToken = (refresh_token, tssd) => {
-    const endpoint = `https://${tssd}.auth.marketingcloudapis.com/v2/token`;
+    const endpoint = `https://${ tssd }.auth.marketingcloudapis.com/v2/token`;
     return new Promise((resolve, reject) => {
         request({
             url: endpoint,
@@ -136,44 +136,44 @@ exports.refreshToken = (refresh_token, tssd) => {
                 refresh_token,
             },
         },
-        (err, response, body) => {
-            if (err) {
-                return reject(JSON.stringify(err));
-            }
+            (err, response, body) => {
+                if (err) {
+                    return reject(JSON.stringify(err));
+                }
 
-            if (body.error) {
-                return reject(JSON.stringify(body.error));
-            }
+                if (body.error) {
+                    return reject(JSON.stringify(body.error));
+                }
 
-            return resolve(body);
-        });
+                return resolve(body);
+            });
     });
 };
 
 exports.authorize = async (req, res) => {
     try {
-        const accessTokenbody = await this.getAccessToken(
+        const response = await this.getAccessToken(
             req.body.code,
             req.body.tssd,
         );
-        const refreshTokenbody = await this.refreshToken(
-            accessTokenbody.refresh_token,
+
+        const userInfoJson = await this.getUserInfo(
+            response.access_token,
             req.body.tssd,
         );
-        if (refreshTokenbody === undefined) {
+        const userInfo = JSON.parse(userInfoJson);
+
+        const rtResponse = await this.refreshToken(
+            response.refresh_token,
+            req.body.tssd,
+        );
+        if (rtResponse === undefined) {
             return res('Refresh token is undefined', null);
         }
-
-        const getUserInfoBody = await this.getUserInfo(
-            refreshTokenbody.access_token,
-            req.body.tssd,
-        );
-        const getUserInfoResponse = JSON.parse(getUserInfoBody);
-
         const customResponse = {
-            bussinessUnitInfo: getUserInfoResponse.organization,
-            apiEndpoints: getUserInfoResponse.rest,
-            refreshToken: refreshTokenbody.refresh_token,
+            bussinessUnitInfo: userInfo.organization,
+            apiEndpoints: userInfo.rest,
+            refreshToken: rtResponse.refresh_token,
         };
 
         return res(null, customResponse);
@@ -184,17 +184,17 @@ exports.authorize = async (req, res) => {
 
 exports.getUserInfo = (accessToken, tssd) => new Promise((resolve, reject) => {
     request({
-        url: `https://${tssd}.auth.marketingcloudapis.com/v2/userinfo`,
+        url: `https://${ tssd }.auth.marketingcloudapis.com/v2/userinfo`,
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${ accessToken }`,
         },
     },
-    (err, response, body) => {
-        if (err) return reject(err);
-        resolve(body);
-    });
+        (err, response, body) => {
+            if (err) return reject(err);
+            resolve(body);
+        });
 });
 
 exports.simpleFilter = (property, operator, value) => {
@@ -240,7 +240,7 @@ exports.createSoapClient = (refreshToken, tssd, callback) => {
     this.refreshToken(refreshToken, tssd)
         .then((response) => {
             soap.createClient(
-                `${response.soap_instance_url}etframework.wsdl`, {},
+                `${ response.soap_instance_url }etframework.wsdl`, {},
                 (err, client) => {
                     if (err) {
                         callback(err, null);
@@ -307,7 +307,7 @@ exports.upsertDataextensionRow = (client, UpdateRequest) => new Promise((resolve
             return reject(err);
         }
 
-        console.log(res);
+        console.log("upsertDataextensionRow : ", res);
         console.log('upsertDataextensionRow process end');
         return resolve(res);
     });
@@ -410,7 +410,7 @@ exports.getTokenRows = (req, resp) => {
                     ClientIDs: {
                         ClientID: req.body.eid,
                     },
-                    ObjectType: `DataExtensionObject[${process.env.TokenAuthenticationDataExtension}]`,
+                    ObjectType: `DataExtensionObject[${ process.env.TokenAuthenticationDataExtension }]`,
                     Properties: ['Token', 'Authorized'],
                     Filter: {
                         attributes: {
@@ -454,7 +454,7 @@ exports.getAllEmailsWithOneLinks = (req, resp) => {
                     ClientIDs: {
                         ClientID: req.body.eid,
                     },
-                    ObjectType: `DataExtensionObject[${process.env.EmailsWithOneLinks}]`,
+                    ObjectType: `DataExtensionObject[${ process.env.EmailsWithOneLinks }]`,
                     Properties: ['LinkID', 'EmailID', 'EmailName', 'Count'],
                 },
             };
