@@ -26,21 +26,21 @@ function CreateContentBuilderJPG(data, accessToken) {
         // console.log(base64);
         const postData = assetObject(data.name, base64);
         request({
-            url: `https://${data.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets`,
+            url: `https://${ data.tssd }.rest.marketingcloudapis.com/asset/v1/content/assets`,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
+                Authorization: `Bearer ${ accessToken }`,
             },
             body: postData,
         },
-        (err, _response, body) => {
-            if (err) {
-                return reject(err);
-            }
+            (err, _response, body) => {
+                if (err) {
+                    return reject(err);
+                }
 
-            resolve(body);
-        });
+                resolve(body);
+            });
     });
 }
 
@@ -48,26 +48,26 @@ function ImagenStatus(data, accessToken) {
     console.log('Dentro de CreateContentBuilderJPG');
     return new Promise((resolve, reject) => {
         const { id } = data;
-        const endpoint = `https://${data.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets?$filter=id%20eq%20${id}`;
+        const endpoint = `https://${ data.tssd }.rest.marketingcloudapis.com/asset/v1/content/assets?$filter=id%20eq%20${ id }`;
         request({
             url: endpoint,
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
+                Authorization: `Bearer ${ accessToken }`,
             },
         },
-        (err, _response, body) => {
-            if (err) {
-                return reject(err);
-            }
-            // eslint-disable-next-line prefer-const
-            let dataResp = {
-                refresh_token: '',
-                body: JSON.parse(body),
-            };
-            return resolve(dataResp);
-        });
+            (err, _response, body) => {
+                if (err) {
+                    return reject(err);
+                }
+                // eslint-disable-next-line prefer-const
+                let dataResp = {
+                    refresh_token: '',
+                    body: JSON.parse(body),
+                };
+                return resolve(dataResp);
+            });
     });
 }
 
@@ -136,7 +136,7 @@ exports.GetLinks = (req, resp) => {
                 ClientIDs: {
                     ClientID: req.query.eid,
                 },
-                ObjectType: `DataExtensionObject[${process.env.LinkDataExtension}]`,
+                ObjectType: `DataExtensionObject[${ process.env.LinkDataExtension }]`,
                 Properties: [
                     'LinkID',
                     'LinkName',
@@ -427,22 +427,22 @@ function contentAssetsQuery(filter, accessToken, tssd) {
     console.log('contentAssetsQuery process start...');
     return new Promise((resolve, reject) => {
         request({
-            url: `https://${tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/query`,
+            url: `https://${ tssd }.rest.marketingcloudapis.com/asset/v1/content/assets/query`,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
+                Authorization: `Bearer ${ accessToken }`,
             },
             body: JSON.stringify(filter),
         },
-        (err, _response, body) => {
-            if (err) {
-                console.log(err);
-                reject(err);
-            }
-            console.log('contentAssetsQuery process start...');
-            return resolve(JSON.parse(body));
-        });
+            (err, _response, body) => {
+                if (err) {
+                    console.log(err);
+                    reject(err);
+                }
+                console.log('contentAssetsQuery process start...');
+                return resolve(JSON.parse(body));
+            });
     });
 }
 
@@ -451,31 +451,29 @@ exports.GetContentBuilderTemplateBasedEmails = (req) => {
     return new Promise((resolve, reject) => {
         sfmcHelper
             .refreshToken(req.body.refresh_token, req.body.tssd)
-            .then((refreshTokenbody) => {
+            .then((rtResponse) => {
                 const filter = getEmailsFilter(207, 'templatebasedemail');
                 const response = {
-                    refresh_token: refreshTokenbody.refresh_token,
+                    refresh_token: rtResponse.refresh_token,
                 };
-                contentAssetsQuery(filter, refreshTokenbody.access_token, req.body.tssd)
+                contentAssetsQuery(filter, rtResponse.access_token, req.body.tssd)
                     .then((emails) => {
                         filter.page.pageSize = emails.count;
                         if (emails.count > 250) {
                             contentAssetsQuery(
                                 filter,
-                                refreshTokenbody.access_token,
+                                rtResponse.access_token,
                                 req.body.tssd,
                             ).then((allEmails) => {
                                 response.body = allEmails;
-                                console.log(
-                                    'GetContentBuilderTemplateBasedEmails process end...',
-                                );
+                                console.log(allEmails);
+                                console.log('GetContentBuilderTemplateBasedEmails process end...');
                                 return resolve(response);
                             });
                         } else {
                             response.body = emails;
-                            console.log(
-                                'GetContentBuilderTemplateBasedEmails process end...',
-                            );
+                            console.log(emails);
+                            console.log('GetContentBuilderTemplateBasedEmails process end...');
                             return resolve(response);
                         }
                     })
@@ -491,34 +489,32 @@ exports.GetContentBuilderEmails = (req, resp) => {
     console.log('GetContentBuilderEmails process start...');
     sfmcHelper
         .refreshToken(req.body.accessToken, req.body.tssd)
-        .then((refreshTokenbody) => {
+        .then((rtResponse) => {
             const filter = getEmailsFilter(208, 'htmlemail');
-            console.clear();
-            console.log(refreshTokenbody);
-
             request({
-                url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/query`,
+                url: `https://${ req.body.tssd }.rest.marketingcloudapis.com/asset/v1/content/assets/query`,
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${refreshTokenbody.access_token}`,
+                    Authorization: `Bearer ${ rtResponse.access_token }`,
                 },
                 body: JSON.stringify(filter),
             },
-            (err, _response, body) => {
-                if (err) {
-                    console.error(err);
-                    return resp.status(401).send(err);
-                }
+                (err, _response, body) => {
+                    console.log(_response);
+                    if (err) {
+                        console.error(err);
+                        return resp.status(401).send(err);
+                    }
 
-                const response = {
-                    refresh_token: refreshTokenbody.refresh_token,
-                    body: JSON.parse(body),
-                };
-                // eslint-disable-next-line prefer-const
-                console.log('GetContentBuilderEmails process end...');
-                return resp.status(200).send(response);
-            });
+                    const response = {
+                        refresh_token: rtResponse.refresh_token,
+                        body: JSON.parse(body),
+                    };
+                    // eslint-disable-next-line prefer-const
+                    console.log('GetContentBuilderEmails process end...');
+                    return resp.status(200).send(response);
+                });
         });
 };
 
@@ -528,26 +524,26 @@ exports.UpdateEmail = (req, resp) => {
         .refreshToken(req.body.accessToken, req.body.tssd)
         .then((refreshTokenbody) => {
             request({
-                url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/${req.body.id}`,
+                url: `https://${ req.body.tssd }.rest.marketingcloudapis.com/asset/v1/content/assets/${ req.body.id }`,
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${refreshTokenbody.access_token}`,
+                    Authorization: `Bearer ${ refreshTokenbody.access_token }`,
                 },
                 body: JSON.stringify(req.body.email),
             },
-            (err, _response, body) => {
-                if (err) {
-                    console.log(err);
-                    return resp.status(401).send(err);
-                }
-                const response = {
-                    refresh_token: refreshTokenbody.refresh_token,
-                    body,
-                };
-                console.log('UpdateEmail process end...');
-                return resp.status(200).send(response);
-            });
+                (err, _response, body) => {
+                    if (err) {
+                        console.log(err);
+                        return resp.status(401).send(err);
+                    }
+                    const response = {
+                        refresh_token: refreshTokenbody.refresh_token,
+                        body,
+                    };
+                    console.log('UpdateEmail process end...');
+                    return resp.status(200).send(response);
+                });
         });
 };
 exports.GetEmailByID = (req, resp) => {
@@ -556,25 +552,25 @@ exports.GetEmailByID = (req, resp) => {
         .refreshToken(req.body.accessToken, req.body.tssd)
         .then((refreshTokenbody) => {
             request({
-                url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/${req.body.id}`,
+                url: `https://${ req.body.tssd }.rest.marketingcloudapis.com/asset/v1/content/assets/${ req.body.id }`,
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${refreshTokenbody.access_token}`,
+                    Authorization: `Bearer ${ refreshTokenbody.access_token }`,
                 },
             },
-            (err, _response, body) => {
-                if (err) {
-                    console.err(err);
-                    return resp.status(401).send(err);
-                }
-                const response = {
-                    refresh_token: refreshTokenbody.refresh_token,
-                    body: JSON.parse(body),
-                };
-                console.log('GetEmailByID process end...');
-                return resp.status(200).send(response);
-            });
+                (err, _response, body) => {
+                    if (err) {
+                        console.err(err);
+                        return resp.status(401).send(err);
+                    }
+                    const response = {
+                        refresh_token: refreshTokenbody.refresh_token,
+                        body: JSON.parse(body),
+                    };
+                    console.log('GetEmailByID process end...');
+                    return resp.status(200).send(response);
+                });
         });
 };
 
@@ -585,27 +581,27 @@ exports.GetCampaigns = (req, resp) => {
         .then((refreshTokenbody) => {
             console.log(refreshTokenbody);
             request({
-                url: `https://${req.body.tssd}.rest.marketingcloudapis.com/hub/v1/campaigns`,
+                url: `https://${ req.body.tssd }.rest.marketingcloudapis.com/hub/v1/campaigns`,
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${refreshTokenbody.access_token}`,
+                    Authorization: `Bearer ${ refreshTokenbody.access_token }`,
                 },
             },
-            (err, _response, body) => {
-                if (err) {
-                    console.log(err);
-                    return resp.status(401).send(err);
-                }
-                console.log(JSON.parse(body));
-                const response = {
-                    refresh_token: refreshTokenbody.refresh_token,
-                    body: JSON.parse(body),
-                };
-                // eslint-disable-next-line prefer-const
-                console.log('GetCampaigns process end...');
-                return resp.status(200).send(response);
-            });
+                (err, _response, body) => {
+                    if (err) {
+                        console.log(err);
+                        return resp.status(401).send(err);
+                    }
+                    console.log(JSON.parse(body));
+                    const response = {
+                        refresh_token: refreshTokenbody.refresh_token,
+                        body: JSON.parse(body),
+                    };
+                    // eslint-disable-next-line prefer-const
+                    console.log('GetCampaigns process end...');
+                    return resp.status(200).send(response);
+                });
         });
 };
 
@@ -615,35 +611,36 @@ exports.GetAllContentBuilderAssets = (req, resp) => {
         .refreshToken(req.body.accessToken, req.body.tssd)
         .then((refreshTokenbody) => {
             request({
-                url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/`,
+                url: `https://${ req.body.tssd }.rest.marketingcloudapis.com/asset/v1/content/assets/`,
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${refreshTokenbody.access_token}`,
+                    Authorization: `Bearer ${ refreshTokenbody.access_token }`,
                 },
             },
-            (err, _response, body) => {
-                if (err) {
-                    console.log(err);
-                    return resp.status(401).send(err);
-                }
-                const response = {
-                    refresh_token: refreshTokenbody.refresh_token,
-                    body,
-                };
-                // eslint-disable-next-line prefer-const
+                (err, _response, body) => {
+                    if (err) {
+                        console.log(err);
+                        return resp.status(401).send(err);
+                    }
+                    const response = {
+                        refresh_token: refreshTokenbody.refresh_token,
+                        body,
+                    };
+                    // eslint-disable-next-line prefer-const
 
-                console.log('GetAllContentBuilderAssets process end...');
-                return resp.status(200).send(response);
-            });
+                    console.log('GetAllContentBuilderAssets process end...');
+                    return resp.status(200).send(response);
+                });
         });
 };
 
 exports.UpsertEmailsWithOneLinks = (req) => {
     console.log('UpsertEmailsWithOneLinks process start...');
     return new Promise((resolve, reject) => {
-        console.log(`refresh token ${req.body.refresh_token}`);
-        console.log(`tssd ${req.body.tssd}`);
+        console.log("\n\n");
+        console.log(`refresh token ${ req.body.refresh_token }`);
+        console.log(`tssd ${ req.body.tssd }`);
         sfmcHelper.createSoapClient(
             req.body.refresh_token,
             req.body.tssd,
@@ -655,6 +652,7 @@ exports.UpsertEmailsWithOneLinks = (req) => {
                 sfmcHelper
                     .upsertDataextensionRow(response.client, req.body.UpdateRequest)
                     .then((body) => {
+                        console.log(body);
                         if (body.OverallStatus !== undefined) {
                             const r1 = {
                                 refresh_token: response.refresh_token,
@@ -762,9 +760,9 @@ exports.logEmailsWithOneLinks = (req, resp) => {
             ];
             const UpdateRequest = sfmcHelper.UpdateRequestObject(
                 process.env.EmailsWithOneLinks, [
-                    { Name: 'LinkID', Value: req.body.LinkID },
-                    { Name: 'EmailID', Value: req.body.EmailID },
-                ],
+                { Name: 'LinkID', Value: req.body.LinkID },
+                { Name: 'EmailID', Value: req.body.EmailID },
+            ],
                 Properties,
             );
             sfmcHelper
