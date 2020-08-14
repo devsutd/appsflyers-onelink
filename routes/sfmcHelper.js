@@ -307,8 +307,8 @@ exports.upsertDataextensionRow = (client, UpdateRequest) => new Promise((resolve
             return reject(err);
         }
 
-        console.log("upsertDataextensionRow : ", res);
-        console.log('upsertDataextensionRow process end');
+        console.log("SFMC HELPER  LINEA  310: upsertDataextensionRow : ", res);
+        console.log('SFMC HELPER  LINEA  311: upsertDataextensionRow process end');
         return resolve(res);
     });
 });
@@ -402,6 +402,7 @@ exports.getTokenRows = (req, resp) => {
         req.body.tssd,
         (e, response) => {
             if (e) {
+                console.log('SFMC HELPER LINEA  310: Errror on getTokenRows method : \n', e);
                 return resp.status(500).end(e);
             }
 
