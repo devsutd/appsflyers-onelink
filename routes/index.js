@@ -60,6 +60,7 @@ function emailsUsingCustomBlocks(emails) {
 }
 
 function UpdateRequestObjectMulipleRows(upsertData, eid) {
+    console.log(eid);
     const UpdateRequest = {
         Options: {
             SaveOptions: {
@@ -123,7 +124,7 @@ exports.login = (req, res) => {
         } else {
             console.log('Entro con el codigo de authenticacion');
             const tssd = req.query.tssd === undefined ? process.env.tssd : req.query.tssd;
-            console.log('Estado : ', req.query.state);
+            console.log('Estado : \n', req.query.state);
             const { state } = req.query;
             const request = {
                 body: {
@@ -138,7 +139,7 @@ exports.login = (req, res) => {
                         res.status(400).end(e);
                         return;
                     }
-                    console.log(r);
+
                     const Request2 = {
                         body: {
                             refresh_token: r.refreshToken,
@@ -149,8 +150,6 @@ exports.login = (req, res) => {
                     // eslint-disable-next-line consistent-return
                     sfmcHelper.getTokenRows(Request2, (error, response) => {
                         if (!error) {
-                            // console.log(response.OverallStatus.indexOf("Error: Data extension does not exist"))
-
                             if (response.OverallStatus !== 'OK') {
                                 Request2.body.refresh_token = response.refresh_token;
                                 installAppExchange

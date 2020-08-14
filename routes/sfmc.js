@@ -466,14 +466,14 @@ exports.GetContentBuilderTemplateBasedEmails = (req) => {
                                 req.body.tssd,
                             ).then((allEmails) => {
                                 response.body = allEmails;
-                                console.log(allEmails);
-                                console.log('GetContentBuilderTemplateBasedEmails process end...');
+                                console.log('\n Emails: \n', allEmails);
+                                console.log('\n GetContentBuilderTemplateBasedEmails process end...');
                                 return resolve(response);
                             });
                         } else {
                             response.body = emails;
-                            console.log(emails);
-                            console.log('GetContentBuilderTemplateBasedEmails process end...');
+                            console.log('\n Emails: \n', emails);
+                            console.log('\n GetContentBuilderTemplateBasedEmails process end...');
                             return resolve(response);
                         }
                     })
