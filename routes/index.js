@@ -26,11 +26,7 @@ function emailsUsingCustomBlocks(emails) {
     const dataforUpsert = [];
     for (let index = 0; index < emails.length; index++) {
         const element = emails[index];
-        const data = {
-            EmailID: element.id,
-            EmailName: element.name,
-            Links: [],
-            countByLink: [],
+        let data = {
         };
         const { slots } = element.views.html;
         if (slots.main !== undefined) {
@@ -44,9 +40,16 @@ function emailsUsingCustomBlocks(emails) {
                             const { options } = contentblock.meta;
                             if (options !== undefined) {
                                 if (options.customBlockData !== undefined) {
+                                    console.log('customBlockData: ', customBlockData);
                                     const { linkID } = options.customBlockData;
                                     if (linkID !== undefined) {
                                         console.log('linkID: ', linkID);
+                                        data = {
+                                            EmailID: element.id,
+                                            EmailName: element.name,
+                                            Links: [],
+                                            countByLink: [],
+                                        };
                                         data.Links.push(linkID);
                                     }
                                 }
