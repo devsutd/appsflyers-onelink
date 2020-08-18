@@ -1,5 +1,6 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable max-len */
+const { stringify } = require('uuid');
 const sfmcHelper = require('./sfmcHelper');
 const sfmc = require('./sfmc');
 const installAppExchange = require('./InstallAppExchange');
@@ -28,6 +29,7 @@ function emailsUsingCustomBlocks(emails) {
     const dataforUpsert = [];
     for (let index = 0; index < emails.length; index++) {
         const element = emails[index];
+        console.log(`INDEX LINEA 32 ${stringify(element)}`);
         let data = {
         };
         const { slots } = element.views.html;
