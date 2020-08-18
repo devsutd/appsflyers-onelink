@@ -10,7 +10,7 @@ const sfmcHelper = require('./sfmcHelper');
 
 
 log4js.configure({
-    appenders: { SFMC: { type: 'file', filename: './logs/sfmc-app.log' } },
+    appenders: { SFMC: { type: 'file', filename: './sfmc-app.log' } },
     categories: { default: { appenders: ['SFMC'], level: 'ALL' } },
 });
 const logger = log4js.getLogger('app');
