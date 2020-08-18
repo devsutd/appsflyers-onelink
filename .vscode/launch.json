@@ -9,25 +9,25 @@
             "request": "launch",
             "name": "Local",
             "program": "${workspaceFolder}/app.js",
-            "env":{
-                "authEndpoint":"https://mc8nghvf-gp9-nfl9jcsjjs7r214.auth.marketingcloudapis.com/v2/token",
+            "env": {
+                "authEndpoint": "https://mc8nghvf-gp9-nfl9jcsjjs7r214.auth.marketingcloudapis.com/v2/token",
                 "baseAuth": "https://mc8nghvf-gp9-nfl9jcsjjs7r214.auth.marketingcloudapis.com",
-                "redirectURI":"https://127.0.0.1:5000/login",
-                "sfmcClientId":"gjd09pom4qh7x9j4xvefbmco",
-                "sfmcClientSecret":"gTHFSgCl4rk6UUI68hKfhwM2",
-                "userInfo":"https://mc8nghvf-gp9-nfl9jcsjjs7r214.auth.marketingcloudapis.com/v2/userinfo",
-                "ImageContentBlockDataExtension":"ImageContentBlock_Dev2",
-                "LinkDataExtension":"Link_Dev2",
-                "ButtonContentBlockDataExtension":"ButtonContentBlock_Dev2",
-                "TokenAuthenticationDataExtension":"TokenAuthentication_Dev2",
-                "Folder":"AppsFlyers_Dev2",
-                "PORT":"5000",
-                "key":"^/WU?()D6TeF.*$[,2H5Le$9nYVf-",
-                "restEndpoint":"https://mc8nghvf-gp9-nfl9jcsjjs7r214.rest.marketingcloudapis.com/",
-                "LogEmailLinks":"LogEmailLinks_dev2",
-                "EmailsWithOneLinks":"EmailsWithOneLinks_dev2",
-                "LogEmailLinksDataExtension":"LogEmailLinks_dev2",
-                "tssd":"mc8nghvf-gp9-nfl9jcsjjs7r214"
+                "redirectURI": "https://sfmcaf.appsflyer.com/login",
+                "sfmcClientId": "09krt8enl5nsp6wy8jp8zcwo",
+                "sfmcClientSecret": "GRh29UejviVni8vuYYsOzqYA",
+                "userInfo": "https://mc8nghvf-gp9-nfl9jcsjjs7r214.auth.marketingcloudapis.com/v2/userinfo",
+                "ImageContentBlockDataExtension": "ImageContentBlock_Dev2",
+                "LinkDataExtension": "Link_Dev2",
+                "ButtonContentBlockDataExtension": "ButtonContentBlock_Dev2",
+                "TokenAuthenticationDataExtension": "TokenAuthentication_Dev2",
+                "Folder": "AppsFlyers_Dev2",
+                "PORT": "5000",
+                "key": "^/WU?()D6TeF.*$[,2H5Le$9nYVf-",
+                "restEndpoint": "https://mc8nghvf-gp9-nfl9jcsjjs7r214.rest.marketingcloudapis.com/",
+                "LogEmailLinks": "LogEmailLinks_dev2",
+                "EmailsWithOneLinks": "EmailsWithOneLinks_dev2",
+                "LogEmailLinksDataExtension": "LogEmailLinks_dev2",
+                "tssd": "mc8nghvf-gp9-nfl9jcsjjs7r214"
             }
         }
     ]
