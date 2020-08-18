@@ -18,7 +18,7 @@ function countDuplicados(links) {
             });
         });
     }
-
+    console.log(data);
     return data;
 }
 
@@ -46,6 +46,7 @@ function emailsUsingCustomBlocks(emails) {
                                 if (options.customBlockData !== undefined) {
                                     const { linkID } = options.customBlockData;
                                     if (linkID !== undefined) {
+                                        console.log('linkID: ', linkID);
                                         data.Links.push(linkID);
                                     }
                                 }
