@@ -32,8 +32,8 @@ function emailsUsingCustomBlocks(emails) {
         let data = {
         };
         const { slots } = element.views.html;
-        if (slots.main !== undefined) {
-            const { blocks } = slots.main;
+        if (slots.banner !== undefined) {
+            const { blocks } = slots.banner;
             if (blocks !== undefined) {
                 const blocksKeys = Object.keys(blocks);
                 for (let j = 0; j < blocksKeys.length; j++) {
