@@ -1,4 +1,17 @@
 {
     "html.suggest.angular1": false,
-    "html.suggest.ionic": false
+    "html.suggest.ionic": false,
+    "eslint.format.enable": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.quickSuggestions": null,
+    "eslint.alwaysShowStatus": true,
+    "eslint.run": "onSave",
+    "javascript.format.enable": false,
+    "javascript.format.insertSpaceAfterCommaDelimiter": false,
+    "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
+    "javascript.format.insertSpaceAfterKeywordsInControlFlowStatements": false,
+    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
+    "prettier.arrowParens": "avoid",
+    "editor.formatOnType": true
 }
