@@ -448,7 +448,6 @@ function contentAssetsQuery(filter, accessToken, tssd) {
                 reject(err);
             }
             console.log('SFMC LINEA  442:  contentAssetsQuery process start...');
-            console.log(`emails ${body}`);
             return resolve(JSON.parse(body));
         });
     });
