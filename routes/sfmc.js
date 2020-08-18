@@ -4,8 +4,16 @@
 'use strict';
 
 const request = require('request');
+const log4js = require('log4js');
 const uuidv1 = require('uuid/v4');
 const sfmcHelper = require('./sfmcHelper');
+
+
+log4js.configure({
+    appenders: { SFMC: { type: 'file', filename: './logs/sfmc-app.log' } },
+    categories: { default: { appenders: ['SFMC'], level: 'ALL' } },
+});
+const logger = log4js.getLogger('app');
 
 function assetObject(ImageName, fileBase64) {
     const requestObject = {
@@ -451,12 +459,15 @@ exports.GetContentBuilderTemplateBasedEmails = (req) => {
         sfmcHelper
             .refreshToken(req.body.refresh_token, req.body.tssd)
             .then((rtResponse) => {
+                logger.info(`refresh token response ${rtResponse}`);
                 const filter = getEmailsFilter(207, 'templatebasedemail');
+                logger.info(`filter ${filter}`);
                 const response = {
                     refresh_token: rtResponse.refresh_token,
                 };
                 contentAssetsQuery(filter, rtResponse.access_token, req.body.tssd)
                     .then((emails) => {
+                        logger.info(`emails ${emails}`);
                         filter.page.pageSize = emails.count;
                         console.log('SFMC HELPER 461 - EMAILS COUNT: ', emails.count);
                         if (emails.count > 250) {
