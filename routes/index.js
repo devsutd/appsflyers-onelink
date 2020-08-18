@@ -180,6 +180,7 @@ exports.login = (req, res) => {
                                 sfmc
                                     .GetContentBuilderTemplateBasedEmails(Request2)
                                     .then((emails) => {
+                                        console.log(emails);
                                         const upsertData = emailsUsingCustomBlocks(
                                             emails.body.items,
                                         );
