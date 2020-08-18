@@ -12,7 +12,6 @@ exports.auth = (req, resp) => {
         'keep-user-logged-in': false,
     };
 
-    console.log(postData);
     request({
         url: 'https://hq1.appsflyer.com/auth/login',
         method: 'Post',
