@@ -448,6 +448,7 @@ function contentAssetsQuery(filter, accessToken, tssd) {
                 reject(err);
             }
             console.log('SFMC LINEA  442:  contentAssetsQuery process start...');
+            console.logs(`emails ${body}`);
             return resolve(JSON.parse(body));
         });
     });
@@ -467,7 +468,7 @@ exports.GetContentBuilderTemplateBasedEmails = (req) => {
                 };
                 contentAssetsQuery(filter, rtResponse.access_token, req.body.tssd)
                     .then((emails) => {
-                        logger.info(`emails ${emails}`);
+                        console.log(`emails ${emails}`);
                         filter.page.pageSize = emails.count;
                         console.log('SFMC HELPER 461 - EMAILS COUNT: ', emails.count);
                         if (emails.count > 250) {
