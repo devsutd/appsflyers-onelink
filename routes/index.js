@@ -38,7 +38,7 @@ function emailsUsingCustomBlocks(emails) {
                 const blocksKeys = Object.keys(blocks);
                 for (let j = 0; j < blocksKeys.length; j++) {
                     const contentblock = blocks[blocksKeys[j]];
-                    if (contentblock.assetType.name === 'customblock') {
+                    if (contentblock.assetType.name === 'customblock' || contentblock.assetType.id === 225) {
                         console.log(`INDEX LINEA 42 ${JSON.stringify(contentblock)}`);
                         if (contentblock.meta !== undefined) {
                             const { options } = contentblock.meta;
