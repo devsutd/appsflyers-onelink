@@ -468,7 +468,7 @@ exports.GetContentBuilderTemplateBasedEmails = (req) => {
                 };
                 contentAssetsQuery(filter, rtResponse.access_token, req.body.tssd)
                     .then((emails) => {
-                        console.log(`emails ${emails}`);
+                    //    console.log(`emails ${emails}`);
                         filter.page.pageSize = emails.count;
                         console.log('SFMC HELPER 461 - EMAILS COUNT: ', emails.count);
                         if (emails.count > 250) {
