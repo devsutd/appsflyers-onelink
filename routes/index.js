@@ -4,6 +4,7 @@ const sfmcHelper = require('./sfmcHelper');
 const sfmc = require('./sfmc');
 const installAppExchange = require('./InstallAppExchange');
 // require('dotenv').config();
+
 function countDuplicados(links) {
     const data = [];
     for (let index = 0; index < links.length; index++) {
@@ -44,7 +45,9 @@ function emailsUsingCustomBlocks(emails) {
                             if (options !== undefined) {
                                 if (options.customBlockData !== undefined) {
                                     const { linkID } = options.customBlockData;
-                                    data.Links.push(linkID);
+                                    if (linkID !== undefined) {
+                                        data.Links.push(linkID);
+                                    }
                                 }
                             }
                         }
@@ -55,7 +58,7 @@ function emailsUsingCustomBlocks(emails) {
             }
         }
     }
-    console.log('SFMC.JS LINEA 58: ', dataforUpsert);
+    console.log('index.JS LINEA 58: ', dataforUpsert);
     return countDuplicados(dataforUpsert);
 }
 
