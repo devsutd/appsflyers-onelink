@@ -9,14 +9,16 @@ function countDuplicados(links) {
     const data = [];
     for (let index = 0; index < links.length; index++) {
         const element = links[index];
-        element.Links.forEach((linkid) => {
-            data.push({
-                EmailID: element.EmailID,
-                EmailName: element.EmailName,
-                LinkID: linkid,
-                count: element.Links.filter((i) => i === linkid).length,
+        if (element.Links !== undefined) {
+            element.Links.forEach((linkid) => {
+                data.push({
+                    EmailID: element.EmailID,
+                    EmailName: element.EmailName,
+                    LinkID: linkid,
+                    count: element.Links.filter((i) => i === linkid).length,
+                });
             });
-        });
+        }
     }
     console.log(data);
     return data;
@@ -40,10 +42,10 @@ function emailsUsingCustomBlocks(emails) {
                             const { options } = contentblock.meta;
                             if (options !== undefined) {
                                 if (options.customBlockData !== undefined) {
-                                    console.log('customBlockData: ', customBlockData);
+                                    console.log('customBlockData: ', options.customBlockData);
                                     const { linkID } = options.customBlockData;
                                     if (linkID !== undefined) {
-                                        console.log('linkID: ', linkID);
+                                        console.log('index.JS LINEA 67: ', linkID);
                                         data = {
                                             EmailID: element.id,
                                             EmailName: element.name,
@@ -62,7 +64,7 @@ function emailsUsingCustomBlocks(emails) {
             }
         }
     }
-    console.log('index.JS LINEA 58: ', dataforUpsert);
+    console.log('index.JS LINEA 67: ', dataforUpsert);
     return countDuplicados(dataforUpsert);
 }
 
