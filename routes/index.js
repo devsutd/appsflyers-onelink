@@ -3,7 +3,7 @@
 const sfmcHelper = require('./sfmcHelper');
 const sfmc = require('./sfmc');
 const installAppExchange = require('./InstallAppExchange');
-//require('dotenv').config();
+// require('dotenv').config();
 function countDuplicados(links) {
     const data = [];
     for (let index = 0; index < links.length; index++) {
@@ -55,12 +55,12 @@ function emailsUsingCustomBlocks(emails) {
             }
         }
     }
-
+    console.log('SFMC.JS LINEA 58: ', dataforUpsert);
     return countDuplicados(dataforUpsert);
 }
 
 function UpdateRequestObjectMulipleRows(upsertData, eid) {
-    console.log("INDEX LINEA 62", eid);
+    console.log('INDEX LINEA 62', eid);
     const UpdateRequest = {
         Options: {
             SaveOptions: {
@@ -116,10 +116,10 @@ exports.login = (req, res) => {
         if (req.query.code === undefined) {
             let stateParam = '&state=mcapp';
             if (req.query.state !== undefined) {
-                stateParam = `&state=${ req.query.state }`;
+                stateParam = `&state=${req.query.state}`;
             }
-            const redirectUri = `${ process.env.baseAuth }/v2/authorize?response_type=code&client_id=${ process.env.sfmcClientId }&redirect_uri=${ process.env.redirectURI }${ stateParam }`;
-            console.log(`INDEX LINEA 122 redirect uri: ${ redirectUri }`);
+            const redirectUri = `${process.env.baseAuth}/v2/authorize?response_type=code&client_id=${process.env.sfmcClientId}&redirect_uri=${process.env.redirectURI}${stateParam}`;
+            console.log(`INDEX LINEA 122 redirect uri: ${redirectUri}`);
             res.redirect(redirectUri);
         } else {
             console.log('INDEX LINEA 125  Entro con el codigo de authenticacion');
@@ -155,14 +155,14 @@ exports.login = (req, res) => {
                                 installAppExchange
                                     .createDataExtensions(Request2)
                                     .then((resp) => {
-                                        let view = `/mcapp/home?eid=${ resp.eid }&rt=${ resp.refresh_token }`;
+                                        let view = `/mcapp/home?eid=${resp.eid}&rt=${resp.refresh_token}`;
                                         if (tssd !== undefined) {
-                                            view += `&tssd=${ tssd }`;
+                                            view += `&tssd=${tssd}`;
                                         }
                                         return res.redirect(view);
                                     })
                                     .catch((err) => {
-                                        console.log("ERROR ON INDEX LINE 165:", err);
+                                        console.log('ERROR ON INDEX LINE 165:', err);
                                     });
                             } else {
                                 // si ok y hay datos redirecciono al dashboard
@@ -187,17 +187,17 @@ exports.login = (req, res) => {
                                         sfmc
                                             .UpsertEmailsWithOneLinks(upsertRequest)
                                             .then((r2) => {
-                                                console.log(`INDEX LINEA 190  Log upsert Emails ${ r2 }`);
+                                                console.log(`INDEX LINEA 190  Log upsert Emails ${r2}`);
                                                 let view = '';
                                                 if (response.length > 0) {
-                                                    view = `/dashboard/home?eid=${ r.bussinessUnitInfo.enterprise_id }&rt=${ r2.refresh_token }`;
+                                                    view = `/dashboard/home?eid=${r.bussinessUnitInfo.enterprise_id}&rt=${r2.refresh_token}`;
                                                 } else {
                                                     // si no  hay datos redirecciono al home
-                                                    view = `/mcapp/home?eid=${ r.bussinessUnitInfo.enterprise_id }&rt=${ r2.refresh_token }`;
+                                                    view = `/mcapp/home?eid=${r.bussinessUnitInfo.enterprise_id}&rt=${r2.refresh_token}`;
                                                 }
 
                                                 if (tssd !== undefined) {
-                                                    view += `&tssd=${ tssd }`;
+                                                    view += `&tssd=${tssd}`;
                                                 }
 
                                                 return res.redirect(view);
@@ -222,9 +222,9 @@ exports.login = (req, res) => {
                     }
 
                     if (state === 'image') {
-                        returnView = `/image/?rt=${ r.refreshToken }&eid=${ r.bussinessUnitInfo.enterprise_id }&tssd=${ tssd }`;
+                        returnView = `/image/?rt=${r.refreshToken}&eid=${r.bussinessUnitInfo.enterprise_id}&tssd=${tssd}`;
                     } else {
-                        returnView = `/button/?rt=${ r.refreshToken }&eid=${ r.bussinessUnitInfo.enterprise_id }&tssd=${ tssd }`;
+                        returnView = `/button/?rt=${r.refreshToken}&eid=${r.bussinessUnitInfo.enterprise_id}&tssd=${tssd}`;
                     }
 
                     console.log('INDEX LINEA 230 Authorized: ', r);
@@ -234,7 +234,7 @@ exports.login = (req, res) => {
             }
         }
     } catch (err) {
-        console.log(`ERROR INDEX LINEA  237: ${ err }`);
+        console.log(`ERROR INDEX LINEA  237: ${err}`);
         return res.status(200).send(err);
     }
 };
