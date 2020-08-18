@@ -29,7 +29,6 @@ function emailsUsingCustomBlocks(emails) {
     const dataforUpsert = [];
     for (let index = 0; index < emails.length; index++) {
         const element = emails[index];
-        console.log(`INDEX LINEA 32 ${stringify(element)}`);
         let data = {
         };
         const { slots } = element.views.html;
@@ -39,6 +38,7 @@ function emailsUsingCustomBlocks(emails) {
                 const blocksKeys = Object.keys(blocks);
                 for (let j = 0; j < blocksKeys.length; j++) {
                     const contentblock = blocks[blocksKeys[j]];
+                    console.log(`INDEX LINEA 32 ${stringify(contentblock)}`);
                     if (contentblock.assetType.name === 'customblock') {
                         console.log(contentblock);
                         if (contentblock.meta !== undefined) {
