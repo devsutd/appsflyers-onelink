@@ -24,46 +24,51 @@ function countDuplicados(links) {
     console.log(data);
     return data;
 }
-
-function emailsUsingCustomBlocks(emails) {
-    const dataforUpsert = [];
-    for (let index = 0; index < emails.length; index++) {
-        const element = emails[index];
-        let data = {
-        };
-        const { slots } = element.views.html;
-        if (slots.banner !== undefined) {
-            const { blocks } = slots.banner;
-            if (blocks !== undefined) {
-                const blocksKeys = Object.keys(blocks);
-                for (let j = 0; j < blocksKeys.length; j++) {
-                    const contentblock = blocks[blocksKeys[j]];
-                    if (contentblock.assetType.name === 'customblock' || contentblock.assetType.id === 225) {
-                        console.log(`INDEX LINEA 42 ${JSON.stringify(contentblock)}`);
-                        if (contentblock.meta !== undefined) {
-                            const { options } = contentblock.meta;
-                            if (options !== undefined) {
-                                if (options.customBlockData !== undefined) {
-                                    console.log('customBlockData: ', options.customBlockData);
-                                    const { linkID } = options.customBlockData;
-                                    if (linkID !== undefined) {
-                                        console.log('index.JS LINEA 67: ', linkID);
-                                        data = {
-                                            EmailID: element.id,
-                                            EmailName: element.name,
-                                            Links: [],
-                                            countByLink: [],
-                                        };
-                                        data.Links.push(linkID);
-                                    }
-                                }
+function processEmailBody(blocks, data) {
+    if (blocks !== undefined) {
+        const blocksKeys = Object.keys(blocks);
+        for (let j = 0; j < blocksKeys.length; j++) {
+            const contentblock = blocks[blocksKeys[j]];
+            if (contentblock.assetType.name === 'customblock') {
+                if (contentblock.meta !== undefined) {
+                    const { options } = contentblock.meta;
+                    if (options !== undefined) {
+                        if (options.customBlockData !== undefined) {
+                            console.log('customBlockData: ', options.customBlockData);
+                            const { linkID } = options.customBlockData;
+                            if (linkID !== undefined) {
+                                data.Links.push(linkID);
                             }
                         }
                     }
                 }
-
-                dataforUpsert.push(data);
             }
+        }
+    }
+    return data;
+}
+function emailsUsingCustomBlocks(emails) {
+    const dataforUpsert = [];
+    for (let index = 0; index < emails.length; index++) {
+        const element = emails[index];
+        const data = {
+            EmailID: element.id,
+            EmailName: element.name,
+            Links: [],
+            countByLink: [],
+        };
+        const { slots } = element.views.html;
+        if (slots.main !== undefined) {
+            const { blocks } = slots.main;
+            processEmailBody(blocks, data);
+        }
+
+        if (slots.banner !== undefined) {
+            const { blocks } = slots.banner;
+            processEmailBody(blocks, data);
+        }
+        if (data.Links.length > 0) {
+            dataforUpsert.push(data);
         }
     }
     console.log('index.JS LINEA 67: ', dataforUpsert);
