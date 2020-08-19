@@ -24,7 +24,7 @@ function countDuplicados(links) {
                         EmailID: element.EmailID,
                         EmailName: element.EmailName,
                         LinkID: linkid,
-                        count: element.Links.filter((i) => i === linkid).length,
+                        Count: element.Links.filter((i) => i === linkid).length,
                     });
                 }
             });
@@ -64,7 +64,7 @@ function emailsUsingCustomBlocks(emails) {
             EmailID: element.id,
             EmailName: element.name,
             Links: [],
-            countByLink: [],
+            Count: [],
         };
         const { slots } = element.views.html;
         if (slots.main !== undefined) {
