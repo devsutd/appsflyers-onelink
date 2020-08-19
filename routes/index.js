@@ -11,17 +11,26 @@ function countDuplicados(links) {
     for (let index = 0; index < links.length; index++) {
         const element = links[index];
         if (element.Links !== undefined) {
+            let yaExiste = false;
             element.Links.forEach((linkid) => {
-                data.push({
-                    EmailID: element.EmailID,
-                    EmailName: element.EmailName,
-                    LinkID: linkid,
-                    count: element.Links.filter((i) => i === linkid).length,
-                });
+                for (let j = 0; j < data.length; j++) {
+                    const e = data[j];
+                    if (e.EmailID === element.EmailID && e.LinkID === linkid) {
+                        yaExiste = true;
+                    }
+                }
+                if (yaExiste === false) {
+                    data.push({
+                        EmailID: element.EmailID,
+                        EmailName: element.EmailName,
+                        LinkID: linkid,
+                        count: element.Links.filter((i) => i === linkid).length,
+                    });
+                }
             });
         }
     }
-    console.log(data);
+    console.log(Array.from(new Set(data)));
     return data;
 }
 function processEmailBody(blocks, data) {
@@ -36,7 +45,7 @@ function processEmailBody(blocks, data) {
                         if (options.customBlockData !== undefined) {
                             console.log('customBlockData: ', options.customBlockData);
                             const { linkID } = options.customBlockData;
-                            if (linkID !== undefined) {
+                            if (linkID !== undefined && linkID !== '') {
                                 data.Links.push(linkID);
                             }
                         }
