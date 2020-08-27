@@ -586,6 +586,9 @@ function UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink) {
    currentCount = count + 1;
  }
 
+ if(currentCount == 0)
+  currentCount = 1;
+  
  const upsertRequest = {
   refresh_token: $('#rt').val(),
   tssd: $('#tssd').val(),
