@@ -192,7 +192,7 @@ exports.login = (req, res) => {
                             } else {
                                 let view = '';
                                 // si no  hay datos redirecciono al home
-                                view = `/mcapp/home?eid=${r.bussinessUnitInfo.enterprise_id}&rt=${r2.refresh_token}`;
+                                view = `/mcapp/home?eid=${r.bussinessUnitInfo.enterprise_id}&rt=${response.refresh_token}`;
                                 if (tssd !== undefined) {
                                     view += `&tssd=${tssd}`;
                                 }
