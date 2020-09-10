@@ -190,15 +190,6 @@ exports.login = (req, res) => {
                                         console.log('ERROR ON INDEX LINE 165:', err);
                                     });
                             } else {
-                                let view = '';
-                                // si no  hay datos redirecciono al home
-                                view = `/mcapp/home?eid=${r.bussinessUnitInfo.enterprise_id}&rt=${response.refresh_token}`;
-                                if (tssd !== undefined) {
-                                    view += `&tssd=${tssd}`;
-                                }
-
-                                return res.redirect(view);
-                                /* 
                                 // si ok y hay datos redirecciono al dashboard
                                 Request2.body.refresh_token = response.refresh_token;
                                 sfmc
@@ -239,7 +230,7 @@ exports.login = (req, res) => {
                                             .catch((e2) => {
                                                 console.log('INDEX LINEA 206 ', e2);
                                             });
-                                    });*/
+                                    });
                             }
                         }
                     });
