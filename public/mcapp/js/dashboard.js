@@ -256,7 +256,7 @@ $(document).ready(() => {
   }
  }
 
- function getAllEmailsWithOneLinks(params, from, page) {
+ function getEmailsWithOneLinks(params, from, page) {
   const url = "/sfmcHelper/getAllEmailsWithOneLinks";
 
   let urlParams = {
@@ -364,7 +364,7 @@ $(document).ready(() => {
    visiblePages: 5,
    onPageClick(event, page) {
     const from = "paginator";
-    getAllEmailsWithOneLinks(params, "paginator", page);
+    getEmailsWithOneLinks(params, "paginator", page);
    },
   });
  }
