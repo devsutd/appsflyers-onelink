@@ -280,7 +280,7 @@ $(document).ready(() => {
      tssd: $("#tssd").val(),
     };
 
-    // loadDashboards(urlParams, from, page);
+     loadDashboards(urlParams, from, page);
    },
    error(jqXHR, error, errorThrown) {
     console.error(error);
