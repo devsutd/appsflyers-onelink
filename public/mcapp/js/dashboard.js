@@ -398,8 +398,7 @@
   $("#background-modals-emaildetails").removeClass("slds-backdrop_open");
  }
 
- $(document).ready(() => {
- function getUrlParameters() {
+function getUrlParameters() {
   const url = new URL(window.location.href);
   const urlParams = {
    refresh_token: url.searchParams.get("rt"),
@@ -411,5 +410,7 @@
   loadDashboards(urlParams, "init", 1);
  }
 
- let emailswithonelink;
+ $(document).ready(() => {
+  getUrlParameters()
+  let emailswithonelink;
 });
