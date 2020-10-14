@@ -1,20 +1,5 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-undef */
-
-$(document).ready(() => {
- function getUrlParameters() {
-  const url = new URL(window.location.href);
-  const urlParams = {
-   refresh_token: url.searchParams.get("rt"),
-   enterpriseId: url.searchParams.get("eid"),
-   tssd: url.searchParams.get("tssd"),
-  };
-  $("#tssd").val(urlParams.tssd);
-  return urlParams;
- }
-
- let emailswithonelink;
-
  function getCampaign(element) {
   const JSONParameters = JSON.parse(element.JSONParameters);
   const { AttributtionLinks } = JSONParameters;
@@ -413,12 +398,18 @@ $(document).ready(() => {
   $("#background-modals-emaildetails").removeClass("slds-backdrop_open");
  }
 
- const urlParams = getUrlParameters();
+ $(document).ready(() => {
+ function getUrlParameters() {
+  const url = new URL(window.location.href);
+  const urlParams = {
+   refresh_token: url.searchParams.get("rt"),
+   enterpriseId: url.searchParams.get("eid"),
+   tssd: url.searchParams.get("tssd"),
+  };
+  $("#tssd").val(urlParams.tssd);
+  replaceUrlTOkens(urlParams.refresh_token);
+  loadDashboards(urlParams, "init", 1);
+ }
 
- $("#rt").val(urlParams.refresh_token);
- $("#eid").val(urlParams.enterpriseId);
- $("#tssd").val(urlParams.tssd), replaceUrlTOkens(urlParams.refresh_token);
- loadDashboards(urlParams, "init", 1);
-
- ready();
+ let emailswithonelink;
 });
