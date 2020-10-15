@@ -410,7 +410,7 @@ function getUrlParameters() {
  }
 
  $(document).ready(() => {
-  getUrlParameters();
+  var urlParams = getUrlParameters();
   loadDashboards(urlParams, "init", 1);
   let emailswithonelink;
 });
