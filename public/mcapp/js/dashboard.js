@@ -413,5 +413,7 @@ function getUrlParameters() {
 
  $(document).ready(() => {
   var urlParams = getUrlParameters();
+  $("#rt").val(urlParams.enterpriseId);
+  $("#tssd").val(urlParams.tssd);
   loadDashboards(urlParams, "init", 1);
 });
