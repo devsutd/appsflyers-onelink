@@ -1,3 +1,5 @@
+  let emailswithonelink;
+
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-undef */
  function getCampaign(element) {
@@ -410,7 +412,6 @@ function getUrlParameters() {
  }
 
  $(document).ready(() => {
-  var  emailswithonelink = {};
   var urlParams = getUrlParameters();
   loadDashboards(urlParams, "init", 1);
 });
