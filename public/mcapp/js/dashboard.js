@@ -1,20 +1,7 @@
+  let emailswithonelink;
+
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-undef */
-
-$(document).ready(() => {
- function getUrlParameters() {
-  const url = new URL(window.location.href);
-  const urlParams = {
-   refresh_token: url.searchParams.get("rt"),
-   enterpriseId: url.searchParams.get("eid"),
-   tssd: url.searchParams.get("tssd"),
-  };
-  $("#tssd").val(urlParams.tssd);
-  return urlParams;
- }
-
- let emailswithonelink;
-
  function getCampaign(element) {
   const JSONParameters = JSON.parse(element.JSONParameters);
   const { AttributtionLinks } = JSONParameters;
@@ -256,7 +243,7 @@ $(document).ready(() => {
   }
  }
 
- function getAllEmailsWithOneLinks(params, from, page) {
+ function getEmailsWithOneLinks(params, from, page) {
   const url = "/sfmcHelper/getAllEmailsWithOneLinks";
 
   let urlParams = {
@@ -280,7 +267,7 @@ $(document).ready(() => {
      tssd: $("#tssd").val(),
     };
 
-    // loadDashboards(urlParams, from, page);
+     loadDashboards(urlParams, from, page);
    },
    error(jqXHR, error, errorThrown) {
     console.error(error);
@@ -364,7 +351,7 @@ $(document).ready(() => {
    visiblePages: 5,
    onPageClick(event, page) {
     const from = "paginator";
-    getAllEmailsWithOneLinks(params, "paginator", page);
+    getEmailsWithOneLinks(params, "paginator", page);
    },
   });
  }
@@ -413,12 +400,20 @@ $(document).ready(() => {
   $("#background-modals-emaildetails").removeClass("slds-backdrop_open");
  }
 
- const urlParams = getUrlParameters();
+function getUrlParameters() {
+  const url = new URL(window.location.href);
+  const urlParams = {
+   refresh_token: url.searchParams.get("rt"),
+   enterpriseId: url.searchParams.get("eid"),
+   tssd: url.searchParams.get("tssd"),
+  };
+  $("#tssd").val(urlParams.tssd);
+  return urlParams;
+ }
 
- $("#rt").val(urlParams.refresh_token);
- $("#eid").val(urlParams.enterpriseId);
- $("#tssd").val(urlParams.tssd), replaceUrlTOkens(urlParams.refresh_token);
- loadDashboards(urlParams, "init", 1);
-
- ready();
+ $(document).ready(() => {
+  var urlParams = getUrlParameters();
+  $("#eid").val(urlParams.enterpriseId);
+  $("#tssd").val(urlParams.tssd);
+  loadDashboards(urlParams, "init", 1);
 });

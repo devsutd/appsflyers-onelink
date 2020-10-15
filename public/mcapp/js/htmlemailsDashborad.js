@@ -265,7 +265,7 @@ function buildDashboard(emails, from, page) {
 
  table += '<tr>';
 
- table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="1"><b><input id="selectall" type="checkbox" name="selectall"></b></td>';
+ table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="1"></td>';
  table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>Email ID</b></td>';
  table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>Email Name</b></td>';
  table += '<td class="header-dashboard" role="gridcell" scope="col" colspan="2"><b>Campaign</b></td>';
@@ -586,6 +586,9 @@ function UpsertEmailWithOneLinksDE(emailUpdated, emailswithonelink) {
    currentCount = count + 1;
  }
 
+ if(currentCount == 0)
+  currentCount = 1;
+  
  const upsertRequest = {
   refresh_token: $('#rt').val(),
   tssd: $('#tssd').val(),

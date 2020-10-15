@@ -11,27 +11,34 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href=" https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/mcapp/css/salesforce-lightning-design-system/assets/styles/salesforce-lightning-design-system.min.css">
+    <link rel="stylesheet"
+        href="/mcapp/css/salesforce-lightning-design-system/assets/styles/salesforce-lightning-design-system.min.css">
     <link rel="stylesheet" href="/mcapp/css/styles.css">
     <script type="text/javascript" src="/mcapp/js/jquery-3.5.1.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.2/jquery.twbsPagination.min.js"></script>
     <script type="text/javascript" src="/mcapp/js/htmlemailsDashborad.js"></script>
 </head>
 
 <body>
     <div>
-        <img src="https://image.sflink.afsdktests.com/lib/fe3d15707564067f721270/m/1/bae131a1-9bc9-477b-9f91-422f3d7d712f.png" alt="">
+        <img src="https://image.sflink.afsdktests.com/lib/fe3d15707564067f721270/m/1/bae131a1-9bc9-477b-9f91-422f3d7d712f.png"
+            alt="">
     </div>
     <div class="slds-tabs_default">
         <ul class="slds-tabs_default__nav" role="tablist">
             <li class="slds-tabs_default__item" title="Item One" role="presentation">
-                <a id="DashboardLink" class="slds-tabs_default__link" href="/Dashboard/home" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-default-1" id="tab-default-1__item">Dashboard</a>
+                <a id="DashboardLink" class="slds-tabs_default__link" href="/Dashboard/home" role="tab" tabindex="0"
+                    aria-selected="true" aria-controls="tab-default-1" id="tab-default-1__item">Dashboard</a>
             </li>
             <li class="slds-tabs_default__item slds-is-active" title="Item One" role="presentation">
-                <a id="htmlemailsLink" class="slds-tabs_default__link" href="/htmlemails/home?rt=$('#rt').val()" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-default-1" id="tab-default-1__item">Emails</a>
+                <a id="htmlemailsLink" class="slds-tabs_default__link" href="/htmlemails/home?rt=$('#rt').val()"
+                    role="tab" tabindex="0" aria-selected="true" aria-controls="tab-default-1"
+                    id="tab-default-1__item">Emails</a>
             </li>
         </ul>
-        <div id="tab-default-1" class="slds-tabs_default__content slds-show" role="tabpanel" aria-labelledby="tab-default-1__item">
+        <div id="tab-default-1" class="slds-tabs_default__content slds-show" role="tabpanel"
+            aria-labelledby="tab-default-1__item">
             <article class="slds-card">
                 <div class="slds-card__header slds-grid">
                     <header class="slds-media slds-media_center slds-has-flexi-truncate">
@@ -39,11 +46,18 @@
                             <div class="slds-form-element">
                                 <div class="slds-form-element__control">
                                     <div class="slds-combobox_container">
-                                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
-                                            <div class="slds-form-element slds-p-top--medium slds-p-horizontal--medium slds-m-bottom--small">
-                                                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
-                                                    <input id="lookup" onkeyup="filter()" class="slds-input" type="text" aria-haspopup="true" aria-autocomplete="listbox" role="combobox" aria-activedescendant="" />
-                                                    <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick="loadHtmlEmails(false, 'filtered', 1)" title="Search">
+                                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                            aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                                            <div
+                                                class="slds-form-element slds-p-top--medium slds-p-horizontal--medium slds-m-bottom--small">
+                                                <div
+                                                    class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                    <input id="lookup" onkeyup="filter()" class="slds-input" type="text"
+                                                        aria-haspopup="true" aria-autocomplete="listbox" role="combobox"
+                                                        aria-activedescendant="" />
+                                                    <button
+                                                        class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+                                                        onclick="loadHtmlEmails(false, 'filtered', 1)" title="Search">
                                                         <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default"
                                                             aria-hidden="true">
                                                             <use xlink:href="/mcapp/images/symbols.svg#search">
@@ -61,7 +75,8 @@
 
                         </div>
                         <div class="slds-no-flex">
-                            <button id="btn-assign" class="slds-button slds-button_brand" onclick="openAssignLinks()">Assign OneLink link</button>
+                            <button id="btn-assign" class="slds-button slds-button_brand"
+                                onclick="openAssignLinks()">Assign OneLink link</button>
                         </div>
                     </header>
                 </div>
@@ -74,12 +89,16 @@
             </article>
         </div>
     </div>
-    <section id="section-assignLinks" role="dialog" tabindex="-1" aria-labelledby="assignLinks" aria-modal="true" aria-describedby="assignLinks" class="slds-modal" style="margin: 4%;">
-        <div id="modalcontainer" class="slds-modal__container" style="overflow-y: auto; width: 70%;max-width: 70%;padding: 0px;justify-content: unset;">
+    <section id="section-assignLinks" role="dialog" tabindex="-1" aria-labelledby="assignLinks" aria-modal="true"
+        aria-describedby="assignLinks" class="slds-modal" style="margin: 4%;">
+        <div id="modalcontainer" class="slds-modal__container"
+            style="overflow-y: auto; width: 70%;max-width: 70%;padding: 0px;justify-content: unset;">
         </div>
     </section>
     <div id="background-modals" class="slds-backdrop"></div>
-    <section id="section-confirmationAlert" role="dialog" tabindex="-1" aria-label="Meaningful description of the modal content" aria-modal="true" aria-describedby="confirmationAlert" class="slds-modal">
+    <section id="section-confirmationAlert" role="dialog" tabindex="-1"
+        aria-label="Meaningful description of the modal content" aria-modal="true" aria-describedby="confirmationAlert"
+        class="slds-modal">
         <div class="slds-modal__container">
             <header class="slds-modal__header">
                 <h2 id="confirmationAlert-heading" class="slds-modal__title slds-hyphenate">Confirm</h2>
@@ -96,11 +115,13 @@
         <div id="toastContainer" class="slds-notify_container slds-is-relative" style="position: absolute;display:none">
             <div class="slds-notify slds-notify_toast slds-theme_success" role="status">
                 <span class="slds-assistive-text"></span>
-                <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
-            <svg class="slds-icon slds-icon_small" aria-hidden="true">
-              <use xlink:href="/mcapp/images/symbols.svg#success"></use>
-            </svg>
-          </span>
+                <span
+                    class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top"
+                    title="Description of icon when needed">
+                    <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                        <use xlink:href="/mcapp/images/symbols.svg#success"></use>
+                    </svg>
+                </span>
                 <div class="slds-notify__content">
                     <h2 id="confirmationToast" class="slds-text-heading_small "></h2>
                 </div>
@@ -114,8 +135,8 @@
     <script>
         function filter() {
             inp = $('#lookup').val();
-            if (inp == '') {
-                loadHtmlEmails(false, 'filtered', 1);
+            if(inp == '') {
+                loadHtmlEmails(false,'filtered',1);
             }
         }
 
@@ -125,7 +146,7 @@
                 emails.push($(this).val());
             });
 
-            if (emails.length > 0) {
+            if(emails.length > 0) {
                 $("#section-assignLinks").addClass("slds-fade-in-open");
                 $("#background-modals").addClass("slds-backdrop_open");
                 getEmailSlot(emails);
@@ -143,9 +164,9 @@
 
             linkstoupdate = links;
 
-            if (links.length > 0) {
+            if(links.length > 0) {
                 $("#section-assignLinks").removeClass("slds-fade-in-open");
-                if (links.length == 1)
+                if(links.length == 1)
                     $("#confirmationAlert").html("<p>You are about to update 1 link. Are you sure? </p>")
                 else
                     $("#confirmationAlert").html("<p>You are about to update " + links.length + " links. Are you sure? </p>")
@@ -190,7 +211,7 @@
               }
             }*/
 
-            if (linkstoupdate.length == 1)
+            if(linkstoupdate.length == 1)
                 $("#confirmationToast").html("<h2> 1 link was successfully updated.</h2>");
             else
                 $("#confirmationToast").html("<h2>" + linkstoupdate.length + " links were successfully updated.</h2>");
@@ -198,7 +219,7 @@
             $("#toastContainer").show();
             setTimeout(function() {
                 $("#toastContainer").hide();
-            }, 4000);
+            },4000);
         }
 
         function cancelUpdates() {
