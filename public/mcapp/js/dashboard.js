@@ -406,11 +406,11 @@ function getUrlParameters() {
    tssd: url.searchParams.get("tssd"),
   };
   $("#tssd").val(urlParams.tssd);
-  replaceUrlTOkens(urlParams.refresh_token);
-  loadDashboards(urlParams, "init", 1);
+  return urlParams;
  }
 
  $(document).ready(() => {
-  getUrlParameters()
+  getUrlParameters();
+  loadDashboards(urlParams, "init", 1);
   let emailswithonelink;
 });
