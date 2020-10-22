@@ -263,7 +263,7 @@
     replaceUrlTOkens($("#rt").val());
     urlParams = {
      refresh_token: $("#rt").val(),
-     eid: $("#eid").val(),
+     enterpriseId: $("#eid").val(),
      tssd: $("#tssd").val(),
     };
 
@@ -301,7 +301,9 @@
     if (inp != undefined && links != undefined) {
      links = links.filter((x) => x.LinkName.toLowerCase().includes(inp));
 
-     if (from !== "paginator") buildPaginator(links);
+     if (from !== "paginator") {
+      buildPaginator(links);
+     }
 
      buildDashboard(links, from, page);
     }
