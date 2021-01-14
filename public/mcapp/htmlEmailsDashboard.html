@@ -177,51 +177,32 @@
             }
         }
 
-        function confirmLinkUpdates() {
-            $("#section-confirmationAlert").removeClass("slds-fade-in-open");
-            $("#background-modals").removeClass("slds-backdrop_open");
-            let oneLinkDictionary = $("#selectonelink").val().split("|");
-            oneLinkId = oneLinkDictionary[0];
-            oneLink = oneLinkDictionary[1];
-            let currentEmailID;
-            let newEmail;
-            let emailLinks = [];
-            let linkschecked = linkstoupdate;
-            GetHtmlEmailByID(linkschecked);
-            /*for (let i = 0; i < linkstoupdate.length; i++) {
-              let diccionarioLink = linkstoupdate[i].split("|");
-              newEmail = diccionarioLink[0];
-              if(currentEmailID == "" || currentEmailID == undefined){
-                currentEmailID = diccionarioLink[0];
-              }
-              
-              if(currentEmailID == newEmail){
-                emailLinks.push(diccionarioLink[1]);
-                if(linkstoupdate.length -1 == i) {
-                  currentLinks = emailLinks;
-                  GetHtmlEmailByID(currentEmailID);
+           function confirmLinkUpdates() {
+                $("#section-confirmationAlert").removeClass("slds-fade-in-open");
+                $("#background-modals").removeClass("slds-backdrop_open");
+                if($("#selectonelink").val() != "") {
+                    let oneLinkDictionary = $("#selectonelink").val().split("|");
+                    oneLinkId = oneLinkDictionary[0];
+                    oneLink = oneLinkDictionary[1];
+                    let currentEmailID;
+                    let newEmail;
+                    let emailLinks = [];
+                    let linkschecked = linkstoupdate;
+                    GetHtmlEmailByID(linkschecked);
+
+                    if(linkstoupdate.length == 1)
+                        $("#confirmationToast").html("<h2> 1 link was successfully updated.</h2>");
+                    else
+                        $("#confirmationToast").html("<h2>" + linkstoupdate.length + " links were successfully updated.</h2>");
+
+                    $("#toastContainer").show();
+                    setTimeout(function() {
+                        $("#toastContainer").hide();
+                    },4000);
+                } else {
+                    alert("We can't update the links. You have to select one link at least.");
                 }
-              }
-              else {
-                currentLinks = emailLinks;
-                GetHtmlEmailByID(currentEmailID);
-                currentEmailID = diccionarioLink[0];
-                emailLinks = [];
-                emailLinks.push(diccionarioLink[1]);
-              }
-            }*/
-
-            if(linkstoupdate.length == 1)
-                $("#confirmationToast").html("<h2> 1 link was successfully updated.</h2>");
-            else
-                $("#confirmationToast").html("<h2>" + linkstoupdate.length + " links were successfully updated.</h2>");
-
-            $("#toastContainer").show();
-            setTimeout(function() {
-                $("#toastContainer").hide();
-            },4000);
-        }
-
+            }
         function cancelUpdates() {
             $("#section-assignLinks").removeClass("slds-fade-in-open");
             $("#section-confirmationAlert").removeClass("slds-fade-in-open");
