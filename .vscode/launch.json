@@ -12,7 +12,7 @@
             "env": {
                 "authEndpoint": "https://mc8nghvf-gp9-nfl9jcsjjs7r214.auth.marketingcloudapis.com/v2/token",
                 "baseAuth": "https://mc8nghvf-gp9-nfl9jcsjjs7r214.auth.marketingcloudapis.com",
-                "redirectURI": "https://sfmcaf.appsflyer.com/login",
+                "redirectURI": "https://127.0.0.1:5000/login",
                 "sfmcClientId": "",
                 "sfmcClientSecret": "",
                 "userInfo": "https://mc8nghvf-gp9-nfl9jcsjjs7r214.auth.marketingcloudapis.com/v2/userinfo",
@@ -27,7 +27,7 @@
                 "LogEmailLinks": "LogEmailLinks_dev2",
                 "EmailsWithOneLinks": "EmailsWithOneLinks_dev2",
                 "LogEmailLinksDataExtension": "LogEmailLinks_dev2",
-                "tssd": "mc8nghvf-gp9-nfl9jcsjjs7r214"
+                "tssd": "mc8nghvf-gp9-nfl9jcsjjs7r214",
             }
         }
     ]
