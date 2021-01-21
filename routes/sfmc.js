@@ -34,21 +34,21 @@ function CreateContentBuilderJPG(data, accessToken) {
         // console.log(base64);
         const postData = assetObject(data.name, base64);
         request({
-            url: `https://${data.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets`,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
+                url: `https://${data.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets`,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                body: postData,
             },
-            body: postData,
-        },
-        (err, _response, body) => {
-            if (err) {
-                return reject(err);
-            }
+            (err, _response, body) => {
+                if (err) {
+                    return reject(err);
+                }
 
-            resolve(body);
-        });
+                resolve(body);
+            });
     });
 }
 
@@ -58,54 +58,54 @@ function ImagenStatus(data, accessToken) {
         const { id } = data;
         const endpoint = `https://${data.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets?$filter=id%20eq%20${id}`;
         request({
-            url: endpoint,
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
+                url: endpoint,
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                },
             },
-        },
-        (err, _response, body) => {
-            if (err) {
-                return reject(err);
-            }
-            // eslint-disable-next-line prefer-const
-            let dataResp = {
-                refresh_token: '',
-                body: JSON.parse(body),
-            };
-            return resolve(dataResp);
-        });
+            (err, _response, body) => {
+                if (err) {
+                    return reject(err);
+                }
+                // eslint-disable-next-line prefer-const
+                let dataResp = {
+                    refresh_token: '',
+                    body: JSON.parse(body),
+                };
+                return resolve(dataResp);
+            });
     });
 }
 
 // eslint-disable-next-line no-unused-vars
-exports.SaveImage = async (req, resp, _next) => {
+exports.SaveImage = async(req, resp, _next) => {
     console.log('SFMC LINEA 76 Dentro de SaveImage');
     // return  resp.send(200, "body");
 
     await Promise.all([
         sfmcHelper
-            .refreshToken(req.body.refresh_token, req.body.tssd)
-            .then((data) => {
-                CreateContentBuilderJPG(req.body, data.access_token)
-                    .then((r) => {
-                        const rsp = {
-                            refresh_token: data.refresh_token,
-                            data: r,
-                        };
+        .refreshToken(req.body.refresh_token, req.body.tssd)
+        .then((data) => {
+            CreateContentBuilderJPG(req.body, data.access_token)
+                .then((r) => {
+                    const rsp = {
+                        refresh_token: data.refresh_token,
+                        data: r,
+                    };
 
-                        console.log('SFMC LINEA 90 Save Image - OK');
-                        console.log('SFMC LINEA 91', r);
-                        return resp.status(200).send(rsp);
-                    })
-                    .catch((e) => {
-                        console.log('ERROR ON SFMC LINEA 95 Save Image - Error');
-                        console.log('ERROR ON SFMC.JS LINEA 96', e);
-                        return resp.status(200).end(e);
-                    });
-            })
-            .catch((err) => resp.status(500).end(err)),
+                    console.log('SFMC LINEA 90 Save Image - OK');
+                    console.log('SFMC LINEA 91', r);
+                    return resp.status(200).send(rsp);
+                })
+                .catch((e) => {
+                    console.log('ERROR ON SFMC LINEA 95 Save Image - Error');
+                    console.log('ERROR ON SFMC.JS LINEA 96', e);
+                    return resp.status(200).end(e);
+                });
+        })
+        .catch((err) => resp.status(500).end(err)),
     ]);
 };
 
@@ -189,32 +189,31 @@ exports.UpsertImageRow = (req, resp) => {
             }
 
             const Properties = [{
-                Name: 'Url',
-                Value: req.body.Url,
-            },
-            {
-                Name: 'LinkID',
-                Value: req.body.LinkID,
-            },
-            {
-                Name: 'AltText',
-                Value: req.body.AltText,
-            },
-            {
-                Name: 'Width',
-                Value: req.body.Width,
-            },
-            {
-                Name: 'Height',
-                Value: req.body.Height,
-            },
+                    Name: 'Url',
+                    Value: req.body.Url,
+                },
+                {
+                    Name: 'LinkID',
+                    Value: req.body.LinkID,
+                },
+                {
+                    Name: 'AltText',
+                    Value: req.body.AltText,
+                },
+                {
+                    Name: 'Width',
+                    Value: req.body.Width,
+                },
+                {
+                    Name: 'Height',
+                    Value: req.body.Height,
+                },
             ];
             const UpdateRequest = sfmcHelper.UpdateRequestObject(
                 process.env.ImageContentBlockDataExtension, [{
                     Name: 'ContentBlockID',
-                    Value: req.body.ContentBlockID === undefined
-                        ? uuidv1()
-                        : req.body.ContentBlockID,
+                    Value: req.body.ContentBlockID === undefined ?
+                        uuidv1() : req.body.ContentBlockID,
                 }],
                 Properties,
             );
@@ -250,60 +249,59 @@ exports.UpsertButtonRow = (req, resp) => {
             }
 
             const Properties = [{
-                Name: 'LinkID',
-                Value: req.body.linkID,
-            },
-            {
-                Name: 'BackgroundColor',
-                Value: req.body.backgroundColor,
-            },
-            {
-                Name: 'RoundedCorners',
-                Value: req.body.roundedCorners,
-            },
-            {
-                Name: 'TextAlignment',
-                Value: req.body.textAlignment,
-            },
-            {
-                Name: 'PaddingTop',
-                Value: req.body.paddingTop,
-            },
-            {
-                Name: 'PaddingRight',
-                Value: req.body.paddingRight,
-            },
-            {
-                Name: 'PaddingBotom',
-                Value: req.body.paddingBotom,
-            },
-            {
-                Name: 'PaddingLeft',
-                Value: req.body.paddingLeft,
-            },
-            {
-                Name: 'MarginTop',
-                Value: req.body.marginTop,
-            },
-            {
-                Name: 'MarginBottom',
-                Value: req.body.marginBottom,
-            },
-            {
-                Name: 'MarginRight',
-                Value: req.body.marginRight,
-            },
-            {
-                Name: 'MarginLeft',
-                Value: req.body.marginLeft,
-            },
+                    Name: 'LinkID',
+                    Value: req.body.linkID,
+                },
+                {
+                    Name: 'BackgroundColor',
+                    Value: req.body.backgroundColor,
+                },
+                {
+                    Name: 'RoundedCorners',
+                    Value: req.body.roundedCorners,
+                },
+                {
+                    Name: 'TextAlignment',
+                    Value: req.body.textAlignment,
+                },
+                {
+                    Name: 'PaddingTop',
+                    Value: req.body.paddingTop,
+                },
+                {
+                    Name: 'PaddingRight',
+                    Value: req.body.paddingRight,
+                },
+                {
+                    Name: 'PaddingBotom',
+                    Value: req.body.paddingBotom,
+                },
+                {
+                    Name: 'PaddingLeft',
+                    Value: req.body.paddingLeft,
+                },
+                {
+                    Name: 'MarginTop',
+                    Value: req.body.marginTop,
+                },
+                {
+                    Name: 'MarginBottom',
+                    Value: req.body.marginBottom,
+                },
+                {
+                    Name: 'MarginRight',
+                    Value: req.body.marginRight,
+                },
+                {
+                    Name: 'MarginLeft',
+                    Value: req.body.marginLeft,
+                },
             ];
             const UpdateRequest = sfmcHelper.UpdateRequestObject(
                 process.env.ButtonContentBlockDataExtension, [{
                     Name: 'ContentBlockID',
-                    Value: req.body.contentBlockID === undefined
-                        ? uuidv1()
-                        : req.body.contentBlockID,
+                    Value: req.body.contentBlockID === undefined ?
+                        uuidv1() : req.body.contentBlockID,
                 }],
                 Properties,
             );
@@ -434,22 +432,22 @@ function contentAssetsQuery(filter, accessToken, tssd) {
     console.log('SFMC LINEA  426:  contentAssetsQuery process start...');
     return new Promise((resolve, reject) => {
         request({
-            url: `https://${tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/query`,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
+                url: `https://${tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/query`,
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify(filter),
             },
-            body: JSON.stringify(filter),
-        },
-        (err, _response, body) => {
-            if (err) {
-                console.log('ERROR ON SFMC.JS LINEA 440', err);
-                reject(err);
-            }
-            console.log('SFMC LINEA  442:  contentAssetsQuery process start...');
-            return resolve(JSON.parse(body));
-        });
+            (err, _response, body) => {
+                if (err) {
+                    console.log('ERROR ON SFMC.JS LINEA 440', err);
+                    reject(err);
+                }
+                console.log('SFMC LINEA  442:  contentAssetsQuery process start...');
+                return resolve(JSON.parse(body));
+            });
     });
 }
 
@@ -467,7 +465,7 @@ exports.GetContentBuilderTemplateBasedEmails = (req) => {
                 };
                 contentAssetsQuery(filter, rtResponse.access_token, req.body.tssd)
                     .then((emails) => {
-                    //    console.log(`emails ${emails}`);
+                        //    console.log(`emails ${emails}`);
                         filter.page.pageSize = emails.count;
                         console.log('SFMC HELPER 461 - EMAILS COUNT: ', emails.count);
                         if (emails.count > 250) {
@@ -498,29 +496,29 @@ exports.GetContentBuilderEmails = (req, resp) => {
         .then((rtResponse) => {
             const filter = getEmailsFilter(208, 'htmlemail');
             request({
-                url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/query`,
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${rtResponse.access_token}`,
+                    url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/query`,
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${rtResponse.access_token}`,
+                    },
+                    body: JSON.stringify(filter),
                 },
-                body: JSON.stringify(filter),
-            },
-            (err, _response, body) => {
-                console.log('SFMC LINEA  498: ', _response);
-                if (err) {
-                    console.error(err);
-                    return resp.status(401).send(err);
-                }
+                (err, _response, body) => {
+                    console.log('SFMC LINEA  498: ', _response);
+                    if (err) {
+                        console.error(err);
+                        return resp.status(401).send(err);
+                    }
 
-                const response = {
-                    refresh_token: rtResponse.refresh_token,
-                    body: JSON.parse(body),
-                };
+                    const response = {
+                        refresh_token: rtResponse.refresh_token,
+                        body: JSON.parse(body),
+                    };
                     // eslint-disable-next-line prefer-const
-                console.log('SFMC LINEA  509: GetContentBuilderEmails process end...');
-                return resp.status(200).send(response);
-            });
+                    console.log('SFMC LINEA  509: GetContentBuilderEmails process end...');
+                    return resp.status(200).send(response);
+                });
         });
 };
 
@@ -530,26 +528,26 @@ exports.UpdateEmail = (req, resp) => {
         .refreshToken(req.body.accessToken, req.body.tssd)
         .then((refreshTokenbody) => {
             request({
-                url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/${req.body.id}`,
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${refreshTokenbody.access_token}`,
+                    url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/${req.body.id}`,
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${refreshTokenbody.access_token}`,
+                    },
+                    body: JSON.stringify(req.body.email),
                 },
-                body: JSON.stringify(req.body.email),
-            },
-            (err, _response, body) => {
-                if (err) {
-                    console.log('ERROR ON SFMC.JS LINEA 532', err);
-                    return resp.status(401).send(err);
-                }
-                const response = {
-                    refresh_token: refreshTokenbody.refresh_token,
-                    body,
-                };
-                console.log('SFMC LINEA  538: UpdateEmail process end...');
-                return resp.status(200).send(response);
-            });
+                (err, _response, body) => {
+                    if (err) {
+                        console.log('ERROR ON SFMC.JS LINEA 532', err);
+                        return resp.status(401).send(err);
+                    }
+                    const response = {
+                        refresh_token: refreshTokenbody.refresh_token,
+                        body,
+                    };
+                    console.log('SFMC LINEA  538: UpdateEmail process end...');
+                    return resp.status(200).send(response);
+                });
         });
 };
 exports.GetEmailByID = (req, resp) => {
@@ -558,25 +556,25 @@ exports.GetEmailByID = (req, resp) => {
         .refreshToken(req.body.accessToken, req.body.tssd)
         .then((refreshTokenbody) => {
             request({
-                url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/${req.body.id}`,
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${refreshTokenbody.access_token}`,
+                    url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/${req.body.id}`,
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${refreshTokenbody.access_token}`,
+                    },
                 },
-            },
-            (err, _response, body) => {
-                if (err) {
-                    console.err(err);
-                    return resp.status(401).send(err);
-                }
-                const response = {
-                    refresh_token: refreshTokenbody.refresh_token,
-                    body: JSON.parse(body),
-                };
-                console.log('SFMC LINEA  565: GetEmailByID process end...');
-                return resp.status(200).send(response);
-            });
+                (err, _response, body) => {
+                    if (err) {
+                        console.err(err);
+                        return resp.status(401).send(err);
+                    }
+                    const response = {
+                        refresh_token: refreshTokenbody.refresh_token,
+                        body: JSON.parse(body),
+                    };
+                    console.log('SFMC LINEA  565: GetEmailByID process end...');
+                    return resp.status(200).send(response);
+                });
         });
 };
 
@@ -587,27 +585,27 @@ exports.GetCampaigns = (req, resp) => {
         .then((refreshTokenbody) => {
             console.log('SFMC LINEA  576: ', refreshTokenbody);
             request({
-                url: `https://${req.body.tssd}.rest.marketingcloudapis.com/hub/v1/campaigns`,
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${refreshTokenbody.access_token}`,
+                    url: `https://${req.body.tssd}.rest.marketingcloudapis.com/hub/v1/campaigns`,
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${refreshTokenbody.access_token}`,
+                    },
                 },
-            },
-            (err, _response, body) => {
-                if (err) {
-                    console.log('ERROR ON SFMC.JS LINEA 588', err);
-                    return resp.status(401).send(err);
-                }
-                console.log('SFMC LINEA  590: ', JSON.parse(body));
-                const response = {
-                    refresh_token: refreshTokenbody.refresh_token,
-                    body: JSON.parse(body),
-                };
+                (err, _response, body) => {
+                    if (err) {
+                        console.log('ERROR ON SFMC.JS LINEA 588', err);
+                        return resp.status(401).send(err);
+                    }
+                    console.log('SFMC LINEA  590: ', JSON.parse(body));
+                    const response = {
+                        refresh_token: refreshTokenbody.refresh_token,
+                        body: JSON.parse(body),
+                    };
                     // eslint-disable-next-line prefer-const
-                console.log('SFMC LINEA  596: GetCampaigns process end...');
-                return resp.status(200).send(response);
-            });
+                    console.log('SFMC LINEA  596: GetCampaigns process end...');
+                    return resp.status(200).send(response);
+                });
         });
 };
 
@@ -617,27 +615,27 @@ exports.GetAllContentBuilderAssets = (req, resp) => {
         .refreshToken(req.body.accessToken, req.body.tssd)
         .then((rtResponse) => {
             request({
-                url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/`,
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${rtResponse.access_token}`,
+                    url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/`,
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${rtResponse.access_token}`,
+                    },
                 },
-            },
-            (err, _response, body) => {
-                if (err) {
-                    console.log('ERROR ON SFMC.JS LINEA 618', err);
-                    return resp.status(401).send(err);
-                }
-                const response = {
-                    refresh_token: rtResponse.refresh_token,
-                    body,
-                };
+                (err, _response, body) => {
+                    if (err) {
+                        console.log('ERROR ON SFMC.JS LINEA 618', err);
+                        return resp.status(401).send(err);
+                    }
+                    const response = {
+                        refresh_token: rtResponse.refresh_token,
+                        body,
+                    };
                     // eslint-disable-next-line prefer-const
 
-                console.log('SFMC LINEA  626: GetAllContentBuilderAssets process end...');
-                return resp.status(200).send(response);
-            });
+                    console.log('SFMC LINEA  626: GetAllContentBuilderAssets process end...');
+                    return resp.status(200).send(response);
+                });
         });
 };
 
@@ -691,29 +689,29 @@ exports.UpsertLogHTMLEmailLinks = (req, resp) => {
             }
 
             const Properties = [{
-                Name: 'EmailID',
-                Value: req.body.EmailID,
-            },
-            {
-                Name: 'LinkText',
-                Value: req.body.LinkText,
-            },
-            {
-                Name: 'LinkReplaced',
-                Value: req.body.LinkReplaced,
-            },
-            {
-                Name: 'OneLinkID',
-                Value: req.body.OneLinkID,
-            },
-            {
-                Name: 'OneLinkURL',
-                Value: req.body.OneLinkURL,
-            },
-            {
-                Name: 'Modified',
-                Value: req.body.Modified,
-            },
+                    Name: 'EmailID',
+                    Value: req.body.EmailID,
+                },
+                {
+                    Name: 'LinkText',
+                    Value: req.body.LinkText,
+                },
+                {
+                    Name: 'LinkReplaced',
+                    Value: req.body.LinkReplaced,
+                },
+                {
+                    Name: 'OneLinkID',
+                    Value: req.body.OneLinkID,
+                },
+                {
+                    Name: 'OneLinkURL',
+                    Value: req.body.OneLinkURL,
+                },
+                {
+                    Name: 'Modified',
+                    Value: req.body.Modified,
+                },
             ];
             const UpdateRequest = sfmcHelper.UpdateRequestObject(
                 process.env.LogEmailLinks, [{
@@ -787,3 +785,161 @@ exports.logEmailsWithOneLinks = (req, resp) => {
         },
     );
 };
+
+function countDuplicados(links) {
+    const data = [];
+    for (let index = 0; index < links.length; index++) {
+        const element = links[index];
+        if (element.Links !== undefined) {
+            let yaExiste = false;
+            element.Links.forEach((linkid) => {
+                for (let j = 0; j < data.length; j++) {
+                    const e = data[j];
+                    if (e.EmailID === element.EmailID && e.LinkID === linkid) {
+                        yaExiste = true;
+                    }
+                }
+                if (yaExiste === false) {
+                    data.push({
+                        EmailID: element.EmailID,
+                        EmailName: element.EmailName,
+                        LinkID: linkid,
+                        Count: element.Links.filter((i) => i === linkid).length,
+                    });
+                }
+            });
+        }
+    }
+    console.log(Array.from(new Set(data)));
+    return data;
+}
+
+function processEmailBody(blocks, data) {
+    if (blocks !== undefined) {
+        const blocksKeys = Object.keys(blocks);
+        for (let j = 0; j < blocksKeys.length; j++) {
+            const contentblock = blocks[blocksKeys[j]];
+            if (contentblock.assetType.name === 'customblock') {
+                if (contentblock.meta !== undefined) {
+                    const { options } = contentblock.meta;
+                    if (options !== undefined) {
+                        if (options.customBlockData !== undefined) {
+                            console.log('customBlockData: ', options.customBlockData);
+                            const { linkID } = options.customBlockData;
+                            if (linkID !== undefined && linkID !== '') {
+                                data.Links.push(linkID);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return data;
+}
+
+function emailsUsingCustomBlocks(emails) {
+    const dataforUpsert = [];
+    for (let index = 0; index < emails.length; index++) {
+        const element = emails[index];
+        const data = {
+            EmailID: element.id,
+            EmailName: element.name,
+            Links: [],
+            Count: [],
+        };
+        const { slots } = element.views.html;
+        if (slots.main !== undefined) {
+            const { blocks } = slots.main;
+            processEmailBody(blocks, data);
+        }
+
+        if (slots.banner !== undefined) {
+            const { blocks } = slots.banner;
+            processEmailBody(blocks, data);
+        }
+        if (data.Links.length > 0) {
+            dataforUpsert.push(data);
+        }
+    }
+    console.log('index.JS LINEA 67: ', dataforUpsert);
+    return countDuplicados(dataforUpsert);
+}
+
+function UpdateRequestObjectMulipleRows(upsertData, eid) {
+    console.log('INDEX LINEA 62', eid);
+    const UpdateRequest = {
+        Options: {
+            SaveOptions: {
+                SaveOption: {
+                    PropertyName: 'DataExtensionObject',
+                    SaveAction: 'UpdateAdd',
+                },
+            },
+            ClientIDs: {
+                ClientID: eid,
+            },
+        },
+        Objects: [],
+    };
+    for (let index = 0; index < upsertData.length; index++) {
+        const element = upsertData[index];
+        UpdateRequest.Objects.push({
+            attributes: {
+                'xsi:type': 'DataExtensionObject',
+            },
+            CustomerKey: process.env.EmailsWithOneLinks,
+            Keys: [{
+                Key: [{
+                        Name: 'LinkID',
+                        Value: element.LinkID,
+                    },
+                    {
+                        Name: 'EmailID',
+                        Value: element.EmailID,
+                    },
+                ],
+            }],
+            Properties: [{
+                Property: [{
+                        Name: 'EmailName',
+                        Value: element.EmailName,
+                    },
+                    {
+                        Name: 'Count',
+                        Value: element.Count,
+                    },
+                ],
+            }],
+        });
+    }
+
+    return UpdateRequest;
+}
+
+exports.updateBlocksCount = (req, res) => {
+    this.GetContentBuilderTemplateBasedEmails(req)
+        .then((emails) => {
+            const upsertData = emailsUsingCustomBlocks(
+                emails.body.items,
+            );
+
+            this.UpsertEmailsWithOneLinks({
+                body: {
+                    refresh_token: emails.refresh_token,
+                    tssd: req.body.tssd,
+                    UpdateRequest: UpdateRequestObjectMulipleRows(
+                        upsertData,
+                        req.body.eid,
+                    ),
+                },
+            }).then((r2) => {
+                console.log(` Response for GetContentBuilderTemplateBasedEmails : ${r2}`);
+                return res.status(200).send(r2);
+            })
+        })
+        .catch((e2) => {
+            console.log(`Error en update blocks count: ${e2}`);
+            return res.status(400).send(e2);
+        });
+}
