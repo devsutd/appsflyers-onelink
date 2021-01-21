@@ -33,6 +33,7 @@ function countDuplicados(links) {
     console.log(Array.from(new Set(data)));
     return data;
 }
+
 function processEmailBody(blocks, data) {
     if (blocks !== undefined) {
         const blocksKeys = Object.keys(blocks);
@@ -56,6 +57,7 @@ function processEmailBody(blocks, data) {
     }
     return data;
 }
+
 function emailsUsingCustomBlocks(emails) {
     const dataforUpsert = [];
     for (let index = 0; index < emails.length; index++) {
@@ -109,24 +111,24 @@ function UpdateRequestObjectMulipleRows(upsertData, eid) {
             CustomerKey: process.env.EmailsWithOneLinks,
             Keys: [{
                 Key: [{
-                    Name: 'LinkID',
-                    Value: element.LinkID,
-                },
-                {
-                    Name: 'EmailID',
-                    Value: element.EmailID,
-                },
+                        Name: 'LinkID',
+                        Value: element.LinkID,
+                    },
+                    {
+                        Name: 'EmailID',
+                        Value: element.EmailID,
+                    },
                 ],
             }],
             Properties: [{
                 Property: [{
-                    Name: 'EmailName',
-                    Value: element.EmailName,
-                },
-                {
-                    Name: 'Count',
-                    Value: element.Count,
-                },
+                        Name: 'EmailName',
+                        Value: element.EmailName,
+                    },
+                    {
+                        Name: 'Count',
+                        Value: element.Count,
+                    },
                 ],
             }],
         });
@@ -192,45 +194,13 @@ exports.login = (req, res) => {
                             } else {
                                 // si ok y hay datos redirecciono al dashboard
                                 Request2.body.refresh_token = response.refresh_token;
-                                sfmc
-                                    .GetContentBuilderTemplateBasedEmails(Request2)
-                                    .then((emails) => {
-                                        const upsertData = emailsUsingCustomBlocks(
-                                            emails.body.items,
-                                        );
+                                let view = `/dashboard/home?eid=${r.bussinessUnitInfo.enterprise_id}&rt=${response.refresh_token}`;
 
-                                        const upsertRequest = {
-                                            body: {
-                                                refresh_token: emails.refresh_token,
-                                                tssd,
-                                                UpdateRequest: UpdateRequestObjectMulipleRows(
-                                                    upsertData,
-                                                    Request2.body.eid,
-                                                ),
-                                            },
-                                        };
-                                        sfmc
-                                            .UpsertEmailsWithOneLinks(upsertRequest)
-                                            .then((r2) => {
-                                                console.log(`INDEX LINEA 190  Log upsert Emails ${r2}`);
-                                                let view = '';
-                                                if (response.length > 0) {
-                                                    view = `/dashboard/home?eid=${r.bussinessUnitInfo.enterprise_id}&rt=${r2.refresh_token}`;
-                                                } else {
-                                                    // si no  hay datos redirecciono al home
-                                                    view = `/mcapp/home?eid=${r.bussinessUnitInfo.enterprise_id}&rt=${r2.refresh_token}`;
-                                                }
+                                if (tssd !== undefined) {
+                                    view += `&tssd=${tssd}`;
+                                }
 
-                                                if (tssd !== undefined) {
-                                                    view += `&tssd=${tssd}`;
-                                                }
-
-                                                return res.redirect(view);
-                                            })
-                                            .catch((e2) => {
-                                                console.log('INDEX LINEA 206 ', e2);
-                                            });
-                                    });
+                                return res.redirect(view);
                             }
                         }
                     });
