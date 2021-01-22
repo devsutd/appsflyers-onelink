@@ -36,7 +36,7 @@
       $.ajax({
           url: "/UpsertLink",
           method: "POST",
-          async: false,
+          async: true,
           data: postData,
           success(data) {
               if (data.Status === "OK") {
@@ -277,7 +277,7 @@
       $.ajax({
           url,
           method: "POST",
-          async: false,
+          async: true,
           data: urlParams,
           success(data) {
               emailswithonelink = data;
@@ -314,7 +314,7 @@
       $.ajax({
           url,
           method: "POST",
-          async: false,
+          async: true,
           data: urlParams,
           success: (data) => {
               let links = data.data;
