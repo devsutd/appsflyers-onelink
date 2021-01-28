@@ -1,3 +1,4 @@
+/* jshint esversion: 8 */
 /* eslint-disable max-len */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-nested-ternary */
@@ -103,45 +104,45 @@ exports.UpsertLink = (req, resp) => {
     sfmcHelper.createSoapClient(req.body.refresh_token, req.body.tssd, (e, response) => {
         if (e) { return resp.status(500).end(e); }
         const Properties = [{
-            Name: 'LinkName',
-            Value: xssEscape(req.body.linkName),
-        }, {
-            Name: 'BaseURL',
-            Value: xssEscape(req.body.baseUrl),
-        }, {
-            Name: 'ContentsCount',
-            Value: req.body.contentsCount === undefined ? 0 : req.body.contentsCount,
-        }, {
-            Name: 'Status',
-            Value: req.body.status,
-        }, {
-            Name: 'Flag',
-            Value: 1,
-        },
-        {
-            Name: 'JSONParameters',
-            Value: JSON.stringify(req.body.JSONParameter),
-        },
-        {
-            Name: 'Parameters',
-            Value: req.body.Parameters,
-        },
-        {
-            Name: 'CustomParameters',
-            Value: xssEscape(req.body.CustomParameters),
-        },
-        {
-            Name: 'FullURL',
-            Value: req.body.baseUrl + req.body.Parameters + req.body.CustomParameters,
-        },
-        {
-            Name: 'Created',
-            Value: req.body.Created,
-        },
-        {
-            Name: 'Modified',
-            Value: req.body.Modified,
-        },
+                Name: 'LinkName',
+                Value: xssEscape(req.body.linkName),
+            }, {
+                Name: 'BaseURL',
+                Value: xssEscape(req.body.baseUrl),
+            }, {
+                Name: 'ContentsCount',
+                Value: req.body.contentsCount === undefined ? 0 : req.body.contentsCount,
+            }, {
+                Name: 'Status',
+                Value: req.body.status,
+            }, {
+                Name: 'Flag',
+                Value: 1,
+            },
+            {
+                Name: 'JSONParameters',
+                Value: JSON.stringify(req.body.JSONParameter),
+            },
+            {
+                Name: 'Parameters',
+                Value: req.body.Parameters,
+            },
+            {
+                Name: 'CustomParameters',
+                Value: xssEscape(req.body.CustomParameters),
+            },
+            {
+                Name: 'FullURL',
+                Value: req.body.baseUrl + req.body.Parameters + req.body.CustomParameters,
+            },
+            {
+                Name: 'Created',
+                Value: req.body.Created,
+            },
+            {
+                Name: 'Modified',
+                Value: req.body.Modified,
+            },
         ];
 
         const UpdateRequest = sfmcHelper.UpdateRequestObject(process.env.LinkDataExtension, [{
