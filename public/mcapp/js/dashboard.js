@@ -251,7 +251,7 @@ function buildDashboard(links, from, page) {
             } else {
                 hideSpinners();
             }
-            table += `</div><td/><td role="gridcell"><div class="slds-truncate" >${element.Created}</div></td>`;
+            table += `</div><td role="gridcell"><div class="slds-truncate" >${element.Created}</div></td>`;
             table += `<td role="gridcell"><div class="slds-truncate" >${element.Modified}</div></td>`;
             table += '<td>';
             table += `<div id="onelink-trigger${element.LinkID}" class="slds-dropdown-trigger slds-dropdown-trigger_click" style="padding-left:50%;">`;
