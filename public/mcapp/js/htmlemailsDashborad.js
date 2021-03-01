@@ -559,7 +559,7 @@ function buildEmailSlot(emailforslot, length) {
 
         if (link.LinkText == "Link of Image") continue;
 
-        if(emails.Links.length == 0){
+        if(emailLinks.Links.length == 0){
           emailModalSlot += "<article>";
           emailModalSlot += '<div class="slds-card__header slds-grid">';
           emailModalSlot +=
