@@ -554,28 +554,29 @@ function buildEmailSlot(emailforslot, length) {
         false
       );
 
-      for (let i = 0; i < emailLinks.Links.length; i++) {
-        const link = emailLinks.Links[i];
+      if(emailLinks.Links.length == 0){
+        emailModalSlot += "<article>";
+        emailModalSlot += '<div class="slds-card__header slds-grid">';
+        emailModalSlot +=
+          '<header class="slds-media slds-media_center slds-has-flexi-truncate">';
+        emailModalSlot += '<div class="slds-media__body">';
+        emailModalSlot += '<h2 class="slds-card__header-title">';
+        emailModalSlot += `<span><b>Theres is no links in this email. </b></span><br></br>`;
+        emailModalSlot += "</h2>";
+        emailModalSlot += "</div>";
+        emailModalSlot += "</header>";
+        emailModalSlot += "</div>";
+        emailModalSlot += '<div class="slds-card__body"></div>';
+        emailModalSlot += '<footer class="slds-card__footer"></footer>';
+        emailModalSlot += "</article>";
+        emailModalSlot += "</div>";
+      }
+      else {
+        for (let i = 0; i < emailLinks.Links.length; i++) {
+          const link = emailLinks.Links[i];
 
-        if (link.LinkText == "Link of Image") continue;
+          if (link.LinkText == "Link of Image") continue;
 
-        if(emailLinks.Links.length == 0){
-          emailModalSlot += "<article>";
-          emailModalSlot += '<div class="slds-card__header slds-grid">';
-          emailModalSlot +=
-            '<header class="slds-media slds-media_center slds-has-flexi-truncate">';
-          emailModalSlot += '<div class="slds-media__body">';
-          emailModalSlot += '<h2 class="slds-card__header-title">';
-          emailModalSlot += `<span><b>Theres is no links in this email. </b></span><br></br>`;
-          emailModalSlot += "</h2>";
-          emailModalSlot += "</div>";
-          emailModalSlot += "</header>";
-          emailModalSlot += "</div>";
-          emailModalSlot += '<div class="slds-card__body"></div>';
-          emailModalSlot += '<footer class="slds-card__footer"></footer>';
-          emailModalSlot += "</article>";
-        }
-        else {
           emailModalSlot += "<article>";
           emailModalSlot += '<div class="slds-card__header slds-grid">';
           emailModalSlot +=
@@ -598,13 +599,13 @@ function buildEmailSlot(emailforslot, length) {
           emailModalSlot += '<div class="slds-card__body"></div>';
           emailModalSlot += '<footer class="slds-card__footer"></footer>';
           emailModalSlot += "</article>";
-        }
 
-        if (i == emailLinks.Links.length - 1) {
-          emailModalSlot += "</div>";
-        } else
-          emailModalSlot +=
-            '<div style="border-top:2px solid lightgray;margin: 0px 40px 0px 40px;"></div>';
+          if (i == emailLinks.Links.length - 1) {
+            emailModalSlot += "</div>";
+          } else
+            emailModalSlot +=
+              '<div style="border-top:2px solid lightgray;margin: 0px 40px 0px 40px;"></div>';
+        }
       }
 
       if (j == 0) {
