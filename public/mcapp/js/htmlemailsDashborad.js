@@ -561,7 +561,7 @@ function buildEmailSlot(emailforslot, length) {
           '<header class="slds-media slds-media_center slds-has-flexi-truncate">';
         emailModalSlot += '<div class="slds-media__body">';
         emailModalSlot += '<h2 class="slds-card__header-title">';
-        emailModalSlot += `<span><b>Theres is no links in this email. </b></span><br></br>`;
+        emailModalSlot += `<span><b>There are no links in this HTML email.</b></span><br></br>`;
         emailModalSlot += "</h2>";
         emailModalSlot += "</div>";
         emailModalSlot += "</header>";
