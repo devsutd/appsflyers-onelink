@@ -719,7 +719,7 @@ $(document).ready(() => {
     if (json.length > 0) {
       rules = JSON.parse(json);
     }
-    let last = rules[rules.length - 2];
+    let last = rules[rules.length - 1];
     if (last.value != null && last.value != "") {
       let { index } = rules[rules.length - 1];
       rules.push(newRuleObj(++index, "Select parameter", null, true));
