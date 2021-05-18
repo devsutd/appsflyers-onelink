@@ -508,7 +508,8 @@ exports.GetContentBuilderEmails = (req, resp) => {
                     console.log('SFMC LINEA  498: ', _response);
                     if (err) {
                         console.error(err);
-                        return resp.status(401).send(err);
+                        return resp.redirect(`/login`);
+                        //return resp.status(401).send(err);
                     }
 
                     const response = {
