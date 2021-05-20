@@ -368,6 +368,7 @@ function loadDashboards(urlParams, from, page) {
       }
     },
     error(jqXHR, error, errorThrown) {
+      alert("An error has occurred. Please refresh your browser.");
       console.error(error);
       console.error(errorThrown);
       console.error(jqXHR);

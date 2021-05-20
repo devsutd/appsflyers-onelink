@@ -61,7 +61,7 @@ exports.loadDashboards = (req, resp) => {
           };
           return resp.status(200).send(dashboardResponse);
         })
-        .catch(err => resp.redirect(`/login`)); //resp.status(400).send(err));
+        .catch(err => resp.status(400).send(err));
     }
   );
 };
