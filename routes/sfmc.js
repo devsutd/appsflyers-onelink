@@ -585,9 +585,10 @@ exports.UpdateEmail = (req, resp) => {
 
           var htmlEmail = response.body.views.html.content;
           var linkstoreplace = req.body.linkstoreplace;
-          var objectLink = [];
+          var objectLink = {};
+          objectLink.Links = [];
 
-          /*for (let i = 0; i < linkstoreplace.length; i++) {
+          for (let i = 0; i < linkstoreplace.length; i++) {
             objectLink.Links.push(req.body.urls.Links[linkstoreplace[i]]);
           }
 
@@ -608,7 +609,7 @@ exports.UpdateEmail = (req, resp) => {
             );
 
             htmlEmail = htmlBeforeLink + newString + htmlafterLink;
-          }*/
+          }
 
           return resp.status(200).send(response);
 
