@@ -584,7 +584,7 @@ exports.UpdateEmail = (req, resp) => {
 
           var htmlEmail = response.body.views.html.content;
           var linkstoreplace = req.body.linkstoreplace;
-          var objectLinks = [];
+          var objectLink = [];
 
           for (let i = 0; i < linkstoreplace.length; i++) {
             objectLink.Links.push(req.body.urls.Links[linkstoreplace[i]]);
