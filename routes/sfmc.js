@@ -560,7 +560,6 @@ exports.GetContentBuilderEmails = (req, resp) => {
 };
 
 exports.UpdateEmail = (req, resp) => {
-
   sfmcHelper
     .refreshToken(req.body.accessToken, req.body.tssd)
     .then(refreshTokenbody => {
@@ -578,24 +577,34 @@ exports.UpdateEmail = (req, resp) => {
             console.err(err);
             return resp.status(401).send(err);
           }
-          var response = {                                           
+          var response = {
             refresh_token: refreshTokenbody.refresh_token,
             body: JSON.parse(body),
           };
 
-          var htmlEmail = response.body.views.html.content,
+          var htmlEmail = response.body.views.html.content;
+          var linkstoreplace = req.body.linkstoreplace;
           var objectLinks = [];
 
-          for (let i = 0; i < req.body.linkstoreplace.length; i++) {
+          for (let i = 0; i < linkstoreplace.length; i++) {
             objectLink.Links.push(req.body.urls.Links[linkstoreplace[i]]);
           }
 
           for (var i = 0; i < req.body.linkstoreplace.length; i++) {
             var oldString = objectLink.Links[i].htmlLink;
             var oldStringLength = oldString.length;
-            var htmlBeforeLink = htmlEmail.substring(0, htmlEmail.indexOf(oldString));
-            var htmlafterLink = htmlEmail.substring(htmlBeforeLink.length + oldStringLength,htmlEmail.length);
-            var newString = oldString.replace(objectLink.Links[i].href, req.body.oneLink);
+            var htmlBeforeLink = htmlEmail.substring(
+              0,
+              htmlEmail.indexOf(oldString)
+            );
+            var htmlafterLink = htmlEmail.substring(
+              htmlBeforeLink.length + oldStringLength,
+              htmlEmail.length
+            );
+            var newString = oldString.replace(
+              objectLink.Links[i].href,
+              req.body.oneLink
+            );
 
             htmlEmail = htmlBeforeLink + newString + htmlafterLink;
           }
