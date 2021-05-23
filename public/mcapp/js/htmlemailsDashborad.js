@@ -49,20 +49,12 @@ function GetHtmlEmails(accessToken) {
   });
 }
 
-function updateEmail(
-  emailId,
-  EmailObject,
-  linkstoreplace,
-  urls,
-  emailName,
-  oneLink
-) {
+function updateEmail(emailId, linkstoreplace, urls, emailName, oneLink) {
   var postData = JSON.stringify({
     accessToken: $("#rt").val(),
     id: emailId,
     linkstoreplace: linkstoreplace,
     urls: urls,
-    email: EmailObject,
     oneLink: oneLink,
     tssd: $("#tssd").val(),
   });
@@ -255,7 +247,7 @@ function getEmailLinks(id, rawHTML, linkstoreplace, toReplace, emailName) {
 
     //let htmlreplaced = replaceLinks(rawHTML, objectLink, oneLink);
     //currentEmail.views.html.content = htmlreplaced;
-    updateEmail(id, currentEmail, linkstoreplace, urls, emailName, oneLink);
+    updateEmail(id, linkstoreplace, urls, emailName, oneLink);
   }
   return urls;
 }
