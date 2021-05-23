@@ -587,11 +587,11 @@ exports.UpdateEmail = (req, resp) => {
           var linkstoreplace = req.body.linkstoreplace;
           var objectLink = [];
 
-          for (let i = 0; i < linkstoreplace.length; i++) {
+          /*for (let i = 0; i < linkstoreplace.length; i++) {
             objectLink.Links.push(req.body.urls.Links[linkstoreplace[i]]);
           }
 
-          for (var i = 0; i < req.body.linkstoreplace.length; i++) {
+          for (var i = 0; i < linkstoreplace.length; i++) {
             var oldString = objectLink.Links[i].htmlLink;
             var oldStringLength = oldString.length;
             var htmlBeforeLink = htmlEmail.substring(
@@ -608,7 +608,7 @@ exports.UpdateEmail = (req, resp) => {
             );
 
             htmlEmail = htmlBeforeLink + newString + htmlafterLink;
-          }
+          }*/
 
           return resp.status(200).send(response);
 
