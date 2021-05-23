@@ -45,20 +45,27 @@ function GetHtmlEmails(accessToken) {
   }).done(function (response) {
     replaceUrlTOkens(response.refresh_token);
     $("#rt").val(response.refresh_token);
-    // para acceder al codigo html tenes que hacer object.views.html.content
     console.log(response);
   });
 }
 
-function updateEmail(emailId, EmailObject, linkstoreplace, urls, emailName) {
+function updateEmail(
+  emailId,
+  EmailObject,
+  linkstoreplace,
+  urls,
+  emailName,
+  oneLink
+) {
   var postData = JSON.stringify({
     accessToken: $("#rt").val(),
     id: emailId,
+    linkstoreplace: linkstoreplace,
+    urls: urls,
     email: EmailObject,
+    oneLink: oneLink,
     tssd: $("#tssd").val(),
   });
-  // Nota: Lo probe pasando el objeto completo  que te devuelve el metodo getemails o get email by id y editando el html.
-  // por ahi se pueden pasar menos valores, pero habria que probar.
 
   $.ajax({
     url: "/sfmc/UpdateEmail",
@@ -246,9 +253,9 @@ function getEmailLinks(id, rawHTML, linkstoreplace, toReplace, emailName) {
       objectLink.Links.push(urls.Links[linkstoreplace[i]]);
     }
 
-    let htmlreplaced = replaceLinks(rawHTML, objectLink, oneLink);
-    currentEmail.views.html.content = htmlreplaced;
-    updateEmail(id, currentEmail, linkstoreplace, urls, emailName);
+    //let htmlreplaced = replaceLinks(rawHTML, objectLink, oneLink);
+    //currentEmail.views.html.content = htmlreplaced;
+    updateEmail(id, currentEmail, linkstoreplace, urls, emailName, oneLink);
   }
   return urls;
 }

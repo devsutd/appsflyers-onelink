@@ -560,31 +560,73 @@ exports.GetContentBuilderEmails = (req, resp) => {
 };
 
 exports.UpdateEmail = (req, resp) => {
-  console.log("SFMC LINEA  516: UpdateEmail process start...");
+
   sfmcHelper
     .refreshToken(req.body.accessToken, req.body.tssd)
     .then(refreshTokenbody => {
       request(
         {
           url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/${req.body.id}`,
-          method: "PUT",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${refreshTokenbody.access_token}`,
           },
-          body: JSON.stringify(req.body.email),
         },
         (err, _response, body) => {
           if (err) {
-            console.log("ERROR ON SFMC.JS LINEA 532", err);
+            console.err(err);
             return resp.status(401).send(err);
           }
-          const response = {
+          var response = {                                           
             refresh_token: refreshTokenbody.refresh_token,
-            body,
+            body: JSON.parse(body),
           };
-          console.log("SFMC LINEA  538: UpdateEmail process end...");
-          return resp.status(200).send(response);
+
+          var htmlEmail = response.body.views.html.content,
+          var objectLinks = [];
+
+          for (let i = 0; i < req.body.linkstoreplace.length; i++) {
+            objectLink.Links.push(req.body.urls.Links[linkstoreplace[i]]);
+          }
+
+          for (var i = 0; i < req.body.linkstoreplace.length; i++) {
+            var oldString = objectLink.Links[i].htmlLink;
+            var oldStringLength = oldString.length;
+            var htmlBeforeLink = htmlEmail.substring(0, htmlEmail.indexOf(oldString));
+            var htmlafterLink = htmlEmail.substring(htmlBeforeLink.length + oldStringLength,htmlEmail.length);
+            var newString = oldString.replace(objectLink.Links[i].href, req.body.oneLink);
+
+            htmlEmail = htmlBeforeLink + newString + htmlafterLink;
+          }
+          console.log("SFMC LINEA  516: UpdateEmail process start...");
+          sfmcHelper
+            .refreshToken(response.refresh_token, response.body)
+            .then(refreshTokenbody => {
+              request(
+                {
+                  url: `https://${req.body.tssd}.rest.marketingcloudapis.com/asset/v1/content/assets/${req.body.id}`,
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${refreshTokenbody.access_token}`,
+                  },
+                  body: JSON.stringify(req.body.email),
+                },
+                (err, _response, body) => {
+                  if (err) {
+                    console.log("ERROR ON SFMC.JS LINEA 532", err);
+                    return resp.status(401).send(err);
+                  }
+                  var response = {
+                    refresh_token: refreshTokenbody.refresh_token,
+                    body,
+                  };
+                  console.log("SFMC LINEA  538: UpdateEmail process end...");
+                  return resp.status(200).send(response);
+                }
+              );
+            });
         }
       );
     });
