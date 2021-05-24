@@ -594,7 +594,7 @@ exports.UpdateEmail = (req, resp) => {
 
           for (var i = 0; i < linkstoreplace.length; i++) {
             var oldString = objectLink.Links[i].htmlLink;
-            oldString = oldString.replace("amp;", "");
+            oldString = oldString.replace(/amp;/g, "");
             var oldStringLength = oldString.length;
             var htmlBeforeLink = htmlEmail.substring(
               0,
