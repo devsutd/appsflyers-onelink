@@ -588,7 +588,7 @@ exports.UpdateEmail = (req, resp) => {
           var objectLink = {};
           objectLink.Links = [];
 
-          for (let i = 0; i < linkstoreplace.length; i++) {
+          for (var i = 0; i < linkstoreplace.length; i++) {
             objectLink.Links.push(req.body.urls.Links[linkstoreplace[i]]);
           }
 
@@ -612,6 +612,12 @@ exports.UpdateEmail = (req, resp) => {
           }
 
           response.body.views.html.content = htmlEmail;
+          console.log("htmlBeforeLink");
+          console.log(htmlBeforeLink);
+          console.log("newString");
+          console.log(newString);
+          console.log("htmlafterLink");
+          console.log(htmlafterLink);
 
           console.log("SFMC LINEA  516: UpdateEmail process start...");
           sfmcHelper
