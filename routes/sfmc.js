@@ -611,9 +611,6 @@ exports.UpdateEmail = (req, resp) => {
             htmlEmail = htmlBeforeLink + newString + htmlafterLink;
           }
 
-          //return resp.status(200).send(response);
-
-          response.body.views.html.content = htmlEmail;
           console.log("SFMC LINEA  516: UpdateEmail process start...");
           sfmcHelper
             .refreshToken(req.body.accessToken, req.body.tssd)
@@ -626,7 +623,7 @@ exports.UpdateEmail = (req, resp) => {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${refreshTokenbody.access_token}`,
                   },
-                  body: JSON.stringify(response.body.views.html.content),
+                  body: JSON.stringify(htmlEmail),
                 },
                 (err, _response, body) => {
                   if (err) {
@@ -637,7 +634,8 @@ exports.UpdateEmail = (req, resp) => {
                     refresh_token: refreshTokenbody.refresh_token,
                     body,
                   };
-                  console.log("SFMC LINEA  538: UpdateEmail process end...");
+                  console.log("SFMC LINEA  637: UpdateEmail process end...");
+                  console.log(body);
                   return resp.status(200).send(response);
                 }
               );
