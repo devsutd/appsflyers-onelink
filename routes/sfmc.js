@@ -611,9 +611,9 @@ exports.UpdateEmail = (req, resp) => {
             htmlEmail = htmlBeforeLink + newString + htmlafterLink;
           }
 
-          return resp.status(200).send(response);
+          //return resp.status(200).send(response);
 
-          /*response.body.views.html.content = htmlEmail;
+          response.body.views.html.content = htmlEmail;
           console.log("SFMC LINEA  516: UpdateEmail process start...");
           sfmcHelper
             .refreshToken(req.body.accessToken, req.body.tssd)
@@ -641,7 +641,7 @@ exports.UpdateEmail = (req, resp) => {
                   return resp.status(200).send(response);
                 }
               );
-            });*/
+            });
         }
       );
     });
