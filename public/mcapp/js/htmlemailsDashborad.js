@@ -440,7 +440,7 @@ function loadHtmlEmails(urlParams, from, page) {
       }
     },
     error(jqXHR, error, errorThrown) {
-      alert("An error has occurred. Please refresh your browser.");
+      alert("A timeout has been detected. Please refresh your browser.");
       console.log(error);
       console.log(errorThrown);
       console.log(jqXHR);
