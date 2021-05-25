@@ -222,7 +222,7 @@ function buildDashboard(links, from, page) {
                                         slds-nubbin_bottom-left" 
                                 role="tooltip" 
                                 id="tooltipcount-${element.LinkID}" 
-                                style="position:fixed;bottom:${bottom}%;right:27%; display:none;">`;
+                                style="position:fixed;right:27%; display:none;">`;
         table += '<div class="slds-popover__body">';
         for (let j = 0; j < objectCount.emails.length; j++) {
           if (j === 5) {

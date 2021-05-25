@@ -610,29 +610,9 @@ exports.UpdateEmail = (req, resp) => {
             );
 
             htmlEmail = htmlBeforeLink + newString + htmlafterLink;
-
-            console.log("oldString");
-            console.log(oldString);
-            console.log("oldStringLength");
-            console.log(oldStringLength);
-            console.log("htmlBeforeLink IN FOR");
-            console.log(htmlBeforeLink);
-            console.log("old Link");
-            console.log(objectLink.Links[i].href);
-            console.log("new Link");
-            console.log(req.body.oneLink);
-            console.log("newString IN FOR");
-            console.log(newString);
           }
 
           response.body.views.html.content = htmlEmail;
-          console.log("htmlBeforeLink");
-          console.log(htmlBeforeLink);
-          console.log("newString");
-          console.log(newString);
-          console.log("htmlafterLink");
-          console.log(htmlafterLink);
-
           console.log("SFMC LINEA  516: UpdateEmail process start...");
           sfmcHelper
             .refreshToken(req.body.accessToken, req.body.tssd)
